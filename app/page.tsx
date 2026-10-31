@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { CycleExplorer } from "@/components/CycleExplorer";
 import { CycleRing } from "@/components/CycleRing";
+import { MythList } from "@/components/MythList";
 import { PostCard } from "@/components/PostCard";
 import { getAllPosts } from "@/lib/posts";
 
@@ -89,6 +90,23 @@ export default function Home() {
           </div>
           <CycleExplorer />
         </div>
+      </section>
+
+      <section
+        id="myths"
+        aria-labelledby="myths-heading"
+        className="page-width mt-20"
+      >
+        <div className="max-w-2xl">
+          <h2 id="myths-heading" className="text-3xl sm:text-4xl">
+            Myths worth retiring
+          </h2>
+          <p className="mt-3 text-lg">
+            Most of us picked these up somewhere along the way. Here&apos;s what
+            the evidence actually says.
+          </p>
+        </div>
+        <MythList />
       </section>
 
       <section aria-labelledby="latest-heading" className="page-width mt-20">
