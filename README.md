@@ -41,4 +41,4 @@ New subscribers get a confirmation email from Buttondown before they join the li
 
 ## Design tokens
 
-Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4.5:1 contrast on the cream background, so they're used for shapes and large headings. Body-sized text and buttons use the `-strong` shades.
+Colors live in `app/globals.css`. Rosewood doesn't reach 4.5:1 contrast on the paper background, so it's used for shapes and large headings, and body-sized text uses the `-strong` shades. Rose, sage, sky and honey are backgrounds only: put ink on them, never use them for text.

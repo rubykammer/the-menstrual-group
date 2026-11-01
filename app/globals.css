@@ -1,31 +1,41 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand palette. These fall under 4.5:1 on the cream background, so use them
-     for shapes and large display type only. Body-sized text uses the -strong shades. */
-  --color-primary: #ea580c;
-  --color-secondary: #d97706;
-  --color-accent: #ec4899;
+  /* Brand palette. Rosewood reaches 3:1 on the paper background, so it's for
+     shapes and large display type only. Body-sized text uses the -strong shades.
+     Rose, sage, sky and honey are backgrounds: put ink on them, never muted
+     text, and never use them for text themselves. */
+  --color-primary: #a8686f;
+  --color-secondary: #5a7c97;
+  --color-accent: #a8686f;
 
-  --color-primary-strong: #b83c0a;
-  --color-secondary-strong: #a16207;
-  --color-accent-strong: #be185d;
+  --color-primary-strong: #4a2a20;
+  --color-secondary-strong: #44637c;
+  --color-accent-strong: #8a4450;
 
-  --color-background: #fffbeb;
-  --color-foreground: #292524;
-  --color-muted: #57534e;
+  --color-background: #f7f6f4;
+  --color-foreground: #1a1716;
+  --color-muted: #5a5452;
   --color-surface: #ffffff;
-  --color-line: #f3e3c3;
+  --color-line: #e7e4e1;
 
-  --color-peach: #ffedd5;
-  --color-honey: #fef3c7;
-  --color-blush: #fce7f3;
+  --color-stone: #e7e4e1;
+  --color-sand: #f1ecea;
+  --color-rose: #e5b8bb;
+  --color-sage: #c6d0ae;
+  --color-sky: #aec8dd;
+  --color-honey: #edc462;
 
-  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 
-  --radius-card: 1.5rem;
-  --shadow-soft: 0 12px 32px -16px rgb(120 53 15 / 0.28);
+  --font-weight-semibold: 500;
+  --font-weight-bold: 600;
+  --font-weight-extrabold: 600;
+
+  --radius-card: 0.75rem;
+  --radius-2xl: 0.625rem;
+  --shadow-soft: 0 0 0 1px var(--color-line);
 }
 
 @utility page-width {
@@ -54,17 +64,34 @@
     background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
     text-wrap: balance;
+  }
+
+  h3 {
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-variation-settings: "SOFT" 0;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
   }
 
   :focus-visible {
@@ -145,7 +172,7 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 1.25rem 1.5rem;
-  background: var(--color-blush);
+  background: var(--color-sand);
   border-radius: 1.25rem;
 }
 
@@ -175,7 +202,7 @@
 }
 
 .article-body th {
-  background: var(--color-peach);
+  background: var(--color-stone);
   font-weight: 800;
 }
 

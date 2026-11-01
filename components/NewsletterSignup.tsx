@@ -10,10 +10,14 @@ export function NewsletterSignup() {
   const hasError = state.status === "error";
 
   return (
-    <section aria-labelledby="newsletter-heading" className="bg-peach">
-      <div className="page-width grid items-center gap-6 py-12 lg:grid-cols-2 lg:gap-14">
+    <section
+      id="newsletter"
+      aria-labelledby="newsletter-heading"
+      className="bg-stone"
+    >
+      <div className="page-width grid items-center gap-6 py-16 lg:grid-cols-2 lg:gap-14">
         <div>
-          <h2 id="newsletter-heading" className="text-2xl sm:text-3xl">
+          <h2 id="newsletter-heading" className="text-3xl sm:text-4xl">
             One friendly email a month
           </h2>
           <p className="mt-2 text-lg">
@@ -38,7 +42,7 @@ export function NewsletterSignup() {
                   defaultValue={state.email}
                   aria-invalid={hasError || undefined}
                   aria-describedby="newsletter-status"
-                  className="mt-1 block min-h-12 w-full rounded-full border-2 border-muted bg-surface px-5 transition-colors duration-200 hover:border-primary-strong aria-invalid:border-accent-strong"
+                  className="mt-1 block min-h-12 w-full rounded-full border border-muted bg-surface px-5 transition-colors duration-200 hover:border-primary-strong aria-invalid:border-accent-strong"
                 />
               </div>
               <div className="hidden" aria-hidden="true">
@@ -54,7 +58,7 @@ export function NewsletterSignup() {
               <button
                 type="submit"
                 disabled={pending}
-                className="min-h-12 shrink-0 cursor-pointer rounded-full bg-primary-strong px-6 font-extrabold text-white transition-all duration-200 hover:bg-orange-800 disabled:cursor-wait disabled:opacity-70 motion-safe:hover:-translate-y-0.5"
+                className="min-h-12 shrink-0 cursor-pointer rounded-full bg-foreground px-6 font-extrabold text-background transition-colors duration-200 hover:bg-primary-strong disabled:cursor-wait disabled:opacity-70"
               >
                 {pending ? "Signing up…" : "Sign up"}
               </button>

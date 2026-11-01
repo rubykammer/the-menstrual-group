@@ -5,7 +5,7 @@ import { NewsletterSignup } from "./NewsletterSignup";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-line bg-honey/60">
+    <footer className="mt-20">
       <NewsletterSignup />
 
       <div className="page-width grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
@@ -15,7 +15,7 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Explore">
-          <h2 className="font-sans text-sm font-extrabold tracking-wide uppercase">
+          <h2 className="font-sans text-sm font-extrabold tracking-normal">
             Explore
           </h2>
           <ul className="mt-3 space-y-2">
@@ -30,7 +30,7 @@ export function SiteFooter() {
         </nav>
 
         <nav aria-label="Topics">
-          <h2 className="font-sans text-sm font-extrabold tracking-wide uppercase">
+          <h2 className="font-sans text-sm font-extrabold tracking-normal">
             Topics
           </h2>
           <ul className="mt-3 space-y-2">
@@ -45,8 +45,8 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <div className="border-t border-line">
-        <p className="page-width py-6 text-sm text-muted">
+      <div className="bg-rose">
+        <p className="page-width py-5 text-sm">
           This site is for general education and isn&apos;t a substitute for
           medical advice. If you&apos;re worried about your health, talk to a
           healthcare professional. In an emergency, call your local emergency

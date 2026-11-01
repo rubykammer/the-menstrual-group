@@ -31,7 +31,7 @@ export function CycleExplorer() {
   }
 
   return (
-    <div className="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
+    <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
       <HormoneWave
         activePhaseId={active.id}
         onPhaseSelect={(id) =>
@@ -61,7 +61,7 @@ export function CycleExplorer() {
                 aria-controls={`panel-${phase.id}`}
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActiveIndex(index)}
-                className="flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-transparent bg-surface px-3 py-2 font-extrabold transition-colors duration-200 hover:border-primary aria-selected:border-foreground aria-selected:bg-foreground aria-selected:text-background"
+                className="flex min-h-11 items-center justify-center gap-2 rounded-full border border-foreground/20 px-3 py-2 font-extrabold transition-colors duration-200 hover:border-foreground aria-selected:border-foreground aria-selected:bg-surface"
               >
                 <span
                   className="size-3 shrink-0 rounded-full"
@@ -81,16 +81,16 @@ export function CycleExplorer() {
           tabIndex={0}
           className="mt-5 rounded-card bg-surface p-6 shadow-soft sm:p-8"
         >
-          <p className="text-sm font-extrabold tracking-wide text-primary-strong uppercase">
+          <p className="text-sm font-extrabold text-primary-strong">
             {active.days}
           </p>
           <p className="mt-2 text-lg">{active.summary}</p>
           <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl bg-honey p-4">
+            <div className="rounded-2xl bg-rose p-4">
               <dt className="font-extrabold">If it&apos;s your cycle</dt>
               <dd className="mt-1">{active.forYou}</dd>
             </div>
-            <div className="rounded-2xl bg-blush p-4">
+            <div className="rounded-2xl bg-sky p-4">
               <dt className="font-extrabold">If you&apos;re a partner</dt>
               <dd className="mt-1">{active.forPartners}</dd>
             </div>

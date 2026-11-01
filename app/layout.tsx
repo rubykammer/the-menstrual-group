@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Nunito } from "next/font/google";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { site } from "@/lib/site";
@@ -8,11 +8,11 @@ import "./globals.css";
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  axes: ["SOFT"],
+  axes: ["opsz", "SOFT"],
 });
 
-const nunito = Nunito({
-  variable: "--font-nunito",
+const instrument = Instrument_Sans({
+  variable: "--font-instrument",
   subsets: ["latin"],
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${fraunces.variable} ${nunito.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${instrument.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

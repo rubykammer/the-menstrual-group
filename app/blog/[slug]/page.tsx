@@ -38,6 +38,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!post) notFound();
 
   const topic = getTopic(post.topic);
+  const contents = (
+    <ul className="mt-2 space-y-2 text-[0.95rem]">
+      {post.headings.map((heading) => (
+        <li key={heading.id}>
+          <a
+            href={`#${heading.id}`}
+            className="transition-colors duration-200 hover:text-primary-strong hover:underline"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
     <>
@@ -64,40 +78,41 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </ol>
         </nav>
 
-        <header className="mt-5 max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl">{post.title}</h1>
-          <p className="mt-4 text-lg text-muted sm:text-xl">{post.excerpt}</p>
-          <p className="mt-4 text-sm font-semibold text-muted">
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-            <span aria-hidden="true"> · </span>
-            {post.readingMinutes} min read
-          </p>
-        </header>
+        <div className="mt-5 grid items-center gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
+          <header>
+            <h1 className="text-4xl sm:text-6xl">{post.title}</h1>
+            <p className="mt-4 text-lg text-muted sm:text-xl">{post.excerpt}</p>
+            <p className="mt-4 text-sm font-semibold text-muted">
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+              <span aria-hidden="true"> · </span>
+              {post.readingMinutes} min read
+            </p>
+          </header>
 
-        <div className="mt-8 h-48 overflow-hidden rounded-card sm:h-64 lg:h-80">
-          <PostArt slug={post.slug} topic={post.topic} />
+          <div className="aspect-[5/3] overflow-hidden rounded-card">
+            <PostArt slug={post.slug} topic={post.topic} />
+          </div>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
+        <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
+          {/* Collapsed on small screens so the article starts sooner */}
+          <nav aria-label="In this article" className="lg:hidden">
+            <details className="rounded-2xl bg-sand p-5">
+              <summary className="cursor-pointer font-extrabold marker:text-primary-strong">
+                In this article
+              </summary>
+              {contents}
+            </details>
+          </nav>
+
           <nav
             aria-labelledby="toc-heading"
-            className="self-start rounded-2xl bg-honey p-5 lg:sticky lg:top-24 lg:order-last"
+            className="hidden self-start rounded-2xl bg-sand p-5 lg:sticky lg:top-24 lg:order-last lg:block"
           >
             <h2 id="toc-heading" className="font-sans text-base font-extrabold">
               In this article
             </h2>
-            <ul className="mt-2 space-y-2 text-[0.95rem]">
-              {post.headings.map((heading) => (
-                <li key={heading.id}>
-                  <a
-                    href={`#${heading.id}`}
-                    className="transition-colors duration-200 hover:text-primary-strong hover:underline"
-                  >
-                    {heading.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {contents}
           </nav>
 
           <div className="min-w-0 max-w-[42rem]">

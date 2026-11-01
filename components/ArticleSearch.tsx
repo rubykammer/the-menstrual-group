@@ -75,13 +75,13 @@ function SearchView({
             onChange={(event) => onQueryChange?.(event.target.value)}
             placeholder="Try cramps, PMS or partners"
             autoComplete="off"
-            className="block min-h-12 w-full rounded-full border-2 border-muted bg-surface pr-14 pl-11 transition-colors duration-200 placeholder:text-muted hover:border-primary-strong [&::-webkit-search-cancel-button]:hidden"
+            className="block min-h-12 w-full rounded-full border border-muted bg-surface pr-14 pl-11 transition-colors duration-200 placeholder:text-muted hover:border-primary-strong [&::-webkit-search-cancel-button]:hidden"
           />
           {query && (
             <button
               type="button"
               onClick={() => onQueryChange?.("")}
-              className="absolute top-1/2 right-1 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach"
+              className="absolute top-1/2 right-1 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 hover:bg-stone"
             >
               <span className="sr-only">Clear search</span>
               <svg

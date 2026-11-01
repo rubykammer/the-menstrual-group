@@ -44,7 +44,7 @@ export function HormoneWave({ activePhaseId, onPhaseSelect }: HormoneWaveProps) 
   return (
     <figure className="rounded-card bg-surface p-4 shadow-soft sm:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <p className="font-display text-xl font-semibold">Your hormones</p>
+        <p className="font-display text-xl font-normal">Your hormones</p>
         <ul className="flex gap-4 text-sm font-bold text-muted">
           {hormones.map((hormone) => (
             <li key={hormone.id} className="flex items-center gap-1.5">
@@ -87,7 +87,7 @@ export function HormoneWave({ activePhaseId, onPhaseSelect }: HormoneWaveProps) 
                   width={right - left}
                   height={BOTTOM - TOP + 30}
                   fill={phase.color}
-                  opacity={selected ? 0.14 : 0}
+                  opacity={selected ? 0.3 : 0}
                   className="transition-opacity duration-300"
                 />
                 <rect

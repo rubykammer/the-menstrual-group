@@ -65,7 +65,7 @@ export function CycleRing({ className }: CycleRingProps) {
         x={CENTER}
         y={shown ? CENTER - 6 : CENTER - 8}
         textAnchor="middle"
-        className="fill-foreground font-display text-[30px] font-semibold"
+        className="fill-foreground font-display text-[30px] font-light"
       >
         {shown ? shown.name : "28 days"}
       </text>
