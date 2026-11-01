@@ -34,6 +34,9 @@ export function CycleExplorer() {
     <div className="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
       <CycleRing
         activePhaseId={active.id}
+        onPhaseSelect={(id) =>
+          setActiveIndex(phases.findIndex((phase) => phase.id === id))
+        }
         className="mx-auto w-full max-w-[20rem] lg:max-w-none"
       />
 
