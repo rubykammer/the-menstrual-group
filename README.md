@@ -33,6 +33,12 @@ Your article. Use `##` headings to fill the "In this article" list, and a `>` bl
 
 Set `NEXT_PUBLIC_SITE_URL` to the live domain so that the sitemap and social links are correct.
 
+## Newsletter
+
+The signup form in the footer adds people to a [Buttondown](https://buttondown.com) list. Copy the API key from [your Buttondown settings](https://buttondown.com/requests) and set it as `BUTTONDOWN_API_KEY` in your host's environment variables, or in `.env.local` when running the site locally. Never commit the key, or give it a `NEXT_PUBLIC_` name.
+
+New subscribers get a confirmation email from Buttondown before they join the list. Until the key is set, the form shows an error message.
+
 ## Design tokens
 
 Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4.5:1 contrast on the cream background, so they're used for shapes and large headings. Body-sized text and buttons use the `-strong` shades.

@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { navLinks, site, topics } from "@/lib/site";
 import { Logo } from "./Logo";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-line bg-honey/60">
+      <NewsletterSignup />
+
       <div className="page-width grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
         <div className="max-w-md sm:col-span-2 lg:col-span-1">
           <Logo />
