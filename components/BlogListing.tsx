@@ -1,6 +1,7 @@
 import Link from "next/link";
-import type { Post } from "@/lib/posts";
+import { searchableText, type Post } from "@/lib/posts";
 import { topics, type Topic } from "@/lib/site";
+import { ArticleSearch } from "./ArticleSearch";
 import { PostCard } from "./PostCard";
 
 const pillClass =
@@ -53,13 +54,16 @@ export function BlogListing({
         </ul>
       </nav>
 
-      <section aria-label="Articles" className="mt-10">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} headingLevel="h2" />
-          ))}
-        </div>
-      </section>
+      <ArticleSearch
+        label={activeTopic ? "Search this topic" : "Search articles"}
+        entries={posts.map((post) => ({
+          slug: post.slug,
+          title: post.title,
+          summary: `${post.excerpt} ${post.headings.map(({ text }) => text).join(" ")}`,
+          body: searchableText(post.content),
+          card: <PostCard post={post} headingLevel="h2" />,
+        }))}
+      />
     </div>
   );
 }

@@ -83,6 +83,15 @@ export function getRelatedPosts(post: Post, count = 3) {
   return [...sameTopic, ...rest].slice(0, count);
 }
 
+/** Markdown without its link addresses and formatting marks. */
+export function searchableText(markdown: string) {
+  return markdown
+    .replace(/\]\([^)]*\)/g, " ")
+    .replace(/[#>*_|`[\]]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-US", {
     dateStyle: "long",
