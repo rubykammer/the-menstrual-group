@@ -2,7 +2,7 @@
 
 import { useRef, useState, type KeyboardEvent } from "react";
 import { phases } from "@/lib/cycle";
-import { CycleRing } from "./CycleRing";
+import { HormoneWave } from "./HormoneWave";
 
 export function CycleExplorer() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -32,12 +32,11 @@ export function CycleExplorer() {
 
   return (
     <div className="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
-      <CycleRing
+      <HormoneWave
         activePhaseId={active.id}
         onPhaseSelect={(id) =>
           setActiveIndex(phases.findIndex((phase) => phase.id === id))
         }
-        className="mx-auto w-full max-w-[20rem] lg:max-w-none"
       />
 
       <div>

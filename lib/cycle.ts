@@ -73,3 +73,35 @@ export const phases: Phase[] = [
 export function phaseForDay(day: number) {
   return phases.find((p) => day >= p.firstDay && day <= p.lastDay) ?? phases[0];
 }
+
+function bell(day: number, peak: number, rise: number, fall: number) {
+  const width = day < peak ? rise : fall;
+  return Math.exp(-((day - peak) ** 2) / (2 * width ** 2));
+}
+
+/** Schematic levels from 0 to 100, each against its own peak. Not measurements. */
+export const hormones = [
+  {
+    id: "estrogen",
+    name: "Estrogen",
+    color: "#be185d",
+    peakDay: 13,
+    level: (day: number) =>
+      12 + 78 * bell(day, 13, 3.5, 1.6) + 38 * bell(day, 21, 3.5, 3.5),
+  },
+  {
+    id: "progesterone",
+    name: "Progesterone",
+    color: "#a16207",
+    peakDay: 21,
+    level: (day: number) => 6 + 84 * bell(day, 21, 3, 3.5),
+  },
+];
+
+export function hormoneTrend(hormone: (typeof hormones)[number], day: number) {
+  if (day === hormone.peakDay) return "at its peak";
+  const change = hormone.level(day + 1) - hormone.level(day - 1);
+  if (change > 3) return "rising";
+  if (change < -3) return "falling";
+  return hormone.level(day) < 25 ? "low" : "steady";
+}

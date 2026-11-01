@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, type PointerEvent } from "react";
-import { phaseForDay, phases } from "@/lib/cycle";
+import { phaseForDay } from "@/lib/cycle";
 
 const DAYS = 28;
 const CENTER = 180;
 const RADIUS = 146;
 
 type CycleRingProps = {
-  activePhaseId?: string;
-  onPhaseSelect?: (phaseId: string) => void;
   className?: string;
 };
 
@@ -17,15 +15,9 @@ type CycleRingProps = {
  * Twenty-eight beads, one per day. Hover a bead, or tap it on a touchscreen, to
  * see its day and phase. Decorative: the same facts are always in the phase tabs.
  */
-export function CycleRing({
-  activePhaseId,
-  onPhaseSelect,
-  className,
-}: CycleRingProps) {
+export function CycleRing({ className }: CycleRingProps) {
   const [hoveredDay, setHoveredDay] = useState<number | null>(null);
-  const shown = hoveredDay
-    ? phaseForDay(hoveredDay)
-    : phases.find((phase) => phase.id === activePhaseId);
+  const shown = hoveredDay ? phaseForDay(hoveredDay) : undefined;
 
   // A finger lifting also fires pointerleave, which would undo the tap.
   function ignoreTouch(handler: () => void) {
@@ -62,11 +54,8 @@ export function CycleRing({
                 cy={cy}
                 r={19}
                 fill="transparent"
-                className={onPhaseSelect ? "cursor-pointer" : undefined}
                 onPointerEnter={ignoreTouch(() => setHoveredDay(day))}
-                onClick={() =>
-                  onPhaseSelect ? onPhaseSelect(phase.id) : setHoveredDay(day)
-                }
+                onClick={() => setHoveredDay(day)}
               />
             </g>
           );
@@ -86,7 +75,7 @@ export function CycleRing({
         textAnchor="middle"
         className="fill-muted font-sans text-[17px] font-bold"
       >
-        {hoveredDay ? `Day ${hoveredDay}` : (shown?.days ?? "give or take")}
+        {hoveredDay ? `Day ${hoveredDay}` : "give or take"}
       </text>
     </svg>
   );
