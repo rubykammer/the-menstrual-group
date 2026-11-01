@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
+import { PartnerScripts } from "@/components/PartnerScripts";
 import { PostCard } from "@/components/PostCard";
 import { phases } from "@/lib/cycle";
 import { getPost } from "@/lib/posts";
@@ -71,6 +73,24 @@ export default function PartnersPage() {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section aria-labelledby="scripts-heading" className="page-width mt-20">
+        <h2 id="scripts-heading" className="text-3xl sm:text-4xl">
+          Say this, not that
+        </h2>
+        <p className="mt-3 max-w-2xl text-lg">
+          You don&apos;t need a script, but these moments come up a lot. Put
+          them in your own words, and{" "}
+          <Link
+            href="/blog/what-to-say-and-what-not-to"
+            className="font-extrabold text-primary-strong underline underline-offset-4 transition-colors duration-200 hover:text-accent-strong"
+          >
+            read why they work
+          </Link>
+          .
+        </p>
+        <PartnerScripts />
       </section>
 
       <section
