@@ -4,6 +4,7 @@ import { CycleExplorer } from "@/components/CycleExplorer";
 import { CycleRing } from "@/components/CycleRing";
 import { MythList } from "@/components/MythList";
 import { PostCard } from "@/components/PostCard";
+import { QuizCtas } from "@/components/QuizCtas";
 import { getAllPosts } from "@/lib/posts";
 
 type Door = {
@@ -62,7 +63,9 @@ export default function Home() {
         <CycleRing className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-none" />
       </section>
 
-      <section aria-labelledby="doors-heading" className="page-width">
+      <QuizCtas />
+
+      <section aria-labelledby="doors-heading" className="page-width mt-20">
         <h2 id="doors-heading" className="sr-only">
           Where would you like to start?
         </h2>

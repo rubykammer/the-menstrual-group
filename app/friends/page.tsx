@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ButtonLink";
 import { PartnerScripts } from "@/components/PartnerScripts";
 import { PostCard } from "@/components/PostCard";
+import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
 import { friendScripts } from "@/lib/partnerScripts";
 import { getPost } from "@/lib/posts";
@@ -53,6 +54,8 @@ export default function FriendsPage() {
           easier.
         </p>
       </header>
+
+      <QuizBanner slug="friends" />
 
       <section aria-labelledby="principles-heading" className="page-width mt-14">
         <h2 id="principles-heading" className="text-3xl sm:text-4xl">
