@@ -9,23 +9,23 @@ export function Logo() {
           cy="16"
           r="11"
           fill="none"
-          stroke="#e5b8bb"
+          stroke="#fb923c"
           strokeWidth="6"
         />
         <path
           d="M16 5a11 11 0 0 1 11 11"
           fill="none"
-          stroke="#edc462"
+          stroke="#ec4899"
           strokeWidth="6"
         />
         <path
           d="M27 16a11 11 0 0 1-11 11"
           fill="none"
-          stroke="#4a2a20"
+          stroke="#d97706"
           strokeWidth="6"
         />
       </svg>
-      <span className="font-display text-lg leading-tight font-normal tracking-tight whitespace-nowrap sm:text-xl">
+      <span className="font-display text-lg leading-tight font-semibold tracking-tight sm:text-xl">
         {site.name}
       </span>
     </span>

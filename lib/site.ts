@@ -8,7 +8,10 @@ export const site = {
 
 export const navLinks = [
   { href: "/blog", label: "Blog" },
-  { href: "/partners", label: "For Partners" },
+  { href: "/your-cycle", label: "Your Cycle" },
+  { href: "/partners", label: "Partners" },
+  { href: "/dads", label: "Dads" },
+  { href: "/friends", label: "Friends" },
   { href: "/about", label: "About" },
 ];
 
@@ -41,3 +44,10 @@ export type TopicSlug = Topic["slug"];
 export function getTopic(slug: string) {
   return topics.find((topic) => topic.slug === slug);
 }
+
+/** The pages for people supporting someone with a cycle. */
+export const supporterPages = [
+  { href: "/partners", label: "For partners", tint: "bg-peach" },
+  { href: "/dads", label: "For dads", tint: "bg-honey" },
+  { href: "/friends", label: "For friends", tint: "bg-blush" },
+];

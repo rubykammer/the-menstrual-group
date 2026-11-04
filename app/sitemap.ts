@@ -3,7 +3,7 @@ import { getAllPosts } from "@/lib/posts";
 import { site, topics } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/blog", "/partners", "/about"];
+  const pages = ["", "/blog", "/your-cycle", "/partners", "/dads", "/friends", "/about"];
   const topicPages = topics.map((topic) => `/blog/topic/${topic.slug}`);
 
   return [

@@ -1,17 +1,21 @@
-import { partnerScripts } from "@/lib/partnerScripts";
+import { partnerScripts, type PartnerScript } from "@/lib/partnerScripts";
 
-export function PartnerScripts() {
+export function PartnerScripts({
+  scripts = partnerScripts,
+}: {
+  scripts?: PartnerScript[];
+}) {
   return (
     <ul className="mt-8 grid gap-6 lg:grid-cols-2">
-      {partnerScripts.map(({ situation, sayThis, notThat, thenDo }) => (
+      {scripts.map(({ situation, sayThis, notThat, thenDo }) => (
         <li
           key={situation}
-          className="flex flex-col rounded-card bg-surface p-6 shadow-soft"
+          className="flex flex-col rounded-card bg-surface p-6 shadow-soft transition-all duration-300 hover:shadow-lg motion-safe:hover:-translate-y-1"
         >
           <h3 className="text-xl sm:text-2xl">{situation}</h3>
           <dl className="mt-4 flex grow flex-col gap-3">
             <div className="grid grow gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl bg-sage p-4">
+              <div className="rounded-2xl bg-honey p-4">
                 <dt className="flex items-center gap-2 font-extrabold">
                   <svg
                     viewBox="0 0 24 24"
@@ -29,7 +33,7 @@ export function PartnerScripts() {
                 </dt>
                 <dd className="mt-1">{sayThis}</dd>
               </div>
-              <div className="rounded-2xl bg-sand p-4">
+              <div className="rounded-2xl bg-blush p-4">
                 <dt className="flex items-center gap-2 font-extrabold">
                   <svg
                     viewBox="0 0 24 24"

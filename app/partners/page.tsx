@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { PartnerScripts } from "@/components/PartnerScripts";
 import { PostCard } from "@/components/PostCard";
+import { SupporterLinks } from "@/components/SupporterLinks";
 import { phases } from "@/lib/cycle";
 import { getPost } from "@/lib/posts";
 
@@ -44,7 +45,7 @@ export default function PartnersPage() {
   return (
     <>
       <header className="page-width pt-12 sm:pt-16">
-        <h1 className="max-w-4xl text-5xl sm:text-7xl">
+        <h1 className="max-w-3xl text-4xl sm:text-6xl">
           You don&apos;t need to have a cycle to be{" "}
           <span className="text-primary">good at this</span>.
         </h1>
@@ -63,12 +64,12 @@ export default function PartnersPage() {
           {principles.map((principle, index) => (
             <li key={principle.title} className="rounded-card bg-surface p-6 shadow-soft">
               <span
-                className="font-display text-5xl font-light text-primary"
+                className="font-display text-4xl font-semibold text-primary"
                 aria-hidden="true"
               >
                 {index + 1}
               </span>
-              <h3 className="mt-3 text-xl">{principle.title}</h3>
+              <h3 className="mt-2 text-xl">{principle.title}</h3>
               <p className="mt-2 text-muted">{principle.body}</p>
             </li>
           ))}
@@ -95,7 +96,7 @@ export default function PartnersPage() {
 
       <section
         aria-labelledby="month-heading"
-        className="mt-20 bg-stone py-16 sm:py-20"
+        className="mt-20 bg-blush py-16 sm:py-20"
       >
         <div className="page-width">
           <h2 id="month-heading" className="text-3xl sm:text-4xl">
@@ -105,7 +106,7 @@ export default function PartnersPage() {
             Every cycle is different, so use this as a starting point, not a
             schedule. And please don&apos;t use it to predict anyone&apos;s mood.
           </p>
-          <ul className="mt-8 divide-y divide-foreground/15">
+          <ul className="mt-8 divide-y divide-pink-200">
             {phases.map((phase) => (
               <li
                 key={phase.id}
@@ -141,6 +142,8 @@ export default function PartnersPage() {
           </ButtonLink>
         </div>
       </section>
+
+      <SupporterLinks current="/partners" />
     </>
   );
 }

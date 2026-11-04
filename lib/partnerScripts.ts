@@ -43,3 +43,57 @@ export const partnerScripts: PartnerScript[] = [
     thenDo: "Take the no as a no, then make the rest of the evening easy.",
   },
 ];
+
+export const dadScripts: PartnerScript[] = [
+  {
+    situation: "Your daughter tells you her period has started",
+    sayThis: "“Thanks for telling me. Have you got what you need, or shall we sort it now?”",
+    notThat: "“Oh. Maybe go and talk to your mom about that.”",
+    thenDo: "Make sure the supplies are there, then carry on with the day as normal.",
+  },
+  {
+    situation: "She's curled up with cramps",
+    sayThis: "“Cramps? Want the hot water bottle and some pain relief?”",
+    notThat: "“You'll be fine. Just walk it off.”",
+    thenDo: "If pain keeps her home from school month after month, book a doctor's visit.",
+  },
+  {
+    situation: "Your son makes a joke about periods",
+    sayThis: "“Periods are just a normal part of how bodies work. Want to know how they actually work?”",
+    notThat: "Laughing along, or changing the subject.",
+    thenDo: "Give him the basic facts. Boys who understand periods are far less likely to tease.",
+  },
+  {
+    situation: "She asks you to buy pads",
+    sayThis: "“Sure. Which ones, and how many?”",
+    notThat: "Sighing, or sending her to ask someone else.",
+    thenDo: "Take a photo of the packet so you can stock up before she runs out.",
+  },
+];
+
+export const friendScripts: PartnerScript[] = [
+  {
+    situation: "A friend asks if you have a pad or tampon",
+    sayThis: "“Yep, here you go.”",
+    notThat: "“Ew, why are you asking me?”",
+    thenDo: "Keep a spare in your bag, even if you never use one yourself.",
+  },
+  {
+    situation: "Their period has leaked through their clothes",
+    sayThis: "Quietly: “Heads up, you've got a mark on your jeans. Want my jacket?”",
+    notThat: "Pointing it out in front of the group.",
+    thenDo: "Help them get to a bathroom or home, and never bring it up again.",
+  },
+  {
+    situation: "They cancel plans because of pain",
+    sayThis: "“No problem. Hope it eases up. Want to reschedule?”",
+    notThat: "“You always bail. It's only cramps.”",
+    thenDo: "Check in later with a message. If it happens a lot, gently suggest a doctor.",
+  },
+  {
+    situation: "Someone blames their mood on their period",
+    sayThis: "“I think they've got a fair point, actually.”",
+    notThat: "“Is it that time of the month?”",
+    thenDo: "Respond to what they said, not to a guess about their cycle.",
+  },
+];
