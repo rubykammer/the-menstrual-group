@@ -28,7 +28,7 @@ export function QuizCtas() {
 
 export function QuizCardGrid() {
   return (
-    <ul className="mt-8 grid gap-6 md:grid-cols-3">
+    <ul className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
       {quizzes.map((quiz) => (
         <li key={quiz.slug}>
           <QuizCard quiz={quiz} />
@@ -42,19 +42,22 @@ function QuizCard({ quiz }: { quiz: Quiz }) {
   const Figure = quizFigures[quiz.slug];
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card p-6 transition-all duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${quiz.tint}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-card p-3 transition-all duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 sm:p-5 ${quiz.tint}`}
     >
-      <Figure className="mx-auto h-56 w-auto transition-transform duration-300 motion-safe:group-hover:-rotate-2" />
-      <p className="mt-4 text-sm font-extrabold tracking-wide text-primary-strong uppercase">
+      <Figure className="mx-auto h-24 w-auto transition-transform duration-300 motion-safe:group-hover:-rotate-2 sm:h-32" />
+      <p className="mt-3 text-xs font-extrabold tracking-wide text-primary-strong uppercase">
         {quiz.label}
       </p>
-      <h3 className="mt-1 text-2xl">{quiz.title}</h3>
-      <p className="mt-2 grow">{quiz.teaser}</p>
+      <h3 className="mt-1 grow text-base sm:text-lg">
+        <span className="sr-only sm:not-sr-only">{quiz.title}</span>
+      </h3>
+      <p className="mt-1 hidden text-sm text-muted md:block">{quiz.teaser}</p>
       <Link
         href={`/quiz/${quiz.slug}`}
-        className="mt-5 self-start rounded-full bg-primary-strong px-5 py-2.5 font-extrabold text-white transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-orange-800"
+        className="mt-3 self-start rounded-full bg-primary-strong px-3 py-1.5 text-sm font-extrabold text-white transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-orange-800 sm:px-4 sm:py-2"
       >
-        Take the quiz
+        <span className="sm:hidden">Start</span>
+        <span className="hidden sm:inline">Take the quiz</span>
         <span className="sr-only">: {quiz.title}</span>
       </Link>
     </article>
