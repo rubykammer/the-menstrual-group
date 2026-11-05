@@ -37,7 +37,7 @@ Set `NEXT_PUBLIC_SITE_URL` to the live domain so that the sitemap and social lin
 
 The signup form in the footer adds people to a [Buttondown](https://buttondown.com) list. Copy the API key from [your Buttondown settings](https://buttondown.com/requests) and set it as `BUTTONDOWN_API_KEY` in your host's environment variables, or in `.env.local` when running the site locally. Never commit the key, or give it a `NEXT_PUBLIC_` name.
 
-New subscribers get a confirmation email from Buttondown before they join the list. Until the key is set, the form shows an error message.
+New subscribers get a confirmation email from Buttondown before they join the list. Until the key is set, the form pretends every signup worked, on the live site too, but nothing is saved, so those addresses are lost.
 
 ## Design tokens
 
