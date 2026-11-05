@@ -26,19 +26,33 @@ export function QuizCtas() {
   );
 }
 
-export function QuizCardGrid() {
+// Card titles sit one level below whatever heading comes before the grid:
+// h3 under the homepage's section heading, h2 straight under a page's h1.
+type HeadingLevel = "h2" | "h3";
+
+export function QuizCardGrid({
+  headingLevel = "h3",
+}: {
+  headingLevel?: HeadingLevel;
+}) {
   return (
     <ul className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
       {quizzes.map((quiz) => (
         <li key={quiz.slug}>
-          <QuizCard quiz={quiz} />
+          <QuizCard quiz={quiz} headingLevel={headingLevel} />
         </li>
       ))}
     </ul>
   );
 }
 
-function QuizCard({ quiz }: { quiz: Quiz }) {
+function QuizCard({
+  quiz,
+  headingLevel: Heading,
+}: {
+  quiz: Quiz;
+  headingLevel: HeadingLevel;
+}) {
   const Figure = quizFigures[quiz.slug];
   return (
     <article
@@ -48,9 +62,9 @@ function QuizCard({ quiz }: { quiz: Quiz }) {
       <p className="mt-3 text-xs font-extrabold tracking-wide text-primary-strong uppercase">
         {quiz.label}
       </p>
-      <h3 className="mt-1 grow text-base sm:text-lg">
+      <Heading className="mt-1 grow text-base sm:text-lg">
         <span className="sr-only sm:not-sr-only">{quiz.title}</span>
-      </h3>
+      </Heading>
       <p className="mt-1 hidden text-sm text-muted md:block">{quiz.teaser}</p>
       <Link
         href={`/quiz/${quiz.slug}`}

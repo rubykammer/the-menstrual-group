@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { subscribe, type SignupState } from "@/app/actions/newsletter";
 
 const initialState: SignupState = { status: "idle", message: "" };
@@ -15,11 +15,35 @@ export function NewsletterSignup() {
   const [dismissed, setDismissed] = useState<SignupState | null>(null);
   const showToast = state.status === "success" && dismissed !== state;
 
+  // The toast waits while someone is pointing at it or has tabbed to its close
+  // button, so it never disappears from under them. The timer starts again
+  // once they move away.
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const paused = hovered || focused;
+
   useEffect(() => {
-    if (!showToast) return;
+    if (!showToast || paused) return;
     const timer = setTimeout(() => setDismissed(state), toastDuration);
     return () => clearTimeout(timer);
-  }, [showToast, state]);
+  }, [showToast, paused, state]);
+
+  // A successful signup removes the form, taking the focused button with it.
+  // Moving focus to the thank-you message keeps keyboard users in place instead
+  // of sending them back to the top of the page.
+  const statusRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (state.status === "success") statusRef.current?.focus();
+  }, [state]);
+
+  // Closing the toast removes its focused close button, so focus goes back to
+  // the thank-you message for the same reason.
+  function closeToast() {
+    statusRef.current?.focus();
+    setDismissed(state);
+    setHovered(false);
+    setFocused(false);
+  }
 
   return (
     <section aria-labelledby="newsletter-heading" className="bg-peach">
@@ -75,11 +99,13 @@ export function NewsletterSignup() {
 
           <p
             id="newsletter-status"
+            ref={statusRef}
+            tabIndex={-1}
             role="status"
             className={
               hasError
-                ? "mt-2 font-bold text-accent-strong empty:hidden"
-                : "text-lg font-bold empty:hidden"
+                ? "mt-2 font-bold text-accent-strong outline-none empty:hidden"
+                : "text-lg font-bold outline-none empty:hidden"
             }
           >
             {state.message}
@@ -96,7 +122,13 @@ export function NewsletterSignup() {
           toast is a visual confirmation only and has no live region of its own. */}
       {showToast && (
         <div className="fixed inset-x-4 bottom-4 z-50 flex justify-center sm:inset-x-auto sm:right-6 sm:bottom-6">
-          <div className="flex w-full max-w-sm items-start gap-3 rounded-card border-2 border-line bg-surface p-4 shadow-soft motion-safe:animate-toast-in">
+          <div
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            className="flex w-full max-w-sm items-start gap-3 rounded-card border-2 border-line bg-surface p-4 shadow-soft motion-safe:animate-toast-in"
+          >
             <span
               aria-hidden="true"
               className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-primary-strong text-white"
@@ -119,7 +151,7 @@ export function NewsletterSignup() {
             </div>
             <button
               type="button"
-              onClick={() => setDismissed(state)}
+              onClick={closeToast}
               aria-label="Dismiss"
               className="-m-1 grid size-9 shrink-0 cursor-pointer place-items-center rounded-full text-muted transition-colors duration-200 hover:bg-peach hover:text-foreground"
             >

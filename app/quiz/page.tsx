@@ -19,7 +19,7 @@ export default function QuizzesPage() {
           score.
         </p>
       </header>
-      <QuizCardGrid />
+      <QuizCardGrid headingLevel="h2" />
     </div>
   );
 }
