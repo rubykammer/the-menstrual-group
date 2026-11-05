@@ -19,6 +19,16 @@ const received: SignupState = {
 const failureMessage =
   "Sorry, that didn't work. Please try again in a little while.";
 
+// DEPLOY_CONTEXT comes from next.config.ts.
+const previewContexts = ["preview", "deploy-preview", "branch-deploy"];
+
+function isLocalOrPreview() {
+  return (
+    process.env.NODE_ENV === "development" ||
+    previewContexts.includes(process.env.DEPLOY_CONTEXT ?? "")
+  );
+}
+
 export async function subscribe(
   _state: SignupState,
   formData: FormData,
@@ -44,10 +54,11 @@ export async function subscribe(
 
   const apiKey = process.env.BUTTONDOWN_API_KEY;
   if (!apiKey) {
-    // Until Buttondown is set up, pretend it worked while developing so the
-    // success state can be seen. A live site still reports the failure, so real
-    // visitors aren't told they've signed up when they haven't.
-    if (process.env.NODE_ENV === "development") {
+    // Until Buttondown is set up, pretend it worked locally and on preview
+    // deployments so the success state can be seen. The public site still
+    // reports the failure, so real visitors aren't told they've signed up when
+    // they haven't.
+    if (isLocalOrPreview()) {
       console.warn(
         "Newsletter signup pretended to succeed: BUTTONDOWN_API_KEY is not set",
       );
