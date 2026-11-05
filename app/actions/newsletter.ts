@@ -44,6 +44,15 @@ export async function subscribe(
 
   const apiKey = process.env.BUTTONDOWN_API_KEY;
   if (!apiKey) {
+    // Until Buttondown is set up, pretend it worked while developing so the
+    // success state can be seen. A live site still reports the failure, so real
+    // visitors aren't told they've signed up when they haven't.
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "Newsletter signup pretended to succeed: BUTTONDOWN_API_KEY is not set",
+      );
+      return received;
+    }
     console.error("Newsletter signup failed: BUTTONDOWN_API_KEY is not set");
     return failed;
   }
