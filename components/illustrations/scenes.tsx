@@ -157,6 +157,30 @@ const posts: Record<string, Scene> = {
     ),
   },
 
+  "luteal-rage-is-real": {
+    bg: backdrops.blush,
+    art: (
+      <>
+        {/* Hormones rising, then dropping before a period: where the anger flares */}
+        <g transform="translate(222 96)">
+          <path d="M0 64 L130 64" {...line} strokeWidth={2.5} />
+          <path d="M0 52 Q30 50 50 20 Q72 -10 96 18 Q112 40 128 58" fill="none" {...line} strokeWidth={4} />
+          <path d="M96 18 Q112 40 128 58" fill="none" stroke={brand.pink} strokeWidth={6} strokeLinecap="round" />
+          {/* Lightning bolt at the drop */}
+          <path d="M120 -6 L106 18 L118 18 L108 40 L132 10 L120 10 L128 -6 Z" fill={brand.sun} {...line} strokeWidth={2.5} />
+        </g>
+        {/* Angry scribble cloud */}
+        <g transform="translate(150 34)">
+          <path d="M-40 10 Q-52 -6 -34 -14 Q-28 -30 -8 -24 Q4 -36 20 -24 Q40 -28 40 -10 Q52 4 34 14 Q20 24 0 16 Q-20 24 -40 10 Z" fill={PAPER} {...line} />
+          <path d="M-24 -2 q6 -12 12 0 q6 12 12 0 q6 -12 12 0 q6 12 12 0" fill="none" stroke={brand.orange} strokeWidth={3.5} strokeLinecap="round" />
+        </g>
+        <circle cx="132" cy="70" r="4" fill={PAPER} {...line} />
+        <Bust x={126} y={140} s={1.05} hair="long" top="hoodie" eyes="dot" mouth="flat" brows="cross" />
+        <Sparkle x={66} y={90} s={0.8} />
+      </>
+    ),
+  },
+
   "endometriosis-guide": {
     bg: backdrops.peach,
     art: (

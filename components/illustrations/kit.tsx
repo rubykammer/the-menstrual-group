@@ -63,7 +63,7 @@ export type Top =
 
 export type Eyes = "dot" | "happy" | "wide" | "wink" | "closed" | "side";
 export type Mouth = "smile" | "grin" | "open" | "flat" | "worried" | "talk";
-export type Brows = "none" | "worried" | "raised";
+export type Brows = "none" | "worried" | "raised" | "cross";
 
 const TORSO = "M-62 160 L-60 80 Q-58 50 -22 42 L22 42 Q58 50 60 80 L62 160 Z";
 
@@ -471,6 +471,9 @@ export function Bust({
       <Eyes eyes={eyes} />
       {brows === "worried" && (
         <path d="M-15 -9 L-5 -6 M15 -9 L5 -6" {...line} strokeWidth={2.5} />
+      )}
+      {brows === "cross" && (
+        <path d="M-16 -13 L-4 -6 M16 -13 L4 -6" {...line} strokeWidth={3} />
       )}
       {brows === "raised" && (
         <path d="M-15 -8 Q-9 -13 -4 -9 M4 -9 Q9 -13 15 -8" fill="none" {...line} strokeWidth={2.5} />
