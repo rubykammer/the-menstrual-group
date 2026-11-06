@@ -98,7 +98,7 @@ export default function DadsPage() {
               without a big speech.
             </p>
           </div>
-          <ul className="divide-y divide-orange-200">
+          <ul className="divide-y divide-divider">
             {kit.map((item) => (
               <li key={item} className="flex items-start gap-3 py-4 text-lg">
                 <svg

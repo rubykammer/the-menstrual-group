@@ -90,7 +90,7 @@ export function NewsletterSignup() {
               <button
                 type="submit"
                 disabled={pending}
-                className="min-h-12 shrink-0 cursor-pointer rounded-full bg-primary-strong px-6 font-extrabold text-white transition-all duration-200 hover:bg-orange-800 disabled:cursor-wait disabled:opacity-70 motion-safe:hover:-translate-y-0.5"
+                className="min-h-12 shrink-0 cursor-pointer rounded-full bg-primary-strong px-6 font-extrabold text-on-primary transition-all duration-200 hover:bg-primary-hover disabled:cursor-wait disabled:opacity-70 motion-safe:hover:-translate-y-0.5"
               >
                 {pending ? "Signing up…" : "Sign up"}
               </button>
@@ -131,7 +131,7 @@ export function NewsletterSignup() {
           >
             <span
               aria-hidden="true"
-              className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-primary-strong text-white"
+              className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-primary-strong text-on-primary"
             >
               <svg viewBox="0 0 20 20" fill="none" className="size-4">
                 <path

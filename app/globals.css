@@ -1,31 +1,58 @@
 @import "tailwindcss";
 
+/* The active theme. With no data-theme set, the site follows the OS setting;
+   ThemeToggle sets data-theme when someone picks the other one. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 @theme {
-  /* Brand palette. These fall under 4.5:1 on the cream background, so use them
+  /* Every color is light-dark(light value, dark value), resolved by the
+     color-scheme set on <html> below.
+
+     Brand palette. These fall under 4.5:1 on the background, so use them
      for shapes and large display type only. Body-sized text uses the -strong shades. */
-  --color-primary: #ea580c;
-  --color-secondary: #d97706;
-  --color-accent: #ec4899;
+  --color-primary: light-dark(#ea580c, #fb923c);
+  --color-secondary: light-dark(#d97706, #fbbf24);
+  --color-accent: light-dark(#ec4899, #f472b6);
 
-  --color-primary-strong: #b83c0a;
-  --color-secondary-strong: #a16207;
-  --color-accent-strong: #be185d;
+  --color-primary-strong: light-dark(#b83c0a, #fb923c);
+  --color-secondary-strong: light-dark(#a16207, #fbbf24);
+  --color-accent-strong: light-dark(#be185d, #f472b6);
 
-  --color-background: #fffbeb;
-  --color-foreground: #292524;
-  --color-muted: #57534e;
-  --color-surface: #ffffff;
-  --color-line: #f3e3c3;
+  /* Filled primary buttons: hover shade and the text that sits on them */
+  --color-primary-hover: light-dark(#9a3412, #fdba74);
+  --color-on-primary: light-dark(#ffffff, #1c1714);
 
-  --color-peach: #ffedd5;
-  --color-honey: #fef3c7;
-  --color-blush: #fce7f3;
+  --color-background: light-dark(#fffbeb, #1c1714);
+  --color-foreground: light-dark(#292524, #f5ede4);
+  --color-muted: light-dark(#57534e, #b9ada2);
+  --color-surface: light-dark(#ffffff, #27201b);
+  --color-line: light-dark(#f3e3c3, #3d322a);
+  --color-divider: light-dark(#fed7aa, #4a3829);
+
+  --color-peach: light-dark(#ffedd5, #3b2619);
+  --color-honey: light-dark(#fef3c7, #362b17);
+  --color-blush: light-dark(#fce7f3, #3a1f2c);
+
+  /* The dark feature panel: inverted in light mode, a raised panel in dark */
+  --color-panel: light-dark(#292524, #2e251f);
+  --color-on-panel: light-dark(#fffbeb, #f5ede4);
+  --color-panel-link: #fdba74;
+  --color-panel-link-hover: #fed7aa;
 
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
 
   --radius-card: 1.5rem;
-  --shadow-soft: 0 12px 32px -16px rgb(120 53 15 / 0.28);
+  --shadow-soft: 0 12px 32px -16px light-dark(rgb(120 53 15 / 0.28), rgb(0 0 0 / 0.6));
 
   --animate-toast-in: toast-in 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
 
@@ -54,9 +81,17 @@
 
 @layer base {
   html {
-    color-scheme: light;
+    color-scheme: light dark;
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
   }
 
   body {
@@ -190,6 +225,24 @@
 
 .article-body tbody tr + tr {
   border-top: 1px solid var(--color-line);
+}
+
+/* Line-art people (components/People.tsx). Their ink and paper colors are
+   fixed, so on dark backgrounds a thin cream outline keeps the dark shapes
+   from disappearing. */
+:root[data-theme="dark"] .figure-art {
+  filter: var(--figure-outline);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .figure-art {
+    filter: var(--figure-outline);
+  }
+}
+
+:root {
+  --figure-outline: drop-shadow(1.5px 0 0 #f5ede4) drop-shadow(-1.5px 0 0 #f5ede4)
+    drop-shadow(0 1.5px 0 #f5ede4) drop-shadow(0 -1.5px 0 #f5ede4);
 }
 
 .footer-link {

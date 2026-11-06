@@ -68,7 +68,7 @@ function QuizCard({
       <p className="mt-1 hidden text-sm text-muted md:block">{quiz.teaser}</p>
       <Link
         href={`/quiz/${quiz.slug}`}
-        className="mt-3 self-start rounded-full bg-primary-strong px-3 py-1.5 text-sm font-extrabold text-white transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-orange-800 sm:px-4 sm:py-2"
+        className="mt-3 self-start rounded-full bg-primary-strong px-3 py-1.5 text-sm font-extrabold text-on-primary transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-primary-hover sm:px-4 sm:py-2"
       >
         <span className="sm:hidden">Start</span>
         <span className="hidden sm:inline">Take the quiz</span>
@@ -95,7 +95,7 @@ export function QuizBanner({ slug }: { slug: Quiz["slug"] }) {
           <p className="mt-2 max-w-lg">{quiz.teaser}</p>
           <Link
             href={`/quiz/${quiz.slug}`}
-            className="mt-5 inline-block rounded-full bg-primary-strong px-5 py-2.5 font-extrabold text-white transition-colors duration-200 after:absolute after:inset-0 hover:bg-orange-800"
+            className="mt-5 inline-block rounded-full bg-primary-strong px-5 py-2.5 font-extrabold text-on-primary transition-colors duration-200 after:absolute after:inset-0 hover:bg-primary-hover"
           >
             Take the quiz
           </Link>

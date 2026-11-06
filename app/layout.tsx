@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Nunito } from "next/font/google";
+import { InlineScript } from "@/components/InlineScript";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { site } from "@/lib/site";
+import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -36,7 +38,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${nunito.variable} h-full antialiased`}
+      // The theme script in <head> sets data-theme before React hydrates
+      suppressHydrationWarning
     >
+      <head>
+        <InlineScript html={themeScript} />
+      </head>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"

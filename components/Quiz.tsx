@@ -62,14 +62,14 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href={quiz.guideHref}
-            className="inline-flex items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-white transition-colors duration-200 hover:bg-orange-800"
+            className="inline-flex items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
           >
             {quiz.guideLabel}
           </Link>
           <button
             type="button"
             onClick={restart}
-            className="inline-flex items-center justify-center rounded-full border-2 border-primary-strong px-6 py-3 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-white"
+            className="inline-flex items-center justify-center rounded-full border-2 border-primary-strong px-6 py-3 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary"
           >
             Try again
           </button>
@@ -156,7 +156,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
         <button
           type="button"
           onClick={next}
-          className="mt-6 inline-flex items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-white transition-colors duration-200 hover:bg-orange-800"
+          className="mt-6 inline-flex items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
         >
           {index + 1 < total ? "Next question" : "See my result"}
           <span aria-hidden="true">&nbsp;→</span>

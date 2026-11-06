@@ -15,7 +15,7 @@ export function SupporterLinks({ current }: { current: string }) {
               <Link
                 href={page.href}
                 aria-current={page.href === current ? "page" : undefined}
-                className={`inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-lg font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-white aria-[current=page]:bg-primary-strong aria-[current=page]:text-white sm:w-auto ${page.tint}`}
+                className={`inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-lg font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary aria-[current=page]:bg-primary-strong aria-[current=page]:text-on-primary sm:w-auto ${page.tint}`}
               >
                 {page.label}
               </Link>

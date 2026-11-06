@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 
 const variants = {
-  primary: "bg-primary-strong text-white hover:bg-orange-800",
+  primary: "bg-primary-strong text-on-primary hover:bg-primary-hover",
   secondary:
-    "border-2 border-primary-strong text-primary-strong hover:bg-primary-strong hover:text-white",
+    "border-2 border-primary-strong text-primary-strong hover:bg-primary-strong hover:text-on-primary",
 };
 
 type ButtonLinkProps = ComponentProps<typeof Link> & {

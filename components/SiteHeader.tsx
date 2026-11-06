@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { navLinks } from "@/lib/site";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -45,7 +46,7 @@ export function SiteHeader() {
                 <Link
                   href={link.href}
                   aria-current={isCurrent(link.href) ? "page" : undefined}
-                  className="rounded-full px-4 py-2 font-bold transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+                  className="rounded-full px-4 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
                 >
                   {link.label}
                 </Link>
@@ -54,31 +55,34 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <button
-          ref={menuButton}
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen((open) => !open)}
-          className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach lg:hidden"
-        >
-          <span className="sr-only">{menuOpen ? "Close" : "Open"} menu</span>
-          <svg
-            viewBox="0 0 24 24"
-            className="size-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            aria-hidden="true"
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+          <button
+            ref={menuButton}
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach lg:hidden"
           >
-            {menuOpen ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
-          </svg>
-        </button>
+            <span className="sr-only">{menuOpen ? "Close" : "Open"} menu</span>
+            <svg
+              viewBox="0 0 24 24"
+              className="size-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {menuOpen ? (
+                <path d="M6 6l12 12M18 6L6 18" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       <nav

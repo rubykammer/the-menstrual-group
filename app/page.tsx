@@ -90,7 +90,7 @@ export default function Home() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="relative z-10 rounded-full border-2 border-primary-strong px-4 py-1.5 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-white"
+                      className="relative z-10 rounded-full border-2 border-primary-strong px-4 py-1.5 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary"
                     >
                       {link.label}
                     </Link>
@@ -160,7 +160,7 @@ export default function Home() {
       </section>
 
       <section className="page-width mt-20">
-        <div className="rounded-card bg-foreground px-6 py-12 text-background sm:px-12 sm:py-16">
+        <div className="rounded-card bg-panel px-6 py-12 text-on-panel sm:px-12 sm:py-16">
           <p className="max-w-3xl font-display text-3xl leading-tight font-semibold sm:text-4xl">
             Ask what helps. Do it without being asked twice.
           </p>
@@ -170,7 +170,7 @@ export default function Home() {
           </p>
           <Link
             href="/partners"
-            className="mt-6 inline-block font-extrabold text-orange-300 underline-offset-4 transition-colors duration-200 hover:text-orange-200 hover:underline"
+            className="mt-6 inline-block font-extrabold text-panel-link underline-offset-4 transition-colors duration-200 hover:text-panel-link-hover hover:underline"
           >
             See the partner guide
             <span aria-hidden="true"> →</span>

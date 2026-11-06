@@ -53,7 +53,7 @@ export default function YourCyclePage() {
             These are based on a textbook 28-day cycle. Yours might be shorter
             or longer, and that&apos;s usually fine.
           </p>
-          <ul className="mt-8 divide-y divide-orange-200">
+          <ul className="mt-8 divide-y divide-divider">
             {phases.map((phase) => (
               <li
                 key={phase.id}

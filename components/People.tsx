@@ -1,9 +1,12 @@
 /**
  * Hand-drawn style line-art people: bold ink outlines, flat ink and white
  * fills, and one brand-colored detail each. Decorative only.
+ *
+ * Ink and paper stay the same in both themes so the drawings never invert;
+ * in dark mode the .figure-art class adds a sticker-style outline instead.
  */
 
-const ink = "var(--color-foreground)";
+const ink = "#292524";
 const paper = "#ffffff";
 
 const line = {
@@ -19,7 +22,7 @@ function Svg({ className, children }: FigureProps & { children: React.ReactNode 
   return (
     <svg
       viewBox="0 0 160 310"
-      className={className}
+      className={`figure-art ${className ?? ""}`}
       aria-hidden="true"
       focusable="false"
     >
