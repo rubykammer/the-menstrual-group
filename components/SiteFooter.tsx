@@ -8,8 +8,8 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-line bg-honey/60">
       <NewsletterSignup />
 
-      <div className="page-width grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
-        <div className="max-w-md sm:col-span-2 lg:col-span-1">
+      <div className="page-width grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-[2fr_1fr_1fr]">
+        <div className="col-span-2 max-w-md lg:col-span-1">
           <Logo />
           <p className="mt-4 text-muted">{site.description}</p>
         </div>
@@ -18,7 +18,7 @@ export function SiteFooter() {
           <h2 className="font-sans text-sm font-extrabold tracking-wide uppercase">
             Explore
           </h2>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-2">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="footer-link">
@@ -33,7 +33,7 @@ export function SiteFooter() {
           <h2 className="font-sans text-sm font-extrabold tracking-wide uppercase">
             Topics
           </h2>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-2">
             {topics.map((topic) => (
               <li key={topic.slug}>
                 <Link href={`/blog/topic/${topic.slug}`} className="footer-link">

@@ -5,6 +5,7 @@ import { CycleRing } from "@/components/CycleRing";
 import { MythList } from "@/components/MythList";
 import { PostCard } from "@/components/PostCard";
 import { QuizCtas } from "@/components/QuizCtas";
+import { doorScenes } from "@/components/illustrations/scenes";
 import { getAllPosts } from "@/lib/posts";
 
 type Door = {
@@ -13,6 +14,7 @@ type Door = {
   href: string;
   cta: string;
   tint: string;
+  art: keyof typeof doorScenes;
   more?: { href: string; label: string }[];
 };
 
@@ -23,6 +25,7 @@ const doors: Door[] = [
     href: "/your-cycle",
     cta: "Start with the basics",
     tint: "bg-honey",
+    art: "self",
   },
   {
     title: "I love someone who does",
@@ -30,6 +33,7 @@ const doors: Door[] = [
     href: "/partners",
     cta: "Read the partner guide",
     tint: "bg-blush",
+    art: "supporter",
     more: [
       { href: "/dads", label: "For dads" },
       { href: "/friends", label: "For friends" },
@@ -60,7 +64,7 @@ export default function Home() {
             </ButtonLink>
           </div>
         </div>
-        <CycleRing className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-none" />
+        <CycleRing className="mx-auto w-full max-w-[15rem] sm:max-w-sm lg:max-w-none" />
       </section>
 
       <QuizCtas />
@@ -73,13 +77,23 @@ export default function Home() {
           {doors.map((door) => (
             <li
               key={door.title}
-              className={`group relative rounded-card p-8 transition-all duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
+              className={`group relative overflow-hidden rounded-card p-6 transition-all sm:p-8 duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
             >
+              <div className="-mx-6 -mt-6 mb-6 flex justify-center overflow-hidden rounded-t-card bg-foreground/5 pt-4 sm:-mx-8 sm:-mt-8">
+                <svg
+                  viewBox="50 10 300 230"
+                  className="figure-art block h-40 w-auto origin-bottom transition-transform duration-300 motion-safe:group-hover:scale-105 sm:h-48"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  {doorScenes[door.art]}
+                </svg>
+              </div>
               <h3 className="text-2xl sm:text-3xl">{door.title}</h3>
               <p className="mt-3">{door.body}</p>
               <Link
                 href={door.href}
-                className="mt-5 inline-block font-extrabold text-primary-strong underline-offset-4 group-hover:underline after:absolute after:inset-0"
+                className="mt-3 inline-block py-2 font-extrabold text-primary-strong underline-offset-4 group-hover:underline after:absolute after:inset-0"
               >
                 {door.cta}
                 <span aria-hidden="true"> →</span>
@@ -90,7 +104,7 @@ export default function Home() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="relative z-10 rounded-full border-2 border-primary-strong px-4 py-1.5 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary"
+                      className="relative z-10 inline-flex min-h-11 items-center rounded-full border-2 border-primary-strong px-4 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary"
                     >
                       {link.label}
                     </Link>
@@ -145,7 +159,7 @@ export default function Home() {
           </h2>
           <Link
             href="/blog"
-            className="font-extrabold text-primary-strong underline-offset-4 transition-colors duration-200 hover:text-accent-strong hover:underline"
+            className="-my-2 inline-block py-2 font-extrabold text-primary-strong underline-offset-4 transition-colors duration-200 hover:text-accent-strong hover:underline"
           >
             All articles
             <span aria-hidden="true"> →</span>
@@ -170,7 +184,7 @@ export default function Home() {
           </p>
           <Link
             href="/partners"
-            className="mt-6 inline-block font-extrabold text-panel-link underline-offset-4 transition-colors duration-200 hover:text-panel-link-hover hover:underline"
+            className="mt-4 inline-block py-2 font-extrabold text-panel-link underline-offset-4 transition-colors duration-200 hover:text-panel-link-hover hover:underline"
           >
             See the partner guide
             <span aria-hidden="true"> →</span>

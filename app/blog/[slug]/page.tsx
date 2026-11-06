@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </header>
 
         <div className="mt-8 h-48 overflow-hidden rounded-card sm:h-64 lg:h-80">
-          <PostArt slug={post.slug} topic={post.topic} />
+          <PostArt slug={post.slug} fit="contain" />
         </div>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">

@@ -37,6 +37,11 @@
   --color-surface: light-dark(#ffffff, #27201b);
   --color-line: light-dark(#f3e3c3, #3d322a);
   --color-divider: light-dark(#fed7aa, #4a3829);
+  --color-divider-pink: light-dark(#fbcfe8, #4a2738);
+
+  /* Quiz answer feedback */
+  --color-correct: light-dark(#15803d, #4ade80);
+  --color-correct-bg: light-dark(#f0fdf4, #15261b);
 
   --color-peach: light-dark(#ffedd5, #3b2619);
   --color-honey: light-dark(#fef3c7, #362b17);
@@ -246,6 +251,8 @@
 }
 
 .footer-link {
+  display: inline-block;
+  padding-block: 0.4rem;
   color: var(--color-muted);
   font-weight: 600;
   transition: color 150ms ease;

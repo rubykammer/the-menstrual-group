@@ -36,7 +36,7 @@ export function QuizCardGrid({
   headingLevel?: HeadingLevel;
 }) {
   return (
-    <ul className="mt-8 grid grid-cols-3 gap-3 sm:gap-5">
+    <ul className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-5">
       {quizzes.map((quiz) => (
         <li key={quiz.slug}>
           <QuizCard quiz={quiz} headingLevel={headingLevel} />
@@ -55,25 +55,25 @@ function QuizCard({
 }) {
   const Figure = quizFigures[quiz.slug];
   return (
+    // Phones: a row with the figure beside the text. Wider: a column.
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card p-3 transition-all duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 sm:p-5 ${quiz.tint}`}
+      className={`group relative flex h-full items-center gap-4 overflow-hidden rounded-card p-4 transition-all duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 sm:flex-col sm:items-stretch sm:gap-0 sm:p-5 ${quiz.tint}`}
     >
-      <Figure className="mx-auto h-24 w-auto transition-transform duration-300 motion-safe:group-hover:-rotate-2 sm:h-32" />
-      <p className="mt-3 text-xs font-extrabold tracking-wide text-primary-strong uppercase">
-        {quiz.label}
-      </p>
-      <Heading className="mt-1 grow text-base sm:text-lg">
-        <span className="sr-only sm:not-sr-only">{quiz.title}</span>
-      </Heading>
-      <p className="mt-1 hidden text-sm text-muted md:block">{quiz.teaser}</p>
-      <Link
-        href={`/quiz/${quiz.slug}`}
-        className="mt-3 self-start rounded-full bg-primary-strong px-3 py-1.5 text-sm font-extrabold text-on-primary transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-primary-hover sm:px-4 sm:py-2"
-      >
-        <span className="sm:hidden">Start</span>
-        <span className="hidden sm:inline">Take the quiz</span>
-        <span className="sr-only">: {quiz.title}</span>
-      </Link>
+      <Figure className="h-32 w-auto shrink-0 transition-transform duration-300 motion-safe:group-hover:-rotate-2 sm:mx-auto" />
+      <div className="flex min-w-0 grow flex-col self-stretch sm:self-auto">
+        <p className="mt-1 text-sm font-extrabold tracking-wide text-primary-strong uppercase sm:mt-3 sm:text-xs">
+          {quiz.label}
+        </p>
+        <Heading className="mt-1 text-lg sm:grow">{quiz.title}</Heading>
+        <p className="mt-1 hidden text-sm text-muted md:block">{quiz.teaser}</p>
+        <Link
+          href={`/quiz/${quiz.slug}`}
+          className="mt-3 inline-flex min-h-11 items-center self-start rounded-full bg-primary-strong px-4 text-sm font-extrabold text-on-primary transition-colors duration-200 after:absolute after:inset-0 group-hover:bg-primary-hover"
+        >
+          Take the quiz
+          <span className="sr-only">: {quiz.title}</span>
+        </Link>
+      </div>
     </article>
   );
 }

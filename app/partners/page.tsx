@@ -109,7 +109,7 @@ export default function PartnersPage() {
             Every cycle is different, so use this as a starting point, not a
             schedule. And please don&apos;t use it to predict anyone&apos;s mood.
           </p>
-          <ul className="mt-8 divide-y divide-pink-200">
+          <ul className="mt-8 divide-y divide-divider-pink">
             {phases.map((phase) => (
               <li
                 key={phase.id}

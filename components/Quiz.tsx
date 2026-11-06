@@ -10,6 +10,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
+  const nextButton = useRef<HTMLButtonElement>(null);
   const started = useRef(false);
 
   const total = quiz.questions.length;
@@ -21,6 +22,17 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
     if (started.current) heading.current?.focus();
     started.current = true;
   }, [index, finished]);
+
+  // On a phone the feedback and Next button land below the fold, so bring
+  // them into view once an answer is picked
+  useEffect(() => {
+    if (picked === null) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    nextButton.current?.scrollIntoView({
+      block: "nearest",
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [picked]);
 
   function choose(option: number) {
     if (answered) return;
@@ -112,7 +124,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
           const isAnswer = i === question.answer;
           const isPicked = i === picked;
           let state = "border-line bg-background hover:border-primary";
-          if (answered && isAnswer) state = "border-green-700 bg-green-50";
+          if (answered && isAnswer) state = "border-correct bg-correct-bg";
           else if (answered && isPicked) state = "border-accent-strong bg-blush";
           else if (answered) state = "border-line bg-background opacity-60";
 
@@ -154,9 +166,10 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
 
       {answered && (
         <button
+          ref={nextButton}
           type="button"
           onClick={next}
-          className="mt-6 inline-flex items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+          className="mt-6 inline-flex w-full scroll-mb-6 sm:w-auto items-center justify-center rounded-full bg-primary-strong px-6 py-3 font-extrabold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
         >
           {index + 1 < total ? "Next question" : "See my result"}
           <span aria-hidden="true">&nbsp;→</span>
