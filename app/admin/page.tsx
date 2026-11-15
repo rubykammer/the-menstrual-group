@@ -3,8 +3,9 @@ import Link from "next/link";
 import { getAdminSupabase, requireAdmin, type Signup } from "@/lib/admin";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
-import { deleteSignup, signOut } from "./actions";
-import { DeleteButton } from "./DeleteButton";
+import { signOut } from "./actions";
+import { AddSignupForm } from "./AddSignupForm";
+import { SignupRow } from "./SignupRow";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -36,7 +37,12 @@ async function loadSignups() {
   const since = (days: number) =>
     signups.filter((s) => now - Date.parse(s.created_at) < days * DAY).length;
 
-  return { status: "ok" as const, signups, lastWeek: since(7), lastMonth: since(30) };
+  return {
+    status: "ok" as const,
+    signups,
+    lastWeek: since(7),
+    lastMonth: since(30),
+  };
 }
 
 function Stat({ label, value }: { label: string; value: number }) {
@@ -89,20 +95,22 @@ export default async function AdminPage({
 
         {result.status === "no-key" && (
           <div className="mt-5 rounded-card bg-honey p-6">
-            <p className="font-bold">Add your Supabase secret key to see signups.</p>
+            <p className="font-bold">
+              Add your Supabase secret key to see signups.
+            </p>
             <p className="mt-2">
               The site&apos;s publishable key can only add signups, not read
               them. In Supabase, open Project Settings → API Keys, copy a{" "}
-              <strong>secret</strong> key, and add it to{" "}
-              <code>.env.local</code>:
+              <strong>secret</strong> key, and add it to <code>.env.local</code>
+              :
             </p>
             <pre className="mt-3 overflow-x-auto rounded-xl bg-surface p-3 text-sm">
               SUPABASE_SECRET_KEY=sb_secret_…
             </pre>
             <p className="mt-2 text-sm text-muted">
               On the live site, add it in Vercel under Settings → Environment
-              Variables instead. Never commit this key or give it a
-              NEXT_PUBLIC_ name.
+              Variables instead. Never commit this key or give it a NEXT_PUBLIC_
+              name.
             </p>
           </div>
         )}
@@ -120,6 +128,8 @@ export default async function AdminPage({
               <Stat label="Last 7 days" value={result.lastWeek} />
               <Stat label="Last 30 days" value={result.lastMonth} />
             </div>
+
+            <AddSignupForm />
 
             <form className="mt-6 flex gap-2" role="search">
               <label htmlFor="admin-search" className="sr-only">
@@ -193,21 +203,11 @@ function SignupList({ signups, query }: { signups: Signup[]; query: string }) {
   return (
     <ul className="mt-5 divide-y divide-line overflow-hidden rounded-card bg-surface shadow-soft">
       {signups.map((signup) => (
-        <li
+        <SignupRow
           key={signup.id}
-          className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 py-3"
-        >
-          <span className="min-w-0 break-all font-bold">{signup.email}</span>
-          <span className="flex items-center gap-3">
-            <time dateTime={signup.created_at} className="text-sm text-muted">
-              {formatTime(signup.created_at)}
-            </time>
-            <form action={deleteSignup}>
-              <input type="hidden" name="id" value={signup.id} />
-              <DeleteButton email={signup.email} />
-            </form>
-          </span>
-        </li>
+          signup={signup}
+          signedUpLabel={formatTime(signup.created_at)}
+        />
       ))}
     </ul>
   );

@@ -45,7 +45,7 @@ Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4
 
 ## Admin
 
-[/admin](http://localhost:3000/admin) lists newsletter signups (with search, CSV download and removal) and the published articles. Sign in at `/admin/login` with the password in `ADMIN_PASSWORD`. The header links to it for everyone; the page itself asks for the password. Sessions last 30 days, and changing the password signs everyone out.
+[/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with the password in `ADMIN_PASSWORD`. The header links to it for everyone; the page itself asks for the password. Sessions last 30 days, and changing the password signs everyone out.
 
 It needs two settings, in `.env.local` locally and in Vercel under Settings → Environment Variables for the live site:
 

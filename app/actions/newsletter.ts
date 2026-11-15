@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
+import { isValidEmail } from "@/lib/email";
 
 export type SignupState = {
   status: "idle" | "success" | "error";
@@ -42,7 +43,7 @@ export async function subscribe(
 ): Promise<SignupState> {
   const email = String(formData.get("email") ?? "").trim();
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+  if (!isValidEmail(email)) {
     return {
       status: "error",
       message: "Please enter a valid email address.",

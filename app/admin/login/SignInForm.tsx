@@ -23,7 +23,11 @@ export function SignInForm() {
         className="rounded-full border-2 border-line bg-surface px-4 py-3"
       />
       {state.error && (
-        <p id="admin-password-error" role="alert" className="text-accent-strong">
+        <p
+          id="admin-password-error"
+          role="alert"
+          className="text-accent-strong"
+        >
           {state.error}
         </p>
       )}

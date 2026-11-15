@@ -11,6 +11,7 @@ import {
   requireAdmin,
   sessionToken,
 } from "@/lib/admin";
+import { isValidEmail } from "@/lib/email";
 
 export type SignInState = { error?: string };
 
@@ -41,6 +42,85 @@ export async function signIn(
 export async function signOut() {
   (await cookies()).delete(SESSION_COOKIE);
   redirect("/");
+}
+
+export type SignupFormState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  /** Changes on every success, so a form can reset itself. */
+  savedAt?: number;
+};
+
+function cleanEmail(formData: FormData) {
+  return String(formData.get("email") ?? "").trim();
+}
+
+// 23505 is Postgres's unique-violation code: the address is already listed
+// (the index ignores capitalisation).
+function saveError(error: { code?: string; message: string }, action: string) {
+  if (error.code === "23505") {
+    return {
+      status: "error" as const,
+      message: "That address is already on the list.",
+    };
+  }
+  console.error(`${action} signup failed:`, error.message);
+  return {
+    status: "error" as const,
+    message: "Couldn't save. Please try again.",
+  };
+}
+
+export async function createSignup(
+  _state: SignupFormState,
+  formData: FormData,
+): Promise<SignupFormState> {
+  await requireAdmin();
+
+  const email = cleanEmail(formData);
+  if (!isValidEmail(email)) {
+    return { status: "error", message: "Please enter a valid email address." };
+  }
+
+  const supabase = getAdminSupabase();
+  if (!supabase) return { status: "error", message: "Supabase isn't set up." };
+
+  const { error } = await supabase.from("newsletter_signups").insert({ email });
+  if (error) return saveError(error, "Adding");
+
+  refresh();
+  return { status: "success", message: `Added ${email}.`, savedAt: Date.now() };
+}
+
+export async function updateSignup(
+  _state: SignupFormState,
+  formData: FormData,
+): Promise<SignupFormState> {
+  await requireAdmin();
+
+  const id = Number(formData.get("id"));
+  const email = cleanEmail(formData);
+  if (!Number.isInteger(id))
+    return { status: "error", message: "Unknown signup." };
+  if (!isValidEmail(email)) {
+    return { status: "error", message: "Please enter a valid email address." };
+  }
+
+  const supabase = getAdminSupabase();
+  if (!supabase) return { status: "error", message: "Supabase isn't set up." };
+
+  const { data, error } = await supabase
+    .from("newsletter_signups")
+    .update({ email })
+    .eq("id", id)
+    .select("id");
+  if (error) return saveError(error, "Updating");
+  if (!data?.length) {
+    return { status: "error", message: "That signup no longer exists." };
+  }
+
+  refresh();
+  return { status: "success", savedAt: Date.now() };
 }
 
 export async function deleteSignup(formData: FormData) {
