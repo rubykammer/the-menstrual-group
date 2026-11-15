@@ -2,6 +2,7 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 
 /** Holds proof of sign-in. The browser's scripts can't read it. */
 export const SESSION_COOKIE = "tmg_admin";
@@ -44,11 +45,21 @@ export async function isSignedIn() {
 }
 
 /**
+ * Without this, a build that runs before ADMIN_PASSWORD is set prerenders
+ * the admin pages as a permanent 404, which adding the variable later
+ * doesn't undo. Waiting for a request makes every visit check afresh.
+ */
+export async function waitForRequest() {
+  await connection();
+}
+
+/**
  * Call at the top of every admin page, route and action. Without an
  * ADMIN_PASSWORD the live site has no admin at all (404), while `next dev`
  * sends you to the sign-in page, which explains how to set one.
  */
 export async function requireAdmin() {
+  await waitForRequest();
   if (!adminConfigured() && process.env.NODE_ENV !== "development") {
     notFound();
   }

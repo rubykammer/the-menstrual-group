@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { adminConfigured, isSignedIn } from "@/lib/admin";
+import { adminConfigured, isSignedIn, waitForRequest } from "@/lib/admin";
 import { SignInForm } from "./SignInForm";
 
 export const metadata: Metadata = {
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminLoginPage() {
+  await waitForRequest();
   const configured = adminConfigured();
   if (!configured && process.env.NODE_ENV !== "development") notFound();
   if (await isSignedIn()) redirect("/admin");
