@@ -7,6 +7,14 @@ import { navLinks } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
+// The admin pages only exist under `next dev` (see lib/admin.ts), so the link
+// is left out of the live site's header. On wide screens it's an icon beside
+// the theme toggle, because an eighth text link squeezes the logo.
+const showAdmin = process.env.NODE_ENV === "development";
+const mobileLinks = showAdmin
+  ? [...navLinks, { href: "/admin", label: "Admin" }]
+  : navLinks;
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,7 +48,7 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-2">
+          <ul className="flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -56,6 +64,31 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1">
+          {showAdmin && (
+            <Link
+              href="/admin"
+              title="Admin"
+              aria-current={isCurrent("/admin") ? "page" : undefined}
+              className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong lg:flex"
+            >
+              <span className="sr-only">Admin</span>
+              <svg
+                viewBox="0 0 24 24"
+                className="size-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4" />
+                <circle cx="16" cy="6" r="2" />
+                <circle cx="8" cy="12" r="2" />
+                <circle cx="14" cy="18" r="2" />
+              </svg>
+            </Link>
+          )}
           <ThemeToggle />
           <button
             ref={menuButton}
@@ -92,7 +125,7 @@ export function SiteHeader() {
         className="border-t border-line lg:hidden"
       >
         <ul className="page-width flex flex-col gap-1 py-3">
-          {navLinks.map((link) => (
+          {mobileLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
