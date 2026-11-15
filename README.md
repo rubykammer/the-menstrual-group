@@ -42,3 +42,9 @@ New subscribers get a confirmation email from Buttondown before they join the li
 ## Design tokens
 
 Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4.5:1 contrast on the cream background, so they're used for shapes and large headings. Body-sized text and buttons use the `-strong` shades.
+
+## Admin
+
+While running `npm run dev`, [http://localhost:3000/admin](http://localhost:3000/admin) lists newsletter signups (with search, CSV download and removal) and the published articles. It has no sign-in yet, so on the live site every `/admin` URL is a 404.
+
+To see signups, copy a **secret** key from Supabase (Project Settings → API Keys) into `.env.local` as `SUPABASE_SECRET_KEY`. It bypasses Row Level Security, so never commit it, never give it a `NEXT_PUBLIC_` name, and don't add it to the live site's environment until the admin has real authentication.
