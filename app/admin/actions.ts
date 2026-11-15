@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  LINK_COOKIE,
   SESSION_COOKIE,
   SESSION_DAYS,
   getAdminSupabase,
@@ -34,17 +33,13 @@ export async function signIn(
     sameSite: "lax" as const,
     secure: process.env.NODE_ENV === "production",
   };
-  const store = await cookies();
-  store.set(SESSION_COOKIE, token, { ...options, httpOnly: true });
-  store.set(LINK_COOKIE, "1", options);
+  (await cookies()).set(SESSION_COOKIE, token, { ...options, httpOnly: true });
 
   redirect("/admin");
 }
 
 export async function signOut() {
-  const store = await cookies();
-  store.delete(SESSION_COOKIE);
-  store.delete(LINK_COOKIE);
+  (await cookies()).delete(SESSION_COOKIE);
   redirect("/");
 }
 

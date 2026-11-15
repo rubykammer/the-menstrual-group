@@ -3,11 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
-import { ADMIN_LINK_COOKIE } from "./adminLink";
-
 /** Holds proof of sign-in. The browser's scripts can't read it. */
 export const SESSION_COOKIE = "tmg_admin";
-export const LINK_COOKIE = ADMIN_LINK_COOKIE;
 export const SESSION_DAYS = 30;
 
 function password() {

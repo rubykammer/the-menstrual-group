@@ -2,28 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { hasAdminLinkCookie } from "@/lib/adminLink";
+import { useEffect, useRef, useState } from "react";
 import { navLinks } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
-// Cookies have no change event. The header re-renders on every navigation,
-// which re-reads the cookie, so signing in or out updates the link.
-const noSubscription = () => () => {};
+// Everyone sees the Admin link; the page itself asks for the password. Between
+// the lg and xl breakpoints it's an icon beside the theme toggle, because an
+// eighth text link there squeezes the logo onto three lines.
+const adminLink = { href: "/admin", label: "Admin" };
+const mobileLinks = [...navLinks, adminLink];
 
 export function SiteHeader() {
   const pathname = usePathname();
-  // Only someone signed in to /admin sees the link. On wide screens it's an
-  // icon beside the theme toggle, because an eighth text link squeezes the logo.
-  const showAdmin = useSyncExternalStore(
-    noSubscription,
-    hasAdminLinkCookie,
-    () => false,
-  );
-  const mobileLinks = showAdmin
-    ? [...navLinks, { href: "/admin", label: "Admin" }]
-    : navLinks;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
 
@@ -67,35 +58,42 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="hidden xl:block">
+              <Link
+                href={adminLink.href}
+                aria-current={isCurrent(adminLink.href) ? "page" : undefined}
+                className="rounded-full px-4 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+              >
+                {adminLink.label}
+              </Link>
+            </li>
           </ul>
         </nav>
 
         <div className="flex items-center gap-1">
-          {showAdmin && (
-            <Link
-              href="/admin"
-              title="Admin"
-              aria-current={isCurrent("/admin") ? "page" : undefined}
-              className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong lg:flex"
+          <Link
+            href={adminLink.href}
+            title="Admin"
+            aria-current={isCurrent(adminLink.href) ? "page" : undefined}
+            className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong lg:flex xl:hidden"
+          >
+            <span className="sr-only">Admin</span>
+            <svg
+              viewBox="0 0 24 24"
+              className="size-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              <span className="sr-only">Admin</span>
-              <svg
-                viewBox="0 0 24 24"
-                className="size-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4" />
-                <circle cx="16" cy="6" r="2" />
-                <circle cx="8" cy="12" r="2" />
-                <circle cx="14" cy="18" r="2" />
-              </svg>
-            </Link>
-          )}
+              <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4" />
+              <circle cx="16" cy="6" r="2" />
+              <circle cx="8" cy="12" r="2" />
+              <circle cx="14" cy="18" r="2" />
+            </svg>
+          </Link>
           <ThemeToggle />
           <button
             ref={menuButton}
