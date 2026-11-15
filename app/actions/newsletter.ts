@@ -1,5 +1,6 @@
 "use server";
 
+import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
 
 export type SignupState = {
@@ -15,6 +16,22 @@ const received: SignupState = {
   message:
     "Thank you! If you're new here, check your inbox for a link to confirm.",
 };
+
+// Supabase only stores the address and sends no email, so there's no
+// confirmation link to mention.
+const saved: SignupState = {
+  status: "success",
+  message: "Thank you! You're on the list.",
+};
+
+// The publishable key is public by design: the table's Row Level Security only
+// lets it add signups, never read them. See supabase/newsletter_signups.sql.
+function getSupabase() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
 
 const failureMessage =
   "Sorry, that didn't work. Please try again in a little while.";
@@ -43,15 +60,28 @@ export async function subscribe(
   };
 
   const apiKey = process.env.BUTTONDOWN_API_KEY;
-  if (!apiKey) {
-    // Until Buttondown is set up, pretend every signup worked, everywhere,
-    // including the public site. Nothing is saved, so these addresses are lost:
-    // add BUTTONDOWN_API_KEY to switch to real signups. The warning shows in
-    // Vercel's logs as a reminder.
+  const supabase = getSupabase();
+
+  if (supabase) {
+    const { error } = await supabase
+      .from("newsletter_signups")
+      .insert({ email });
+
+    // 23505 means the address is already on the list. Answer as if it were new,
+    // so the form can't reveal who has subscribed.
+    if (error && error.code !== "23505") {
+      console.error("Newsletter signup failed to save:", error.message);
+      return failed;
+    }
+    if (!apiKey) return saved;
+  } else if (!apiKey) {
+    // With neither Supabase nor Buttondown set up, pretend every signup worked,
+    // everywhere, including the public site. Nothing is saved, so these
+    // addresses are lost. The warning shows in Vercel's logs as a reminder.
     console.warn(
-      "Newsletter signup pretended to succeed: BUTTONDOWN_API_KEY is not set",
+      "Newsletter signup pretended to succeed: SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY are not set",
     );
-    return received;
+    return saved;
   }
 
   // Every signup reaches Buttondown from this server, so pass on the visitor's

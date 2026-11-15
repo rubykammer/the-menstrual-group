@@ -112,8 +112,8 @@ export function NewsletterSignup() {
           </p>
 
           <p className="mt-2 text-sm text-muted">
-            We&apos;ll email you a link to confirm. Sent with Buttondown, and you
-            can unsubscribe at any time.
+            We&apos;ll only use your address for this newsletter, and you can
+            unsubscribe at any time.
           </p>
         </div>
       </div>
@@ -146,7 +146,7 @@ export function NewsletterSignup() {
             <div className="grow">
               <p className="font-extrabold">You&apos;re signed up!</p>
               <p className="text-sm text-muted">
-                Check your inbox for a link to confirm.
+                Look out for our next monthly email.
               </p>
             </div>
             <button
