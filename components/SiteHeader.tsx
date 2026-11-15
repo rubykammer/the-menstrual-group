@@ -2,21 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { hasAdminLinkCookie } from "@/lib/adminLink";
 import { navLinks } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
-// The admin pages only exist under `next dev` (see lib/admin.ts), so the link
-// is left out of the live site's header. On wide screens it's an icon beside
-// the theme toggle, because an eighth text link squeezes the logo.
-const showAdmin = process.env.NODE_ENV === "development";
-const mobileLinks = showAdmin
-  ? [...navLinks, { href: "/admin", label: "Admin" }]
-  : navLinks;
+// Cookies have no change event. The header re-renders on every navigation,
+// which re-reads the cookie, so signing in or out updates the link.
+const noSubscription = () => () => {};
 
 export function SiteHeader() {
   const pathname = usePathname();
+  // Only someone signed in to /admin sees the link. On wide screens it's an
+  // icon beside the theme toggle, because an eighth text link squeezes the logo.
+  const showAdmin = useSyncExternalStore(
+    noSubscription,
+    hasAdminLinkCookie,
+    () => false,
+  );
+  const mobileLinks = showAdmin
+    ? [...navLinks, { href: "/admin", label: "Admin" }]
+    : navLinks;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
 

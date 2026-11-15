@@ -45,6 +45,9 @@ Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4
 
 ## Admin
 
-While running `npm run dev`, [http://localhost:3000/admin](http://localhost:3000/admin) lists newsletter signups (with search, CSV download and removal) and the published articles. It has no sign-in yet, so on the live site every `/admin` URL is a 404.
+[/admin](http://localhost:3000/admin) lists newsletter signups (with search, CSV download and removal) and the published articles. Sign in at `/admin/login` with the password in `ADMIN_PASSWORD`. Once you're signed in, an Admin link appears in the header. Sessions last 30 days, and changing the password signs everyone out.
 
-To see signups, copy a **secret** key from Supabase (Project Settings → API Keys) into `.env.local` as `SUPABASE_SECRET_KEY`. It bypasses Row Level Security, so never commit it, never give it a `NEXT_PUBLIC_` name, and don't add it to the live site's environment until the admin has real authentication.
+It needs two settings, in `.env.local` locally and in Vercel under Settings → Environment Variables for the live site:
+
+- `ADMIN_PASSWORD`: a long random password. Without it, the live site has no admin at all (every `/admin` URL is a 404).
+- `SUPABASE_SECRET_KEY`: a **secret** key from Supabase (Project Settings → API Keys), which lets the admin read and delete signups. It bypasses Row Level Security, so never commit it or give it a `NEXT_PUBLIC_` name.

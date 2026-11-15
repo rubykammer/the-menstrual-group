@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getAdminSupabase, requireAdmin, type Signup } from "@/lib/admin";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
-import { deleteSignup } from "./actions";
+import { deleteSignup, signOut } from "./actions";
 import { DeleteButton } from "./DeleteButton";
 
 export const metadata: Metadata = {
@@ -53,7 +53,7 @@ export default async function AdminPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  requireAdmin();
+  await requireAdmin();
 
   const { q } = await searchParams;
   const query = (typeof q === "string" ? q : "").trim().toLowerCase();
@@ -62,10 +62,17 @@ export default async function AdminPage({
 
   return (
     <div className="page-width pt-12 pb-16 sm:pt-16">
-      <p className="text-sm font-bold uppercase tracking-wide text-accent-strong">
-        Only visible while running locally
-      </p>
-      <h1 className="mt-2 text-4xl sm:text-5xl">Admin</h1>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-4xl sm:text-5xl">Admin</h1>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="rounded-full px-4 py-2 font-bold text-muted hover:bg-peach hover:text-primary-strong"
+          >
+            Sign out
+          </button>
+        </form>
+      </div>
 
       <section className="mt-10">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -93,8 +100,9 @@ export default async function AdminPage({
               SUPABASE_SECRET_KEY=sb_secret_…
             </pre>
             <p className="mt-2 text-sm text-muted">
-              Then restart <code>npm run dev</code>. Never commit this key or
-              give it a NEXT_PUBLIC_ name.
+              On the live site, add it in Vercel under Settings → Environment
+              Variables instead. Never commit this key or give it a
+              NEXT_PUBLIC_ name.
             </p>
           </div>
         )}

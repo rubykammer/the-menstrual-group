@@ -7,7 +7,7 @@ function csvCell(value: string) {
 }
 
 export async function GET() {
-  requireAdmin();
+  await requireAdmin();
 
   const supabase = getAdminSupabase();
   if (!supabase) {
