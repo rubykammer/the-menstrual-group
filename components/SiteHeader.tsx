@@ -72,6 +72,27 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1">
           <Link
+            href="/search"
+            title="Search"
+            aria-current={isCurrent("/search") ? "page" : undefined}
+            onClick={() => setMenuOpen(false)}
+            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+          >
+            <span className="sr-only">Search</span>
+            <svg
+              viewBox="0 0 24 24"
+              className="size-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="M16.5 16.5L21 21" />
+            </svg>
+          </Link>
+          <Link
             href={adminLink.href}
             title="Admin"
             aria-current={isCurrent(adminLink.href) ? "page" : undefined}
