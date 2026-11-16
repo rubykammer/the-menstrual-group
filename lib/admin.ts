@@ -13,8 +13,78 @@ function password() {
 }
 
 export function adminConfigured() {
-  return password() !== null;
+  return password() !== null || googleConfigured();
 }
+
+/** Lowercased addresses from ADMIN_EMAILS (comma-separated). */
+export function adminEmails() {
+  return (process.env.ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/** Holds the state and PKCE verifier while the visitor is at Google. */
+export const OAUTH_COOKIE = "tmg_admin_oauth";
+
+/** Must match an "Authorized redirect URI" in Google Cloud exactly. */
+export function googleCallbackUrl(origin: string) {
+  return new URL("/admin/login/google/callback", origin).href;
+}
+
+export function googleConfigured() {
+  return Boolean(
+    process.env.GOOGLE_CLIENT_ID &&
+      process.env.GOOGLE_CLIENT_SECRET &&
+      adminEmails().length > 0,
+  );
+}
+
+/**
+ * Google sessions are signed with a key derived from the client secret, so
+ * rotating the secret signs every Google session out.
+ */
+function googleSigningKey() {
+  const secret = process.env.GOOGLE_CLIENT_SECRET;
+  if (!secret) return null;
+  return createHmac("sha256", secret).update("tmg-admin-google").digest();
+}
+
+function sign(value: string) {
+  const key = googleSigningKey();
+  if (!key) return null;
+  return createHmac("sha256", key).update(value).digest("base64url");
+}
+
+/** A cookie value naming who signed in with Google and until when. */
+export function googleSessionToken(email: string) {
+  const expires = Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000;
+  const payload = `g.${Buffer.from(email).toString("base64url")}.${expires}`;
+  const signature = sign(payload);
+  return signature ? `${payload}.${signature}` : null;
+}
+
+/**
+ * Checks the signature and expiry, and that the address is still in
+ * ADMIN_EMAILS, so removing someone from the list signs them out.
+ */
+function googleSessionValid(cookie: string) {
+  const [prefix, encodedEmail, expires, signature] = cookie.split(".");
+  if (prefix !== "g" || !encodedEmail || !expires || !signature) return false;
+  const expected = sign(`g.${encodedEmail}.${expires}`);
+  if (!expected || !safeEqual(signature, expected)) return false;
+  if (!(Number(expires) > Date.now())) return false;
+  const email = Buffer.from(encodedEmail, "base64url").toString();
+  return adminEmails().includes(email);
+}
+
+export const sessionCookieOptions = {
+  maxAge: SESSION_DAYS * 24 * 60 * 60,
+  path: "/",
+  sameSite: "lax" as const,
+  secure: process.env.NODE_ENV === "production",
+  httpOnly: true,
+};
 
 /**
  * The session cookie holds a value derived from the password, so changing
@@ -38,10 +108,11 @@ export function passwordMatches(attempt: string) {
 }
 
 export async function isSignedIn() {
-  const token = sessionToken();
-  if (!token) return false;
   const cookie = (await cookies()).get(SESSION_COOKIE)?.value;
-  return cookie !== undefined && safeEqual(cookie, token);
+  if (!cookie) return false;
+  if (googleSessionValid(cookie)) return true;
+  const token = sessionToken();
+  return token !== null && safeEqual(cookie, token);
 }
 
 /**
@@ -55,7 +126,7 @@ export async function waitForRequest() {
 
 /**
  * Call at the top of every admin page, route and action. Without an
- * ADMIN_PASSWORD the live site has no admin at all (404), while `next dev`
+ * ADMIN_PASSWORD or Google sign-in set up, the live site has no admin at all (404), while `next dev`
  * sends you to the sign-in page, which explains how to set one.
  */
 export async function requireAdmin() {

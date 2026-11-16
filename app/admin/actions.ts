@@ -5,10 +5,10 @@ import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   SESSION_COOKIE,
-  SESSION_DAYS,
   getAdminSupabase,
   passwordMatches,
   requireAdmin,
+  sessionCookieOptions,
   sessionToken,
 } from "@/lib/admin";
 import { isValidEmail } from "@/lib/email";
@@ -28,13 +28,7 @@ export async function signIn(
     return { error: "That password isn't right." };
   }
 
-  const options = {
-    maxAge: SESSION_DAYS * 24 * 60 * 60,
-    path: "/",
-    sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
-  };
-  (await cookies()).set(SESSION_COOKIE, token, { ...options, httpOnly: true });
+  (await cookies()).set(SESSION_COOKIE, token, sessionCookieOptions);
 
   redirect("/admin");
 }

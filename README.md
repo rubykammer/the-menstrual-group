@@ -45,9 +45,23 @@ Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4
 
 ## Admin
 
-[/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with the password in `ADMIN_PASSWORD`. The header links to it for everyone; the page itself asks for the password. Sessions last 30 days, and changing the password signs everyone out.
+[/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with Google (only addresses in `ADMIN_EMAILS` get in) or, if `ADMIN_PASSWORD` is set, with the password. The header links to it for everyone. Sessions last 30 days. Removing an address from `ADMIN_EMAILS` signs that person out; changing the password signs out password sessions.
 
-It needs two settings, in `.env.local` locally and in Vercel under Settings → Environment Variables for the live site:
+### Google sign-in
 
-- `ADMIN_PASSWORD`: a long random password. Without it, the live site has no admin at all (every `/admin` URL is a 404).
+1. In [Google Cloud Console](https://console.cloud.google.com/apis/credentials), create a project if you don't have one, set up the OAuth consent screen (External, app name, your email), then **Create credentials → OAuth client ID → Web application**.
+2. Under **Authorized redirect URIs**, add both:
+   - `http://localhost:3000/admin/login/google/callback`
+   - `https://<your-domain>/admin/login/google/callback`
+3. Copy the client ID and secret into the settings below.
+
+While the consent screen is in "Testing", add each admin as a test user, or publish the app (the `email` scope needs no review).
+
+### Settings
+
+Set these in `.env.local` locally and in Vercel under Settings → Environment Variables for the live site:
+
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: from the OAuth client above. Never commit the secret or give it a `NEXT_PUBLIC_` name. Changing it signs out every Google session.
+- `ADMIN_EMAILS`: comma-separated Google addresses allowed in, e.g. `you@gmail.com,friend@gmail.com`.
+- `ADMIN_PASSWORD` (optional): a long random password for signing in without Google. Leave it unset to allow Google only. Without either Google or a password, the live site has no admin at all (every `/admin` URL is a 404).
 - `SUPABASE_SECRET_KEY`: a **secret** key from Supabase (Project Settings → API Keys), which lets the admin read and delete signups. It bypasses Row Level Security, so never commit it or give it a `NEXT_PUBLIC_` name.
