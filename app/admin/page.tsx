@@ -333,7 +333,8 @@ function UserList({
         const fromEnv = isEnvAdmin(user.email);
         return (
           <UserRow
-            key={user.email}
+            // Includes the role so a change resets the row's confirm step.
+            key={`${user.email}:${user.role}`}
             email={user.email}
             role={fromEnv ? "admin" : user.role}
             lastSignedIn={user.last_signed_in_at}
