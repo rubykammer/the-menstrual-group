@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAdminSupabase, requireAdmin, type Signup } from "@/lib/admin";
+import { signOut } from "@/app/actions/auth";
+import { getAdminSupabase, type Signup } from "@/lib/admin";
+import { requireAdmin } from "@/lib/auth";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
-import { signOut } from "./actions";
 import { AddSignupForm } from "./AddSignupForm";
 import { SignupRow } from "./SignupRow";
 
@@ -59,7 +60,7 @@ export default async function AdminPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   const { q } = await searchParams;
   const query = (typeof q === "string" ? q : "").trim().toLowerCase();
@@ -70,7 +71,10 @@ export default async function AdminPage({
     <div className="page-width pt-12 pb-16 sm:pt-16">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-4xl sm:text-5xl">Admin</h1>
-        <form action={signOut}>
+        <form action={signOut} className="flex items-center gap-2">
+          {session.email && (
+            <span className="text-sm text-muted">{session.email}</span>
+          )}
           <button
             type="submit"
             className="rounded-full px-4 py-2 font-bold text-muted hover:bg-peach hover:text-primary-strong"

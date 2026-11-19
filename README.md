@@ -43,9 +43,17 @@ New subscribers get a confirmation email from Buttondown before they join the li
 
 Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4.5:1 contrast on the cream background, so they're used for shapes and large headings. Body-sized text and buttons use the `-strong` shades.
 
+## Sign-in and roles
+
+There are two roles. **Members** are anyone who signs in with Google at `/login`. **Admins** are Google accounts listed in `ADMIN_EMAILS`, or anyone using `ADMIN_PASSWORD` at `/admin/login`. Admins can do everything members can. Roles are worked out on every request, so removing an address from `ADMIN_EMAILS` takes away admin straight away (that person stays signed in as a member). Sessions last 30 days.
+
+Which pages need which role is set in `protectedPaths` in `lib/session.ts`: today `/account` needs a member and `/admin` needs an admin. To put another page behind sign-in, add its path there. `proxy.ts` sends visitors without the role to sign in first, and the page should also call `requireUser()` or `requireAdmin()` from `lib/auth.ts` (and so should every server action and route that reads or changes private data), since the proxy only reads the cookie.
+
+The header's person icon links to `/account`, which shows who you're signed in as and lets you sign out.
+
 ## Admin
 
-[/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with Google (only addresses in `ADMIN_EMAILS` get in) or, if `ADMIN_PASSWORD` is set, with the password. The header links to it for everyone. Sessions last 30 days. Removing an address from `ADMIN_EMAILS` signs that person out; changing the password signs out password sessions.
+[/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with Google (only addresses in `ADMIN_EMAILS` get in) or, if `ADMIN_PASSWORD` is set, with the password. The header links to it for everyone. Changing the password signs out password sessions.
 
 ### Google sign-in
 
@@ -55,13 +63,13 @@ Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4
    - `https://<your-domain>/admin/login/google/callback`
 3. Copy the client ID and secret into the settings below.
 
-While the consent screen is in "Testing", add each admin as a test user, or publish the app (the `email` scope needs no review).
+While the consent screen is in "Testing", only test users you add can sign in, admins and members alike, so publish the app before opening sign-in to everyone (the `email` scope needs no review).
 
 ### Settings
 
 Set these in `.env.local` locally and in Vercel under Settings → Environment Variables for the live site:
 
-- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: from the OAuth client above. Never commit the secret or give it a `NEXT_PUBLIC_` name. Changing it signs out every Google session.
-- `ADMIN_EMAILS`: comma-separated Google addresses allowed in, e.g. `you@gmail.com,friend@gmail.com`.
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: from the OAuth client above. With just these set, anyone can sign in as a member. Never commit the secret or give it a `NEXT_PUBLIC_` name. Changing it signs out every Google session.
+- `ADMIN_EMAILS`: comma-separated Google addresses that get the admin role, e.g. `you@gmail.com,friend@gmail.com`.
 - `ADMIN_PASSWORD` (optional): a long random password for signing in without Google. Leave it unset to allow Google only. Without either Google or a password, the live site has no admin at all (every `/admin` URL is a 404).
 - `SUPABASE_SECRET_KEY`: a **secret** key from Supabase (Project Settings → API Keys), which lets the admin read and delete signups. It bypasses Row Level Security, so never commit it or give it a `NEXT_PUBLIC_` name.

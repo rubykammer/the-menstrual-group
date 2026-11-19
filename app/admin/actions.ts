@@ -3,14 +3,14 @@
 import { cookies } from "next/headers";
 import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminSupabase } from "@/lib/admin";
+import { requireAdmin } from "@/lib/auth";
 import {
   SESSION_COOKIE,
-  getAdminSupabase,
   passwordMatches,
-  requireAdmin,
+  passwordSessionToken,
   sessionCookieOptions,
-  sessionToken,
-} from "@/lib/admin";
+} from "@/lib/session";
 import { isValidEmail } from "@/lib/email";
 
 export type SignInState = { error?: string };
@@ -20,7 +20,7 @@ export async function signIn(
   formData: FormData,
 ): Promise<SignInState> {
   const attempt = String(formData.get("password") ?? "");
-  const token = sessionToken();
+  const token = passwordSessionToken();
 
   if (!token || !passwordMatches(attempt)) {
     // Slows down anyone trying passwords one after another.
@@ -31,11 +31,6 @@ export async function signIn(
   (await cookies()).set(SESSION_COOKIE, token, sessionCookieOptions);
 
   redirect("/admin");
-}
-
-export async function signOut() {
-  (await cookies()).delete(SESSION_COOKIE);
-  redirect("/");
 }
 
 export type SignupFormState = {

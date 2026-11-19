@@ -1,4 +1,5 @@
-import { getAdminSupabase, requireAdmin, type Signup } from "@/lib/admin";
+import { getAdminSupabase, type Signup } from "@/lib/admin";
+import { requireAdmin } from "@/lib/auth";
 
 // A leading =, +, - or @ makes spreadsheet apps treat a cell as a formula.
 function csvCell(value: string) {
