@@ -73,7 +73,7 @@ The header's person icon links to `/account`, which shows who you're signed in a
 
 ## Profiles
 
-Signed-in members edit their profile at `/account`: a name (up to 60 characters), a short bio (up to 280) and a photo. The browser crops the photo to a square, shrinks it to 512px and uploads it through a server action. The server checks it really is a JPG, PNG or WebP under 1MB, stores it under a random name in Supabase's public `avatars` bucket, and deletes the old one. Photo links are public, so anyone who has one can see the photo.
+The first time someone signs in with Google, their profile starts with their Google name and a copy of their Google photo (auto-profile). It only fills fields that are empty, and only once, so it never undoes their own changes. Signed-in members edit their profile at `/account`: a name (up to 60 characters), a short bio (up to 280) and a photo. The browser crops the photo to a square, shrinks it to 512px and uploads it through a server action. The server checks it really is a JPG, PNG or WebP under 1MB, stores it under a random name in Supabase's public `avatars` bucket, and deletes the old one. Photo links are public, so anyone who has one can see the photo.
 
 Set it up once, after `supabase/users.sql`: in Supabase, open SQL Editor → New query, paste in `supabase/profiles.sql`, and run it. It adds the profile columns to the `users` table and creates the bucket. Until then, `/account` says profiles aren't set up. People signed in with the admin password have no profile, because the password isn't tied to anyone.
 
@@ -89,7 +89,7 @@ Set it up once, after `supabase/users.sql`: in Supabase, open SQL Editor → New
    - `https://<your-domain>/admin/login/google/callback`
 3. Copy the client ID and secret into the settings below.
 
-While the consent screen is in "Testing", only test users you add can sign in, admins and members alike, so publish the app before opening sign-in to everyone (the `email` scope needs no review).
+While the consent screen is in "Testing", only test users you add can sign in, admins and members alike, so publish the app before opening sign-in to everyone (the `email` and `profile` scopes need no review).
 
 ### Settings
 

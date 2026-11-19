@@ -27,3 +27,10 @@ on conflict (id) do update set
   allowed_mime_types = excluded.allowed_mime_types;
 
 notify pgrst, 'reload schema';
+
+-- When the profile was first filled in from Google (name and photo), so it
+-- only happens once and never overwrites what people change themselves.
+alter table public.users
+  add column if not exists profile_seeded_at timestamptz;
+
+notify pgrst, 'reload schema';

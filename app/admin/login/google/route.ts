@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     client_id: process.env.GOOGLE_CLIENT_ID!,
     redirect_uri: googleCallbackUrl(request.nextUrl.origin),
     response_type: "code",
-    scope: "openid email",
+    scope: "openid email profile",
     state,
     code_challenge: challenge,
     code_challenge_method: "S256",

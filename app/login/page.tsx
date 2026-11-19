@@ -28,7 +28,9 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       <div className="max-w-md">
         <h1 className="text-4xl sm:text-5xl">Sign in</h1>
         <p className="mt-4 text-lg">
-          Sign in with your Google account. We only see your email address.
+          Sign in with your Google account. We use your email to sign you in,
+          and your name and photo to start your profile, which you can change
+          any time.
         </p>
 
         {message && (

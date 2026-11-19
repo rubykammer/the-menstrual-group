@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { seedProfileFromGoogle } from "@/lib/profile";
 import { recordSignIn, roleFor } from "@/lib/roles";
 import { NextResponse, type NextRequest } from "next/server";
 import {
@@ -18,6 +19,9 @@ type IdTokenClaims = {
   exp?: number;
   email?: string;
   email_verified?: boolean;
+  /** With the "profile" scope: their Google name and photo. */
+  name?: string;
+  picture?: string;
 };
 
 function back(request: NextRequest, error: string, next = "/admin") {
@@ -92,6 +96,10 @@ export async function GET(request: NextRequest) {
   }
 
   await recordSignIn(email);
+  await seedProfileFromGoogle(email, {
+    name: claims.name,
+    picture: claims.picture,
+  });
 
   const token = googleSessionToken(email);
   if (!token) return back(request, "google", next);
