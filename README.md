@@ -59,6 +59,12 @@ Which pages need which role is set in `protectedPaths` in `lib/session.ts`: toda
 
 The header's person icon links to `/account`, which shows who you're signed in as and lets you sign out.
 
+## Profiles
+
+Signed-in members edit their profile at `/account`: a name (up to 60 characters), a short bio (up to 280) and a photo. The browser crops the photo to a square, shrinks it to 512px and uploads it through a server action. The server checks it really is a JPG, PNG or WebP under 1MB, stores it under a random name in Supabase's public `avatars` bucket, and deletes the old one. Photo links are public, so anyone who has one can see the photo.
+
+Set it up once, after `supabase/users.sql`: in Supabase, open SQL Editor → New query, paste in `supabase/profiles.sql`, and run it. It adds the profile columns to the `users` table and creates the bucket. Until then, `/account` says profiles aren't set up. People signed in with the admin password have no profile, because the password isn't tied to anyone.
+
 ## Admin
 
 [/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with Google (only addresses in `ADMIN_EMAILS` get in) or, if `ADMIN_PASSWORD` is set, with the password. The header links to it for everyone. Changing the password signs out password sessions.
