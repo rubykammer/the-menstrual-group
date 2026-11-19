@@ -8,11 +8,13 @@ export const site = {
 
 export const navLinks = [
   { href: "/blog", label: "Blog" },
+  { href: "/products", label: "Products" },
   { href: "/your-cycle", label: "Your Cycle" },
   { href: "/partners", label: "Partners" },
   { href: "/dads", label: "Dads" },
   { href: "/friends", label: "Friends" },
   { href: "/quiz", label: "Quizzes" },
+  { href: "/forum", label: "Forum" },
   { href: "/about", label: "About" },
 ];
 

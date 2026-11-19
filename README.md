@@ -29,6 +29,18 @@ sources:
 Your article. Use `##` headings to fill the "In this article" list, and a `>` blockquote for a highlighted note.
 ```
 
+## Period products
+
+`/products` lists period products, and each has its own page at `/products/<slug>` with how it works, pros and cons, who it might suit, tips, a toxic shock syndrome note for anything worn inside, and sources. The content lives in `lib/products.ts`; add an entry there to add a product, and a drawing for it in `components/illustrations/products.tsx`.
+
+## Forum
+
+`/forum` is a members-only forum. Anyone signed in with Google can start a conversation in one of the categories in `lib/forum.ts`, and reply to others. Posts are plain text and show the author's name and photo from their profile, never their email. People can remove their own posts, and admins can remove anyone's; removing a conversation's opening post removes the whole conversation. Each person can post at most 5 times a minute and start 5 conversations an hour.
+
+Set it up once, after `supabase/users.sql` and `supabase/profiles.sql`: in Supabase, open SQL Editor → New query, paste in `supabase/forum.sql`, and run it. Until then, `/forum` says it isn't set up.
+
+To let signed-out visitors read the forum, remove its line from `protectedPaths` in `lib/session.ts` and the `requireUser()` calls in `app/forum`, and think about search engines first: posts are personal.
+
 ## Deploying
 
 Set `NEXT_PUBLIC_SITE_URL` to the live domain so that the sitemap and social links are correct.

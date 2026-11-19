@@ -7,9 +7,9 @@ import { navLinks } from "@/lib/site";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
-// Everyone sees the Admin link; the page itself asks for the password. Between
-// the lg and xl breakpoints it's an icon beside the theme toggle, because an
-// eighth text link there squeezes the logo onto three lines.
+// Everyone sees the Admin link; the page itself asks who you are. With nine
+// main links, the full row only fits from the xl breakpoint, and even then
+// Admin is an icon beside the theme toggle. Narrower screens use the menu.
 const adminLink = { href: "/admin", label: "Admin" };
 const mobileLinks = [...navLinks, adminLink];
 
@@ -39,34 +39,25 @@ export function SiteHeader() {
       <div className="page-width flex h-[4.5rem] items-center justify-between gap-4">
         <Link
           href="/"
-          className="transition-opacity duration-200 hover:opacity-80"
+          className="shrink-0 transition-opacity duration-200 hover:opacity-80 xl:w-[11.5rem]"
           onClick={() => setMenuOpen(false)}
         >
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-1 xl:gap-2">
+        <nav aria-label="Main" className="hidden xl:block">
+          <ul className="flex items-center gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   aria-current={isCurrent(link.href) ? "page" : undefined}
-                  className="rounded-full px-4 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+                  className="rounded-full px-2.5 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
-            <li className="hidden xl:block">
-              <Link
-                href={adminLink.href}
-                aria-current={isCurrent(adminLink.href) ? "page" : undefined}
-                className="rounded-full px-4 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
-              >
-                {adminLink.label}
-              </Link>
-            </li>
           </ul>
         </nav>
 
@@ -96,7 +87,7 @@ export function SiteHeader() {
             href={adminLink.href}
             title="Admin"
             aria-current={isCurrent(adminLink.href) ? "page" : undefined}
-            className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong lg:flex xl:hidden"
+            className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong xl:flex"
           >
             <span className="sr-only">Admin</span>
             <svg
@@ -146,7 +137,7 @@ export function SiteHeader() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach lg:hidden"
+            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach xl:hidden"
           >
             <span className="sr-only">{menuOpen ? "Close" : "Open"} menu</span>
             <svg
@@ -172,7 +163,7 @@ export function SiteHeader() {
         id="mobile-menu"
         aria-label="Main"
         hidden={!menuOpen}
-        className="border-t border-line lg:hidden"
+        className="border-t border-line xl:hidden"
       >
         <ul className="page-width flex flex-col gap-1 py-3">
           {mobileLinks.map((link) => (

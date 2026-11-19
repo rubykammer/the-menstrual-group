@@ -33,6 +33,7 @@ export type Session = {
 export const protectedPaths: { prefix: string; role: Role }[] = [
   { prefix: "/admin", role: "admin" },
   { prefix: "/account", role: "member" },
+  { prefix: "/forum", role: "member" },
 ];
 
 /** Where visitors sign in, so they're never sent there in a loop. */
