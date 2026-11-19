@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { Avatar } from "@/components/Avatar";
+import { PROFILE_UPDATED } from "@/components/SiteHeader";
 import { BIO_MAX, DISPLAY_NAME_MAX, type Profile } from "@/lib/profile";
 import { saveProfile, type ProfileFormState } from "./actions";
 
@@ -66,6 +67,7 @@ export function ProfileForm({
       const result = await saveProfile(previous, formData);
       // Once saved, the page shows the uploaded photo, so drop the local copy.
       if (result.status === "success") {
+        window.dispatchEvent(new Event(PROFILE_UPDATED));
         setPhoto(null);
         setRemoving(false);
         if (fileInput.current) fileInput.current.value = "";

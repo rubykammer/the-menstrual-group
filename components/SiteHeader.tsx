@@ -4,8 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { navLinks } from "@/lib/site";
+import { Avatar } from "./Avatar";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
+
+/** Fired by the profile form after saving, so the header photo updates. */
+export const PROFILE_UPDATED = "tmg:profile-updated";
+
+type Me = { signedIn: boolean; name?: string; avatarUrl?: string | null };
 
 // Everyone sees the Admin link; the page itself asks who you are. With nine
 // main links, the full row only fits from the xl breakpoint, and even then
@@ -17,6 +23,25 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const [me, setMe] = useState<Me | null>(null);
+
+  // Pages are the same for everyone, so ask who's signed in to show their
+  // photo on the account button. Again after moving page (signing in or out
+  // changes the page) and after the profile is saved.
+  useEffect(() => {
+    const controller = new AbortController();
+    const load = () =>
+      fetch("/api/me", { signal: controller.signal })
+        .then((response) => response.json())
+        .then((data: Me) => setMe(data))
+        .catch(() => {});
+    load();
+    window.addEventListener(PROFILE_UPDATED, load);
+    return () => {
+      controller.abort();
+      window.removeEventListener(PROFILE_UPDATED, load);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -115,20 +140,30 @@ export function SiteHeader() {
             onClick={() => setMenuOpen(false)}
             className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
           >
-            <span className="sr-only">Account</span>
-            <svg
-              viewBox="0 0 24 24"
-              className="size-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
-            </svg>
+            <span className="sr-only">
+              {me?.signedIn ? "Your account" : "Account"}
+            </span>
+            {me?.signedIn && (me.avatarUrl || me.name) ? (
+              <Avatar
+                src={me.avatarUrl ?? null}
+                name={me.name ?? ""}
+                size={32}
+              />
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                className="size-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+              </svg>
+            )}
           </Link>
           <ThemeToggle />
           <button
