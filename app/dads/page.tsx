@@ -6,12 +6,14 @@ import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
 import { dadScripts } from "@/lib/partnerScripts";
 import { getPost } from "@/lib/posts";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "For Dads",
+export const metadata: Metadata = pageMetadata({
+  title: "For dads: talking to kids about periods",
   description:
     "A practical guide for dads: how to talk to your kids about periods, what to keep at home, and how to be the calm one.",
-};
+  path: "/dads",
+});
 
 const principles = [
   {

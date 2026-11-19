@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ButtonLink";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
-    "Why The Menstrual Group exists, who it's for, and how articles are written.",
-};
+    "Why The Menstrual Group exists, who it's for, and how its articles on periods and menstrual health are written and sourced.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

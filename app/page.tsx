@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { CycleExplorer } from "@/components/CycleExplorer";
@@ -7,6 +8,19 @@ import { PostCard } from "@/components/PostCard";
 import { QuizCtas } from "@/components/QuizCtas";
 import { doorScenes } from "@/components/illustrations/scenes";
 import { getAllPosts } from "@/lib/posts";
+import { absoluteUrl, organization, pageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: `${site.name}: ${site.tagline}`,
+    description: site.description,
+    path: "/",
+  }),
+  // The home page is the one place without " | The Menstrual Group".
+  title: { absolute: `${site.name}: ${site.tagline}` },
+};
 
 type Door = {
   title: string;
@@ -46,6 +60,17 @@ export default function Home() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: site.name,
+          description: site.description,
+          url: absoluteUrl("/"),
+          inLanguage: "en",
+          publisher: organization(),
+        }}
+      />
       <section className="page-width grid items-center gap-10 pt-12 pb-16 sm:pt-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16 lg:pt-20 lg:pb-24">
         <div>
           <h1 className="text-[2.625rem] min-[375px]:text-5xl sm:text-6xl lg:text-7xl">

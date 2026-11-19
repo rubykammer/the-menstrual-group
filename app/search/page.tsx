@@ -4,11 +4,17 @@ import { SiteSearch } from "@/components/SiteSearch";
 import { getSitePages } from "@/lib/pages";
 import { getAllPosts, searchableText } from "@/lib/posts";
 import type { SearchEntry } from "@/lib/search";
+import { pageMetadata } from "@/lib/seo";
 import { getTopic } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Search",
-  description: "Search every article, guide and quiz on The Menstrual Group.",
+  ...pageMetadata({
+    title: "Search",
+    description:
+      "Search every article, product guide and quiz on The Menstrual Group, from cramps and PMDD to supporting a partner.",
+    path: "/search",
+  }),
+  // Results pages shouldn't be indexed, but their links should be followed.
   robots: { index: false, follow: true },
 };
 

@@ -3,12 +3,14 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { PostCard } from "@/components/PostCard";
 import { phases } from "@/lib/cycle";
 import { getPost } from "@/lib/posts";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Your Cycle",
+export const metadata: Metadata = pageMetadata({
+  title: "Your cycle, phase by phase",
   description:
     "For people who have periods: how to work with each phase of your cycle, and the signs it's time to see a doctor.",
-};
+  path: "/your-cycle",
+});
 
 const seeADoctor = [
   "Your period lasts longer than seven days",

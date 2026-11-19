@@ -7,12 +7,14 @@ import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
 import { phases } from "@/lib/cycle";
 import { getPost } from "@/lib/posts";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "For Partners",
+export const metadata: Metadata = pageMetadata({
+  title: "Supporting a partner on their period",
   description:
     "A practical guide for men and partners without a menstrual cycle: what to know, what to do and what to say.",
-};
+  path: "/partners",
+});
 
 const principles = [
   {

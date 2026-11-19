@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { QuizCardGrid } from "@/components/QuizCtas";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Quizzes",
+export const metadata: Metadata = pageMetadata({
+  title: "Period quizzes for partners, dads and friends",
   description:
     "Quick quizzes for partners, dads and friends: five questions each on how to show up well for someone with a period.",
-};
+  path: "/quiz",
+});
 
 export default function QuizzesPage() {
   return (

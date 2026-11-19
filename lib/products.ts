@@ -11,6 +11,10 @@ export type Product = {
   name: string;
   /** One line for cards and the page's subtitle. */
   tagline: string;
+  /** For search results: under 45 characters before " | The Menstrual Group". */
+  seoTitle: string;
+  /** For search results and share cards: 110 to 160 characters. */
+  seoDescription: string;
   worn: "Inside underwear" | "Inside the vagina" | "As underwear";
   /** How long one can be worn, as the page states it. */
   wearTime: string;
@@ -57,6 +61,9 @@ export const products: Product[] = [
     name: "Pads",
     tagline:
       "The easy starting point: sticks to your underwear, nothing goes inside.",
+    seoTitle: "Pads: pros, cons and who they suit",
+    seoDescription:
+      "How disposable pads work, their pros and cons, and who they suit best. The easiest period product to start with, plus tips for choosing and using them.",
     worn: "Inside underwear",
     wearTime: "Change every 4 to 8 hours, or sooner when full",
     reusable: "Disposable",
@@ -97,6 +104,9 @@ export const products: Product[] = [
     slug: "reusable-pads",
     name: "Reusable pads",
     tagline: "Soft fabric pads you wash and wear again, for years.",
+    seoTitle: "Reusable pads: pros, cons and care",
+    seoDescription:
+      "How reusable cloth pads work, their pros and cons, and how to wash them. Softer, cheaper over time and less waste than disposable pads.",
     worn: "Inside underwear",
     wearTime: "Change every 4 to 8 hours, or sooner when full",
     reusable: "Reusable",
@@ -134,6 +144,9 @@ export const products: Product[] = [
     slug: "tampons",
     name: "Tampons",
     tagline: "Small, discreet and fine for swimming, once you know how.",
+    seoTitle: "Tampons: pros, cons and safe use",
+    seoDescription:
+      "How tampons work, their pros and cons, how to choose an absorbency, and the signs of toxic shock syndrome. Honest, practical guidance.",
     worn: "Inside the vagina",
     wearTime: "Change every 4 to 8 hours, and never longer than the pack says",
     reusable: "Disposable",
@@ -174,6 +187,9 @@ export const products: Product[] = [
     slug: "menstrual-cup",
     name: "Menstrual cup",
     tagline: "A soft, reusable cup that collects blood for up to 12 hours.",
+    seoTitle: "Menstrual cups: pros, cons and tips",
+    seoDescription:
+      "How a menstrual cup works, its pros and cons, who it suits, and tips for getting started. Reusable for years, and holds more than a tampon.",
     worn: "Inside the vagina",
     wearTime: "Empty every 8 to 12 hours, or as the instructions say",
     reusable: "Reusable",
@@ -214,6 +230,9 @@ export const products: Product[] = [
     slug: "menstrual-disc",
     name: "Menstrual disc",
     tagline: "Sits higher than a cup and holds a lot, for up to 12 hours.",
+    seoTitle: "Menstrual discs: pros, cons and tips",
+    seoDescription:
+      "How a menstrual disc works, how it differs from a cup, its pros and cons, and tips for placing and removing it without the mess.",
     worn: "Inside the vagina",
     wearTime: "Empty or change every 8 to 12 hours, or as the instructions say",
     reusable: "Both kinds",
@@ -253,6 +272,9 @@ export const products: Product[] = [
     slug: "period-underwear",
     name: "Period underwear",
     tagline: "Looks like ordinary pants, with absorbent layers built in.",
+    seoTitle: "Period underwear: pros, cons and care",
+    seoDescription:
+      "How period underwear works, its pros and cons, who it suits, and how to wash it. Comfortable, reusable protection for lighter days and nights.",
     worn: "As underwear",
     wearTime: "Up to about 12 hours, depending on flow and brand",
     reusable: "Reusable",
@@ -291,6 +313,9 @@ export const products: Product[] = [
     slug: "panty-liners",
     name: "Panty liners",
     tagline: "Thin backup for light days, spotting or a cup that might leak.",
+    seoTitle: "Panty liners: when to use them",
+    seoDescription:
+      "What panty liners are for, their pros and cons, and when to use them: light days, spotting, or backup with a tampon, cup or disc.",
     worn: "Inside underwear",
     wearTime: "Change every few hours, and whenever damp",
     reusable: "Both kinds",

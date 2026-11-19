@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogListing } from "@/components/BlogListing";
 import { getPostsByTopic } from "@/lib/posts";
-import { getTopic, topics } from "@/lib/site";
+import { getTopic, site, topics } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 // Only published paths exist, so anything else is a real 404
 export const dynamicParams = false;
@@ -18,7 +19,11 @@ export async function generateMetadata({
 }: TopicPageProps): Promise<Metadata> {
   const topic = getTopic((await params).topic);
   if (!topic) return {};
-  return { title: topic.label, description: topic.description };
+  return pageMetadata({
+    title: `${topic.label} articles`,
+    description: `${topic.description} Plain-spoken, sourced articles on periods and menstrual health from ${site.name}.`,
+    path: `/blog/topic/${topic.slug}`,
+  });
 }
 
 export default async function TopicPage({ params }: TopicPageProps) {

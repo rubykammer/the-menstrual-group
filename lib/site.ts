@@ -1,9 +1,22 @@
+/**
+ * The live address, for canonical links, share images and the sitemap. Set
+ * NEXT_PUBLIC_SITE_URL to the real domain; on Vercel it falls back to the
+ * project's production domain, so shared links never point at localhost.
+ */
+function siteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  return "http://localhost:3000";
+}
+
 export const site = {
   name: "The Menstrual Group",
   tagline: "Understanding cycles, together.",
   description:
     "Friendly, honest guidance on menstrual cycles: how they work, how to navigate them, and how to be a great partner to someone who has one.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: siteUrl(),
 };
 
 export const navLinks = [

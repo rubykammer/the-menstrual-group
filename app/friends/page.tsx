@@ -6,12 +6,14 @@ import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
 import { friendScripts } from "@/lib/partnerScripts";
 import { getPost } from "@/lib/posts";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "For Friends",
+export const metadata: Metadata = pageMetadata({
+  title: "How to support a friend on their period",
   description:
     "How to be a good friend or coworker to someone with a period: small, practical things that make a real difference.",
-};
+  path: "/friends",
+});
 
 const principles = [
   {

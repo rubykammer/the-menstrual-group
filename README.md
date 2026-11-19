@@ -43,7 +43,14 @@ To let signed-out visitors read the forum, remove its line from `protectedPaths`
 
 ## Deploying
 
-Set `NEXT_PUBLIC_SITE_URL` to the live domain so that the sitemap and social links are correct.
+Set `NEXT_PUBLIC_SITE_URL` to the live domain (for example `https://themenstrualgroup.com`) so canonical links, share images and the sitemap use it. On Vercel it falls back to the project's production domain if unset.
+
+## Search and sharing
+
+- Every public page sets its title, description, canonical link, and Open Graph and X (Twitter) cards with `pageMetadata()` from `lib/seo.ts`. Keep titles under about 40 characters, since " | The Menstrual Group" is added, and descriptions between 110 and 160.
+- Share images are drawn in code: each `opengraph-image.tsx` picks a title, a label and one of the site's drawings, and `lib/og.tsx` draws the 1200 x 630 card with the site's fonts (in `assets/fonts`). New articles and products get one automatically.
+- Articles include schema.org Article and breadcrumb data, product pages include breadcrumbs, and the home page describes the site, all with `components/JsonLd.tsx`.
+- `app/sitemap.ts` lists every public page with its share image; `app/robots.ts` keeps private pages out of search.
 
 ## Newsletter
 

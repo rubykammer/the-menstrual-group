@@ -5,6 +5,8 @@ import { ProductArt } from "@/components/illustrations/products";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ProductCard } from "@/components/ProductCard";
 import { getProduct, products } from "@/lib/products";
+import { breadcrumbs, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 // Only listed products exist, so anything else is a real 404.
 export const dynamicParams = false;
@@ -20,10 +22,11 @@ export async function generateMetadata({
 }: ProductPageProps): Promise<Metadata> {
   const product = getProduct((await params).slug);
   if (!product) return {};
-  return {
-    title: `${product.name}: pros, cons and who they suit`,
-    description: product.tagline,
-  };
+  return pageMetadata({
+    title: product.seoTitle,
+    description: product.seoDescription,
+    path: `/products/${product.slug}`,
+  });
 }
 
 function Check() {
@@ -77,6 +80,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbs([
+          { name: "Period products", path: "/products" },
+          { name: product.name, path: `/products/${product.slug}` },
+        ])}
+      />
       <article className="page-width pt-8 sm:pt-12">
         <nav aria-label="Breadcrumb" className="text-sm font-bold text-muted">
           <ol className="flex flex-wrap gap-2">

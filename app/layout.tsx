@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Nunito } from "next/font/google";
 import { InlineScript } from "@/components/InlineScript";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -25,11 +25,49 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  keywords: [
+    "periods",
+    "menstrual cycle",
+    "period products",
+    "PMS",
+    "PMDD",
+    "period pain",
+    "supporting a partner",
+    "talking to kids about periods",
+  ],
+  category: "health",
+  // Stops phones turning numbers in articles into phone links.
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
+    title: `${site.name}: ${site.tagline}`,
+    description: site.description,
+    url: "/",
     siteName: site.name,
     type: "website",
     locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name}: ${site.tagline}`,
+    description: site.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+};
+
+/** Matches the page background, so mobile browser bars blend in. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fffbeb" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1714" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

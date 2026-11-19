@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/products";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Period products",
+export const metadata: Metadata = pageMetadata({
+  title: "Period products compared",
   description:
     "Pads, tampons, cups, discs, period underwear and more: how each one works, the pros and cons, and who it might suit.",
-};
+  path: "/products",
+  shareTitle: "Period products compared: pads, tampons, cups and more",
+});
 
 export default function ProductsPage() {
   return (

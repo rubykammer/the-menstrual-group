@@ -7,6 +7,8 @@ import { PostArt } from "@/components/PostArt";
 import { PostCard } from "@/components/PostCard";
 import { formatDate, getAllPosts, getPost, getRelatedPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
+import { absoluteUrl, breadcrumbs, organization, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
 // Only published paths exist, so anything else is a real 404
 export const dynamicParams = false;
@@ -22,16 +24,14 @@ export async function generateMetadata({
 }: ArticlePageProps): Promise<Metadata> {
   const post = getPost((await params).slug);
   if (!post) return {};
-  return {
+  return pageMetadata({
     title: post.title,
     description: post.excerpt,
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: "article",
-      publishedTime: post.date,
-    },
-  };
+    path: `/blog/${post.slug}`,
+    type: "article",
+    publishedTime: post.date,
+    section: getTopic(post.topic)?.label,
+  });
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
@@ -39,9 +39,36 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!post) notFound();
 
   const topic = getTopic(post.topic);
+  const path = `/blog/${post.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          description: post.excerpt,
+          datePublished: post.date,
+          dateModified: post.date,
+          articleSection: topic?.label,
+          inLanguage: "en",
+          image: absoluteUrl(`${path}/opengraph-image`),
+          mainEntityOfPage: absoluteUrl(path),
+          author: organization(),
+          publisher: organization(),
+          citation: post.sources.map((source) => source.url),
+        }}
+      />
+      <JsonLd
+        data={breadcrumbs([
+          { name: "Blog", path: "/blog" },
+          ...(topic
+            ? [{ name: topic.label, path: `/blog/topic/${topic.slug}` }]
+            : []),
+          { name: post.title, path },
+        ])}
+      />
       <article className="page-width pt-8 sm:pt-12">
         <nav aria-label="Breadcrumb" className="text-sm font-bold text-muted">
           <ol className="flex flex-wrap gap-2">

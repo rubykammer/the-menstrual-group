@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Quiz } from "@/components/Quiz";
 import { quizFigures } from "@/components/QuizCtas";
 import { getQuiz, quizzes } from "@/lib/quizzes";
+import { pageMetadata } from "@/lib/seo";
 
 // Only the three quizzes exist, so anything else is a real 404
 export const dynamicParams = false;
@@ -19,7 +20,11 @@ export async function generateMetadata({
 }: QuizPageProps): Promise<Metadata> {
   const quiz = getQuiz((await params).audience);
   if (!quiz) return {};
-  return { title: quiz.title, description: quiz.teaser };
+  return pageMetadata({
+    title: quiz.title,
+    description: `${quiz.teaser} Five quick questions, with every answer explained.`,
+    path: `/quiz/${quiz.slug}`,
+  });
 }
 
 export default async function QuizPage({ params }: QuizPageProps) {
