@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getAdminSupabase } from "@/lib/admin";
 import { requireUser } from "@/lib/auth";
 import { BODY_MAX, TITLE_MAX, TITLE_MIN, getCategory } from "@/lib/forum";
+import { safeNext } from "@/lib/session";
 
 export type ForumFormState = {
   status: "idle" | "success" | "error";
@@ -194,7 +195,12 @@ export async function deletePost(formData: FormData) {
       console.error("Deleting a thread failed:", error.message);
       return;
     }
-    redirect("/forum");
+    // The conversation page no longer exists, so go back to where they were
+    // (their posts list) or to the forum.
+    const back = safeNext(formData.get("returnTo"), "/forum");
+    if (back !== "/account/posts") redirect("/forum");
+    refresh();
+    return;
   }
 
   const { error } = await supabase
@@ -203,4 +209,81 @@ export async function deletePost(formData: FormData) {
     .eq("id", postId);
   if (error) console.error("Deleting a post failed:", error.message);
   refresh();
+}
+
+/**
+ * Edits a post. Only its author can, not admins. On a conversation's opening
+ * post, the author can change the title too.
+ */
+export async function updatePost(
+  _state: ForumFormState,
+  formData: FormData,
+): Promise<ForumFormState> {
+  const postId = Number(formData.get("postId"));
+  if (!Number.isInteger(postId)) return failed("Unknown post.");
+
+  const user = await poster("/account/posts");
+  if (!user) return failed("Sign in with Google to edit.");
+
+  const body = cleanBody(formData);
+  if (!body) return failed("A post can't be empty.");
+  if (body.length > BODY_MAX) {
+    return failed(`Keep it to ${BODY_MAX} characters.`);
+  }
+
+  const supabase = getAdminSupabase();
+  if (!supabase) return failed("The forum isn't set up yet.");
+
+  const { data: post } = await supabase
+    .from("forum_posts")
+    .select("id, thread_id, author_email")
+    .eq("id", postId)
+    .maybeSingle();
+  if (!post || post.author_email !== user.email) {
+    return failed("You can only edit your own posts.");
+  }
+
+  const titleField = formData.get("title");
+  if (titleField !== null) {
+    const title = String(titleField).trim();
+    if (title.length < TITLE_MIN || title.length > TITLE_MAX) {
+      return failed(
+        `Give it a title between ${TITLE_MIN} and ${TITLE_MAX} characters.`,
+      );
+    }
+    // Only the conversation's starter, editing its opening post.
+    const { data: opening } = await supabase
+      .from("forum_posts")
+      .select("id")
+      .eq("thread_id", post.thread_id)
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
+      .limit(1)
+      .single();
+    if (opening?.id !== post.id) {
+      return failed("Only the opening post has a title.");
+    }
+    const { error: titleError } = await supabase
+      .from("forum_threads")
+      .update({ title })
+      .eq("id", post.thread_id)
+      .eq("author_email", user.email);
+    if (titleError) {
+      console.error("Editing a title failed:", titleError.message);
+      return failed("Couldn't save. Please try again.");
+    }
+  }
+
+  const { error } = await supabase
+    .from("forum_posts")
+    .update({ body, edited_at: new Date().toISOString() })
+    .eq("id", postId)
+    .eq("author_email", user.email);
+  if (error) {
+    console.error("Editing a post failed:", error.message);
+    return failed("Couldn't save. Please try again.");
+  }
+
+  refresh();
+  return { status: "success", savedAt: Date.now() };
 }

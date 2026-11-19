@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleBody } from "@/components/ArticleBody";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { PostArt } from "@/components/PostArt";
 import { PostCard } from "@/components/PostCard";
 import { formatDate, getAllPosts, getPost, getRelatedPosts } from "@/lib/posts";
@@ -72,6 +73,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <span aria-hidden="true"> · </span>
             {post.readingMinutes} min read
           </p>
+          <FavoriteButton kind="article" slug={post.slug} className="mt-5" />
         </header>
 
         <div className="mt-8 h-48 overflow-hidden rounded-card sm:h-64 lg:h-80">

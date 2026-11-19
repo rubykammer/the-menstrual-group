@@ -25,7 +25,7 @@ export const quizzes: Quiz[] = [
     title: "How good a period partner are you?",
     teaser: "Five everyday moments. Do you know the move that actually helps?",
     intro:
-      "Five quick questions about the moments that come up in real life. No trick questions, and nobody sees your score.",
+      "Five quick questions about the moments that come up in real life. No trick questions. Sign in to save your score; only you can see it.",
     guideHref: "/partners",
     guideLabel: "Read the partner guide",
     tint: "bg-peach",

@@ -128,7 +128,10 @@ export type Post = {
   id: number;
   body: string;
   createdAt: string;
+  editedAt: string | null;
   author: Author;
+  /** Only the author can edit. */
+  canEdit: boolean;
   canDelete: boolean;
   isOpening: boolean;
 };
@@ -161,7 +164,7 @@ export async function getThread(
 
   const { data: posts, error: postsError } = await supabase
     .from("forum_posts")
-    .select(`id, body, created_at, author_email, ${AUTHOR}`)
+    .select(`id, body, created_at, edited_at, author_email, ${AUTHOR}`)
     .eq("thread_id", id)
     .order("created_at", { ascending: true })
     .order("id", { ascending: true });
@@ -178,10 +181,12 @@ export async function getThread(
         id: row.id as number,
         body: row.body as string,
         createdAt: row.created_at as string,
+        editedAt: (row.edited_at as string | null) ?? null,
         author: toAuthor(
           row.author_email as string,
           row.author as unknown as AuthorRow,
         ),
+        canEdit: row.author_email === viewerEmail,
         canDelete: viewer.isAdmin || row.author_email === viewerEmail,
         isOpening: index === 0,
       })),
@@ -208,4 +213,72 @@ export function timeAgo(iso: string, now = Date.now()) {
     }
   }
   return "just now";
+}
+
+export type MyPost = {
+  id: number;
+  body: string;
+  createdAt: string;
+  editedAt: string | null;
+  isOpening: boolean;
+  thread: { id: number; title: string; category: string };
+};
+
+/** Everything someone has posted, newest first, with its conversation. */
+export async function listMyPosts(
+  email: string,
+): Promise<ForumResult<MyPost[]>> {
+  const supabase = getAdminSupabase();
+  if (!supabase) return { status: "not-set-up" };
+
+  const { data, error } = await supabase
+    .from("forum_posts")
+    .select(
+      "id, body, created_at, edited_at, thread_id, thread:forum_threads(id, title, category)",
+    )
+    .eq("author_email", email.toLowerCase())
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) return failure(error);
+
+  // Which of these posts opened their conversation.
+  const threadIds = [...new Set(data.map((row) => row.thread_id as number))];
+  const openingIds = new Set<number>();
+  if (threadIds.length > 0) {
+    const { data: firsts, error: firstsError } = await supabase
+      .from("forum_posts")
+      .select("id, thread_id")
+      .in("thread_id", threadIds)
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true });
+    if (firstsError) return failure(firstsError);
+    const seen = new Set<number>();
+    for (const row of firsts) {
+      if (seen.has(row.thread_id as number)) continue;
+      seen.add(row.thread_id as number);
+      openingIds.add(row.id as number);
+    }
+  }
+
+  return {
+    status: "ok",
+    data: data.flatMap((row) => {
+      const thread = row.thread as unknown as {
+        id: number;
+        title: string;
+        category: string;
+      } | null;
+      if (!thread) return [];
+      return [
+        {
+          id: row.id as number,
+          body: row.body as string,
+          createdAt: row.created_at as string,
+          editedAt: (row.edited_at as string | null) ?? null,
+          isOpening: openingIds.has(row.id as number),
+          thread,
+        },
+      ];
+    }),
+  };
 }

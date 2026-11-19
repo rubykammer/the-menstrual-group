@@ -60,3 +60,19 @@ export async function recordSignIn(email: string) {
 export function isMissingTable(error: { code?: string }) {
   return error.code === "PGRST205" || error.code === "42P01";
 }
+
+/**
+ * Makes sure the address has a users row, which favourites, quiz results and
+ * forum posts point to. People who signed in before the table existed have
+ * none until their next sign-in.
+ */
+export async function ensureUserRow(email: string) {
+  const supabase = getAdminSupabase();
+  if (!supabase) return;
+  await supabase
+    .from("users")
+    .upsert(
+      { email: email.toLowerCase() },
+      { onConflict: "email", ignoreDuplicates: true },
+    );
+}

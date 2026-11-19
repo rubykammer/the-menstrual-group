@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { saveQuizResult, type SaveQuizResult } from "@/app/actions/quiz";
 import { quizResult, type Quiz as QuizData } from "@/lib/quizzes";
 
 export function Quiz({ quiz }: { quiz: QuizData }) {
@@ -9,6 +10,10 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [saveState, setSaveState] = useState<
+    SaveQuizResult["status"] | "saving" | null
+  >(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const nextButton = useRef<HTMLButtonElement>(null);
   const started = useRef(false);
@@ -37,6 +42,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
   function choose(option: number) {
     if (answered) return;
     setPicked(option);
+    setAnswers((previous) => [...previous, option]);
     if (option === question.answer) setScore((s) => s + 1);
   }
 
@@ -46,6 +52,11 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
       setPicked(null);
     } else {
       setFinished(true);
+      // Signed-in members get the attempt saved to their account.
+      setSaveState("saving");
+      saveQuizResult(quiz.slug, answers)
+        .then((result) => setSaveState(result.status))
+        .catch(() => setSaveState("error"));
     }
   }
 
@@ -54,6 +65,8 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
     setPicked(null);
     setScore(0);
     setFinished(false);
+    setAnswers([]);
+    setSaveState(null);
   }
 
   if (finished) {
@@ -71,6 +84,31 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
           {result.heading}
         </h2>
         <p className="mt-3 max-w-xl text-lg">{result.body}</p>
+        <p className="mt-4 text-muted" role="status">
+          {saveState === "saving" && "Saving your result…"}
+          {saveState === "saved" && (
+            <>
+              Saved to your account.{" "}
+              <Link
+                href="/account/quizzes"
+                className="font-bold text-primary-strong underline"
+              >
+                See your results and how to improve
+              </Link>
+            </>
+          )}
+          {saveState === "signed-out" && (
+            <>
+              <Link
+                href={`/login?${new URLSearchParams({ next: `/quiz/${quiz.slug}` })}`}
+                className="font-bold text-primary-strong underline"
+              >
+                Sign in
+              </Link>{" "}
+              to save your results and see how to improve next time.
+            </>
+          )}
+        </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href={quiz.guideHref}

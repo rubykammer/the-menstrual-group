@@ -77,6 +77,17 @@ The first time someone signs in with Google, their profile starts with their Goo
 
 Set it up once, after `supabase/users.sql`: in Supabase, open SQL Editor → New query, paste in `supabase/profiles.sql`, and run it. It adds the profile columns to the `users` table and creates the bucket. Until then, `/account` says profiles aren't set up. People signed in with the admin password have no profile, because the password isn't tied to anyone.
 
+## Your account
+
+Signed-in members have four pages under `/account`:
+
+- **Profile**: name, bio and photo (see Profiles).
+- **Your posts**: everything they've written in the forum, newest first, with Edit and Remove. Editing a conversation's opening post can change its title too. Only authors can edit; edited posts say "(edited)".
+- **Favourites**: articles and products saved with the **Save to favourites** button on each article and product page.
+- **Quiz results**: every quiz finished while signed in, with latest and best scores and progress over time. "How to improve" lists the questions missed last time, the better answer, why, and an article to read (set per question in `lib/quiz-results.ts`). Scores are worked out on the server from the answers.
+
+Set it up once, after `supabase/forum.sql`: run `supabase/activity.sql` in Supabase's SQL Editor. It adds the favourites and quiz results tables and the edited time on forum posts.
+
 ## Admin
 
 [/admin](http://localhost:3000/admin) manages newsletter signups with full CRUD (add, list and search, edit, remove, plus CSV download) and the published articles. Sign in at `/admin/login` with Google (only addresses in `ADMIN_EMAILS` get in) or, if `ADMIN_PASSWORD` is set, with the password. The header links to it for everyone. Changing the password signs out password sessions.

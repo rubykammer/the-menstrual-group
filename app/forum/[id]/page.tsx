@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { getCategory, getThread, timeAgo } from "@/lib/forum";
 import { AuthorBadge, ForumNotSetUp } from "../parts";
-import { DeletePostButton } from "./DeletePostButton";
+import { PostBody } from "../PostBody";
 import { ReplyForm } from "./ReplyForm";
 
 export const metadata: Metadata = {
@@ -88,13 +88,15 @@ export default async function ThreadPage({ params }: PageProps<"/forum/[id]">) {
                 {timeAgo(post.createdAt)}
               </time>
             </div>
-            {/* Plain text only: line breaks kept, nothing rendered as HTML. */}
-            <p className="mt-4 whitespace-pre-wrap break-words">{post.body}</p>
-            {post.canDelete && (
-              <div className="mt-3 flex justify-end">
-                <DeletePostButton postId={post.id} isOpening={post.isOpening} />
-              </div>
-            )}
+            <PostBody
+              postId={post.id}
+              body={post.body}
+              edited={post.editedAt !== null}
+              canEdit={post.canEdit}
+              canDelete={post.canDelete}
+              isOpening={post.isOpening}
+              title={post.isOpening ? thread.title : undefined}
+            />
           </li>
         ))}
       </ol>

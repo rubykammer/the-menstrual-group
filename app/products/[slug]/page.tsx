@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductArt } from "@/components/illustrations/products";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { ProductCard } from "@/components/ProductCard";
 import { getProduct, products } from "@/lib/products";
 
@@ -96,6 +97,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div>
             <h1 className="text-4xl sm:text-6xl">{product.name}</h1>
             <p className="mt-4 text-lg sm:text-xl">{product.tagline}</p>
+            <FavoriteButton
+              kind="product"
+              slug={product.slug}
+              className="mt-6"
+            />
           </div>
           <div className="aspect-[5/3] overflow-hidden rounded-card">
             <ProductArt slug={product.slug} fit="contain" />
