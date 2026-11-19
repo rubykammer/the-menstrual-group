@@ -2,7 +2,13 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { connection } from "next/server";
 import { cache } from "react";
-import { SESSION_COOKIE, adminConfigured, readSession } from "./session";
+import { roleFor } from "./roles";
+import {
+  SESSION_COOKIE,
+  adminConfigured,
+  readSession,
+  type Session,
+} from "./session";
 
 /**
  * Without this, a build that runs before the sign-in settings are set
@@ -13,10 +19,15 @@ export async function waitForRequest() {
   await connection();
 }
 
-/** The signed-in visitor, or null. Read once per request. */
-export const getSession = cache(async () => {
+/**
+ * The signed-in visitor, or null, with their current role from ADMIN_EMAILS
+ * or the users table. Read once per request.
+ */
+export const getSession = cache(async (): Promise<Session | null> => {
   await waitForRequest();
-  return readSession((await cookies()).get(SESSION_COOKIE)?.value);
+  const session = readSession((await cookies()).get(SESSION_COOKIE)?.value);
+  if (!session?.email) return session;
+  return { ...session, role: await roleFor(session.email) };
 });
 
 /**

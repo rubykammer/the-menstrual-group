@@ -25,15 +25,10 @@ export type Session = {
   email: string | null;
 };
 
-export function hasRole(session: Session | null, role: Role) {
-  if (!session) return false;
-  return role === "member" || session.role === "admin";
-}
-
 /**
  * Which signed-in role each part of the site needs. proxy.ts sends visitors
- * without it to sign in, and each page checks again with requireUser() or
- * requireAdmin(). Add a path here to put it behind sign-in.
+ * who aren't signed in to sign in, and each page checks the role with
+ * requireUser() or requireAdmin(). Add a path here to put it behind sign-in.
  */
 export const protectedPaths: { prefix: string; role: Role }[] = [
   { prefix: "/admin", role: "admin" },
@@ -125,9 +120,9 @@ export function googleSessionToken(email: string) {
 }
 
 /**
- * Checks the signature and expiry. The role is decided on every request from
- * ADMIN_EMAILS, so removing someone from the list takes away admin at once
- * (they stay signed in as a member).
+ * Checks the signature and expiry. The role here comes from ADMIN_EMAILS
+ * alone; getSession() in lib/auth.ts also checks the users table. Either way
+ * it's decided on every request, so a change takes effect at once.
  */
 function googleSession(cookie: string): Session | null {
   const [prefix, encodedEmail, expires, signature] = cookie.split(".");

@@ -45,7 +45,15 @@ Colors live in `app/globals.css`. The brand orange, amber and pink don't reach 4
 
 ## Sign-in and roles
 
-There are two roles. **Members** are anyone who signs in with Google at `/login`. **Admins** are Google accounts listed in `ADMIN_EMAILS`, or anyone using `ADMIN_PASSWORD` at `/admin/login`. Admins can do everything members can. Roles are worked out on every request, so removing an address from `ADMIN_EMAILS` takes away admin straight away (that person stays signed in as a member). Sessions last 30 days.
+There are two roles. **Members** are anyone who signs in with Google at `/login`. **Admins** can do everything members can, plus use `/admin`. Someone is an admin if any of these is true:
+
+- their address is in `ADMIN_EMAILS` (these can't be changed from the admin page, so there's always a way in)
+- an admin made them one in the **Users** section of `/admin`
+- they signed in with `ADMIN_PASSWORD` at `/admin/login`
+
+Roles are checked on every page load, so a change takes effect straight away. Taking admin away leaves that person signed in as a member. Sessions last 30 days.
+
+The Users section lists everyone who has signed in with Google, saved in a Supabase `users` table. Create it once: in Supabase, open SQL Editor → New query, paste in `supabase/users.sql`, and run it. People appear in the list the next time they sign in. Until the table exists, only `ADMIN_EMAILS` and the password make someone an admin. Admins can't change their own role.
 
 Which pages need which role is set in `protectedPaths` in `lib/session.ts`: today `/account` needs a member and `/admin` needs an admin. To put another page behind sign-in, add its path there. `proxy.ts` sends visitors without the role to sign in first, and the page should also call `requireUser()` or `requireAdmin()` from `lib/auth.ts` (and so should every server action and route that reads or changes private data), since the proxy only reads the cookie.
 

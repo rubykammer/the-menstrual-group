@@ -12,6 +12,7 @@ import {
   sessionCookieOptions,
 } from "@/lib/session";
 import { isValidEmail } from "@/lib/email";
+import { isEnvAdmin } from "@/lib/roles";
 
 export type SignInState = { error?: string };
 
@@ -124,6 +125,31 @@ export async function deleteSignup(formData: FormData) {
     .delete()
     .eq("id", id);
   if (error) console.error("Deleting signup failed:", error.message);
+
+  refresh();
+}
+
+/**
+ * Makes someone an admin or a member. Addresses in ADMIN_EMAILS can't be
+ * changed here, and nobody can change their own role, so the page can't
+ * leave the site without an admin.
+ */
+export async function setUserRole(formData: FormData) {
+  const session = await requireAdmin();
+
+  const email = String(formData.get("email") ?? "").toLowerCase();
+  const role = formData.get("role");
+  if (role !== "admin" && role !== "member") return;
+  if (!email || isEnvAdmin(email) || email === session.email) return;
+
+  const supabase = getAdminSupabase();
+  if (!supabase) return;
+
+  const { error } = await supabase
+    .from("users")
+    .update({ role })
+    .eq("email", email);
+  if (error) console.error("Changing a role failed:", error.message);
 
   refresh();
 }

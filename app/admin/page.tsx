@@ -3,10 +3,12 @@ import Link from "next/link";
 import { signOut } from "@/app/actions/auth";
 import { getAdminSupabase, type Signup } from "@/lib/admin";
 import { requireAdmin } from "@/lib/auth";
+import { isEnvAdmin, isMissingTable, type User } from "@/lib/roles";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
 import { AddSignupForm } from "./AddSignupForm";
 import { SignupRow } from "./SignupRow";
+import { UserRow } from "./UserRow";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -46,6 +48,20 @@ async function loadSignups() {
   };
 }
 
+async function loadUsers() {
+  const supabase = getAdminSupabase();
+  if (!supabase) return { status: "no-key" as const };
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("email, role, created_at, last_signed_in_at")
+    .order("last_signed_in_at", { ascending: false });
+
+  if (error && isMissingTable(error)) return { status: "no-table" as const };
+  if (error) return { status: "error" as const, message: error.message };
+  return { status: "ok" as const, users: data as User[] };
+}
+
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-card bg-surface p-5 shadow-soft">
@@ -62,9 +78,10 @@ export default async function AdminPage({
 }) {
   const session = await requireAdmin();
 
-  const { q } = await searchParams;
+  const { q, user } = await searchParams;
   const query = (typeof q === "string" ? q : "").trim().toLowerCase();
-  const result = await loadSignups();
+  const userQuery = (typeof user === "string" ? user : "").trim().toLowerCase();
+  const [result, users] = await Promise.all([loadSignups(), loadUsers()]);
   const posts = getAllPosts();
 
   return (
@@ -165,6 +182,8 @@ export default async function AdminPage({
         )}
       </section>
 
+      <UsersSection users={users} query={userQuery} you={session.email} />
+
       <section className="mt-14">
         <h2 className="text-2xl sm:text-3xl">Articles ({posts.length})</h2>
         <p className="mt-2 text-muted">
@@ -213,6 +232,122 @@ function SignupList({ signups, query }: { signups: Signup[]; query: string }) {
           signedUpLabel={formatTime(signup.created_at)}
         />
       ))}
+    </ul>
+  );
+}
+
+function UsersSection({
+  users,
+  query,
+  you,
+}: {
+  users: Awaited<ReturnType<typeof loadUsers>>;
+  query: string;
+  you: string | null;
+}) {
+  return (
+    <section className="mt-14">
+      <h2 className="text-2xl sm:text-3xl">Users</h2>
+      <p className="mt-2 text-muted">
+        Everyone who has signed in with Google. Admins can use this page;
+        members can see their account page. Changes apply on their next page
+        load.
+      </p>
+
+      {users.status === "no-key" && (
+        <p className="mt-5 rounded-card bg-honey p-6">
+          Add your Supabase secret key (see above) to manage users.
+        </p>
+      )}
+
+      {users.status === "no-table" && (
+        <div className="mt-5 rounded-card bg-honey p-6">
+          <p className="font-bold">Create the users table to manage roles.</p>
+          <p className="mt-2">
+            In Supabase, open SQL Editor → New query, paste in{" "}
+            <code>supabase/users.sql</code> from this project, and run it.
+            People appear here the next time they sign in.
+          </p>
+        </div>
+      )}
+
+      {users.status === "error" && (
+        <p className="mt-5 rounded-card bg-blush p-6">
+          Couldn&apos;t load users: {users.message}
+        </p>
+      )}
+
+      {users.status === "ok" && (
+        <>
+          <form className="mt-6 flex gap-2" role="search">
+            <label htmlFor="admin-user-search" className="sr-only">
+              Search users
+            </label>
+            <input
+              id="admin-user-search"
+              name="user"
+              type="search"
+              defaultValue={query}
+              placeholder="Search by email"
+              className="min-w-0 flex-1 rounded-full border-2 border-line bg-surface px-4 py-2"
+            />
+            <button
+              type="submit"
+              className="rounded-full bg-primary-strong px-5 py-2 font-extrabold text-on-primary hover:bg-primary-hover"
+            >
+              Search
+            </button>
+          </form>
+
+          <UserList
+            users={users.users.filter((u) => u.email.includes(query))}
+            query={query}
+            you={you}
+          />
+        </>
+      )}
+    </section>
+  );
+}
+
+function UserList({
+  users,
+  query,
+  you,
+}: {
+  users: User[];
+  query: string;
+  you: string | null;
+}) {
+  if (users.length === 0) {
+    return (
+      <p className="mt-5 text-muted">
+        {query ? `No users match “${query}”.` : "Nobody has signed in yet."}
+      </p>
+    );
+  }
+
+  return (
+    <ul className="mt-5 divide-y divide-line overflow-hidden rounded-card bg-surface shadow-soft">
+      {users.map((user) => {
+        const fromEnv = isEnvAdmin(user.email);
+        return (
+          <UserRow
+            key={user.email}
+            email={user.email}
+            role={fromEnv ? "admin" : user.role}
+            lastSignedIn={user.last_signed_in_at}
+            lastSignedInLabel={formatTime(user.last_signed_in_at)}
+            locked={
+              fromEnv
+                ? "Set in ADMIN_EMAILS"
+                : user.email === you
+                  ? "That's you"
+                  : undefined
+            }
+          />
+        );
+      })}
     </ul>
   );
 }

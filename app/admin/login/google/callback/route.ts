@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
+import { recordSignIn, roleFor } from "@/lib/roles";
 import { NextResponse, type NextRequest } from "next/server";
 import {
   OAUTH_COOKIE,
   SESSION_COOKIE,
-  adminEmails,
   googleCallbackUrl,
   googleConfigured,
   googleSessionToken,
@@ -87,10 +87,11 @@ export async function GET(request: NextRequest) {
 
   // Anyone can sign in as a member, but signing in from the admin page with
   // an address that isn't an admin's leaves the visitor signed out, as before.
-  const isAdmin = adminEmails().includes(email);
-  if (next.startsWith("/admin") && !isAdmin) {
+  if (next.startsWith("/admin") && (await roleFor(email)) !== "admin") {
     return back(request, "not-allowed");
   }
+
+  await recordSignIn(email);
 
   const token = googleSessionToken(email);
   if (!token) return back(request, "google", next);
