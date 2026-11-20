@@ -2,8 +2,8 @@ import { site } from "@/lib/site";
 
 export function Logo() {
   return (
-    <span className="flex items-center gap-2.5">
-      <svg viewBox="0 0 32 32" className="size-8 shrink-0" aria-hidden="true">
+    <span className="flex items-center gap-2 sm:gap-2.5">
+      <svg viewBox="0 0 32 32" className="size-7 shrink-0 sm:size-8" aria-hidden="true">
         <circle
           cx="16"
           cy="16"
@@ -25,7 +25,7 @@ export function Logo() {
           strokeWidth="6"
         />
       </svg>
-      <span className="font-display text-lg leading-tight font-semibold tracking-tight sm:text-xl">
+      <span className="font-display text-base leading-tight font-semibold tracking-tight min-[400px]:text-lg sm:text-xl lg:text-lg xl:text-xl">
         {site.name}
       </span>
     </span>

@@ -124,6 +124,10 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
             Try again
           </button>
         </div>
+        <ShareResult
+          title={quiz.title}
+          text={`I got "${result.heading}" (${score} out of ${total}) on "${quiz.title}". How about you?`}
+        />
       </div>
     );
   }
@@ -214,5 +218,51 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
         </button>
       )}
     </div>
+  );
+}
+
+/** Uses the phone's share sheet where there is one, else copies a link. */
+function ShareResult({ title, text }: { title: string; text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function share() {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+      } catch {
+        // Closing the share sheet isn't an error worth showing
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(`${text} ${url}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Clipboard blocked: nothing more we can do
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={share}
+      className="-ml-4 mt-4 inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 font-extrabold text-primary-strong transition-colors duration-200 hover:bg-peach"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />
+      </svg>
+      <span aria-live="polite">{copied ? "Link copied" : "Share your result"}</span>
+    </button>
   );
 }

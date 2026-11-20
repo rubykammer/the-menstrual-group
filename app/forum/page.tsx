@@ -43,9 +43,9 @@ export default async function ForumPage({ searchParams }: PageProps<"/forum">) {
 
       <nav
         aria-label="Forum categories"
-        className="mt-10 -mx-4 overflow-x-auto px-4"
+        className="mt-10"
       >
-        <ul className="flex gap-1">
+        <ul className="flex flex-wrap gap-1">
           <li>
             <Link
               href="/forum"

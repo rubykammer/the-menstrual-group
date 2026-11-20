@@ -13,16 +13,32 @@ export const PROFILE_UPDATED = "tmg:profile-updated";
 
 type Me = { signedIn: boolean; name?: string; avatarUrl?: string | null };
 
-// Everyone sees the Admin link; the page itself asks who you are. With nine
-// main links, the full row only fits from the xl breakpoint, and even then
-// Admin is an icon beside the theme toggle. Narrower screens use the menu.
+// Everyone sees the Admin link; the page itself asks who you are. The pages
+// for partners, dads and friends share one "For loved ones" menu, so the
+// full row fits from the lg breakpoint. Narrower screens use the menu.
 const adminLink = { href: "/admin", label: "Admin" };
-const mobileLinks = [...navLinks, adminLink];
+const lovedOnesHrefs = new Set(["/partners", "/dads", "/friends"]);
+const lovedOnesLinks = navLinks.filter((link) => lovedOnesHrefs.has(link.href));
+// The group sits where the first of its links was in the list
+const lovedOnesAt = navLinks.findIndex((link) => lovedOnesHrefs.has(link.href));
+const mainBefore = navLinks.slice(0, lovedOnesAt);
+const mainAfter = navLinks
+  .slice(lovedOnesAt)
+  .filter((link) => !lovedOnesHrefs.has(link.href));
+
+const pill =
+  "rounded-full px-2 py-2 font-bold xl:px-2.5 whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong";
+// 40px on phones so the logo and three buttons fit a 360px screen
+const iconButton =
+  "flex size-10 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong sm:size-11";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [lovedOpen, setLovedOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const lovedButton = useRef<HTMLButtonElement>(null);
+  const lovedMenu = useRef<HTMLLIElement>(null);
   const [me, setMe] = useState<Me | null>(null);
 
   // Pages are the same for everyone, so ask who's signed in to show their
@@ -43,6 +59,14 @@ export function SiteHeader() {
     };
   }, [pathname]);
 
+  // Close both menus when the page changes
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setMenuOpen(false);
+    setLovedOpen(false);
+  }
+
   useEffect(() => {
     if (!menuOpen) return;
     function closeOnEscape(event: KeyboardEvent) {
@@ -55,44 +79,127 @@ export function SiteHeader() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!lovedOpen) return;
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setLovedOpen(false);
+        lovedButton.current?.focus();
+      }
+    }
+    function closeOnOutside(event: Event) {
+      if (!lovedMenu.current?.contains(event.target as Node)) {
+        setLovedOpen(false);
+      }
+    }
+    document.addEventListener("keydown", closeOnEscape);
+    document.addEventListener("pointerdown", closeOnOutside);
+    document.addEventListener("focusin", closeOnOutside);
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.removeEventListener("pointerdown", closeOnOutside);
+      document.removeEventListener("focusin", closeOnOutside);
+    };
+  }, [lovedOpen]);
+
   function isCurrent(href: string) {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
+  const inLovedOnes = lovedOnesLinks.some((link) => isCurrent(link.href));
+
+  const mainLink = (link: { href: string; label: string }) => (
+    <li key={link.href}>
+      <Link
+        href={link.href}
+        aria-current={isCurrent(link.href) ? "page" : undefined}
+        className={pill}
+      >
+        {link.label}
+      </Link>
+    </li>
+  );
+
+  const mobileLink = (link: { href: string; label: string }) => (
+    <li key={link.href}>
+      <Link
+        href={link.href}
+        aria-current={isCurrent(link.href) ? "page" : undefined}
+        onClick={() => setMenuOpen(false)}
+        className="block rounded-2xl px-4 py-3 text-lg font-bold transition-colors duration-200 hover:bg-peach aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+      >
+        {link.label}
+      </Link>
+    </li>
+  );
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-background/90 backdrop-blur-sm">
-      <div className="page-width flex h-[4.5rem] items-center justify-between gap-4">
+      <div className="page-width flex h-[4.5rem] items-center justify-between gap-2 sm:gap-4">
         <Link
           href="/"
-          className="shrink-0 transition-opacity duration-200 hover:opacity-80 xl:w-[11.5rem]"
+          className="shrink-0 transition-opacity duration-200 hover:opacity-80"
           onClick={() => setMenuOpen(false)}
         >
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden xl:block">
-          <ul className="flex items-center gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={isCurrent(link.href) ? "page" : undefined}
-                  className="rounded-full px-2.5 py-2 font-bold whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center xl:gap-1">
+            {mainBefore.map(mainLink)}
+            <li ref={lovedMenu} className="relative">
+              <button
+                ref={lovedButton}
+                type="button"
+                aria-expanded={lovedOpen}
+                aria-controls="loved-ones-menu"
+                data-current={inLovedOnes || undefined}
+                onClick={() => setLovedOpen((open) => !open)}
+                className={`${pill} flex cursor-pointer items-center gap-1 data-current:bg-peach data-current:text-primary-strong`}
+              >
+                For loved ones
+                <svg
+                  viewBox="0 0 24 24"
+                  className={`size-4 transition-transform duration-200 ${lovedOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <ul
+                id="loved-ones-menu"
+                hidden={!lovedOpen}
+                className="animate-toast-in absolute top-full left-0 mt-2 w-56 rounded-2xl border border-line bg-surface p-2 shadow-soft"
+              >
+                {lovedOnesLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      aria-current={isCurrent(link.href) ? "page" : undefined}
+                      onClick={() => setLovedOpen(false)}
+                      className="block rounded-xl px-3 py-2 font-bold transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+                    >
+                      For {link.label.toLowerCase()}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+            {mainAfter.map(mainLink)}
           </ul>
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center sm:gap-1">
           <Link
             href="/search"
             title="Search"
             aria-current={isCurrent("/search") ? "page" : undefined}
             onClick={() => setMenuOpen(false)}
-            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+            className={iconButton}
           >
             <span className="sr-only">Search</span>
             <svg
@@ -112,7 +219,7 @@ export function SiteHeader() {
             href={adminLink.href}
             title="Admin"
             aria-current={isCurrent(adminLink.href) ? "page" : undefined}
-            className="hidden size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong xl:flex"
+            className={`${iconButton} hidden! xl:flex!`}
           >
             <span className="sr-only">Admin</span>
             <svg
@@ -138,12 +245,19 @@ export function SiteHeader() {
               isCurrent("/account") || isCurrent("/login") ? "page" : undefined
             }
             onClick={() => setMenuOpen(false)}
-            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+            className={iconButton}
           >
             <span className="sr-only">
               {me?.signedIn ? "Your account" : "Account"}
             </span>
-            {me?.signedIn && (me.avatarUrl || me.name) ? (
+            {me === null ? (
+              // Still asking who's signed in: a soft placeholder, so the
+              // photo doesn't replace a person icon a moment later
+              <span
+                className="size-8 animate-pulse rounded-full bg-peach"
+                aria-hidden="true"
+              />
+            ) : me.signedIn && (me.avatarUrl || me.name) ? (
               <Avatar
                 src={me.avatarUrl ?? null}
                 name={me.name ?? ""}
@@ -165,14 +279,16 @@ export function SiteHeader() {
               </svg>
             )}
           </Link>
-          <ThemeToggle />
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
           <button
             ref={menuButton}
             type="button"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex size-11 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach xl:hidden"
+            className={`${iconButton} cursor-pointer lg:hidden`}
           >
             <span className="sr-only">{menuOpen ? "Close" : "Open"} menu</span>
             <svg
@@ -198,21 +314,25 @@ export function SiteHeader() {
         id="mobile-menu"
         aria-label="Main"
         hidden={!menuOpen}
-        className="border-t border-line xl:hidden"
+        className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-line lg:hidden"
       >
         <ul className="page-width flex flex-col gap-1 py-3">
-          {mobileLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                aria-current={isCurrent(link.href) ? "page" : undefined}
-                onClick={() => setMenuOpen(false)}
-                className="block rounded-2xl px-4 py-3 text-lg font-bold transition-colors duration-200 hover:bg-peach aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {mainBefore.map(mobileLink)}
+          <li>
+            <p className="px-4 pt-3 pb-1 text-sm font-extrabold tracking-wide text-muted uppercase">
+              For loved ones
+            </p>
+            <ul className="flex flex-col gap-1">
+              {lovedOnesLinks.map(mobileLink)}
+            </ul>
+          </li>
+          <li aria-hidden="true" className="mx-4 my-2 border-t border-line" />
+          {mainAfter.map(mobileLink)}
+          {mobileLink(adminLink)}
+          <li className="flex items-center justify-between rounded-2xl px-4 py-1 sm:hidden">
+            <span className="text-lg font-bold">Theme</span>
+            <ThemeToggle />
+          </li>
         </ul>
       </nav>
     </header>

@@ -5,6 +5,7 @@ import { ArticleBody } from "@/components/ArticleBody";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { PostArt } from "@/components/PostArt";
 import { PostCard } from "@/components/PostCard";
+import { ReadingProgress } from "@/components/ReadingProgress";
 import { formatDate, getAllPosts, getPost, getRelatedPosts } from "@/lib/posts";
 import { getTopic } from "@/lib/site";
 import { absoluteUrl, breadcrumbs, organization, pageMetadata } from "@/lib/seo";
@@ -129,7 +130,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </ul>
           </nav>
 
-          <div className="min-w-0 max-w-[42rem]">
+          <div id="article-text" className="min-w-0 max-w-[42rem]">
+            <ReadingProgress target="article-text" />
             <ArticleBody content={post.content} />
 
             <footer className="mt-12 border-t border-line pt-6">

@@ -89,12 +89,18 @@ export default function Home() {
             </ButtonLink>
           </div>
         </div>
-        <CycleRing className="mx-auto w-full max-w-[15rem] sm:max-w-sm lg:max-w-none" />
+        {/* Decorative, so phones skip it and reach the quizzes sooner */}
+        <div className="hidden sm:block">
+          <CycleRing className="mx-auto w-full max-w-sm lg:max-w-none" />
+          <p className="mt-2 text-center text-sm font-bold text-muted" aria-hidden="true">
+            Hover over or tap a day to see its phase
+          </p>
+        </div>
       </section>
 
       <QuizCtas />
 
-      <section aria-labelledby="doors-heading" className="page-width mt-20">
+      <section aria-labelledby="doors-heading" className="page-width mt-14 sm:mt-20">
         <h2 id="doors-heading" className="sr-only">
           Where would you like to start?
         </h2>
@@ -144,7 +150,7 @@ export default function Home() {
       <section
         id="the-cycle"
         aria-labelledby="cycle-heading"
-        className="mt-20 bg-peach py-16 sm:py-20"
+        className="mt-14 bg-peach py-14 sm:mt-20 sm:py-20"
       >
         <div className="page-width">
           <div className="max-w-2xl">
@@ -163,7 +169,7 @@ export default function Home() {
       <section
         id="myths"
         aria-labelledby="myths-heading"
-        className="page-width mt-20"
+        className="page-width mt-14 sm:mt-20"
       >
         <div className="max-w-2xl">
           <h2 id="myths-heading" className="text-3xl sm:text-4xl">
@@ -177,7 +183,24 @@ export default function Home() {
         <MythList />
       </section>
 
-      <section aria-labelledby="latest-heading" className="page-width mt-20">
+      <section aria-labelledby="forum-heading" className="page-width mt-14 sm:mt-20">
+        <div className="flex flex-col gap-6 rounded-card bg-blush p-6 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <div className="max-w-2xl">
+            <h2 id="forum-heading" className="text-2xl sm:text-3xl">
+              Talk to people who get it
+            </h2>
+            <p className="mt-2 text-lg">
+              Swap tips on products, pain and moods, or ask how to support
+              someone. The forum is members-only, so it stays a kind place.
+            </p>
+          </div>
+          <ButtonLink href="/forum" className="shrink-0 self-start sm:self-auto">
+            Join the conversation
+          </ButtonLink>
+        </div>
+      </section>
+
+      <section aria-labelledby="latest-heading" className="page-width mt-14 sm:mt-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 id="latest-heading" className="text-3xl sm:text-4xl">
             Latest from the blog
@@ -198,7 +221,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="page-width mt-20">
+      <section className="page-width mt-14 sm:mt-20">
         <div className="rounded-card bg-panel px-6 py-12 text-on-panel sm:px-12 sm:py-16">
           <p className="max-w-3xl font-display text-3xl leading-tight font-semibold sm:text-4xl">
             Ask what helps. Do it without being asked twice.
