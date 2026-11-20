@@ -3,6 +3,7 @@ import { Fraunces, Nunito } from "next/font/google";
 import { InlineScript } from "@/components/InlineScript";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { absoluteUrl } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { themeScript } from "@/lib/theme";
 import "./globals.css";
@@ -81,6 +82,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <InlineScript html={themeScript} />
+        {/* Not in the Open Graph standard, and Next.js's metadata has no
+            option for it, but some link checkers (such as Orca Scan's)
+            expect it. */}
+        <meta property="og:logo" content={absoluteUrl("/apple-icon")} />
       </head>
       <body className="flex min-h-full flex-col">
         <a
