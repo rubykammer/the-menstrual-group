@@ -46,12 +46,19 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-line">
-        <p className="page-width py-6 text-sm text-muted">
-          This site is for general education and isn&apos;t a substitute for
-          medical advice. If you&apos;re worried about your health, talk to a
-          healthcare professional. In an emergency, call your local emergency
-          number.
-        </p>
+        <div className="page-width py-6 text-sm text-muted">
+          <p>
+            This site is for general education and isn&apos;t a substitute for
+            medical advice. If you&apos;re worried about your health, talk to a
+            healthcare professional. In an emergency, call your local emergency
+            number.
+          </p>
+          <p className="mt-3">
+            <Link href="/privacy" className="footer-link">
+              Privacy policy
+            </Link>
+          </p>
+        </div>
       </div>
     </footer>
   );

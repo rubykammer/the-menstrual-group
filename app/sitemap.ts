@@ -72,5 +72,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }),
     ),
     entry("/about", { priority: 0.4, changeFrequency: "yearly" }),
+    entry("/privacy", { priority: 0.2, changeFrequency: "yearly" }),
   ];
 }
