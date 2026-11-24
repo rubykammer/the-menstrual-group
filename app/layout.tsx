@@ -8,10 +8,11 @@ import { site } from "@/lib/site";
 import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
+// No extra axes: nothing sets the SOFT axis, and loading it made the font
+// file every page preloads much larger.
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  axes: ["SOFT"],
 });
 
 const nunito = Nunito({

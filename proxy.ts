@@ -27,6 +27,9 @@ export function proxy(request: NextRequest) {
   return NextResponse.redirect(login);
 }
 
+// Only the protected areas (see protectedPaths in lib/session.ts), so public
+// pages, assets and share images are served without running the proxy.
+// Matchers must be written out here: Next.js reads them at build time.
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg).*)"],
+  matcher: ["/admin/:path*", "/account/:path*", "/forum/:path*"],
 };

@@ -30,6 +30,7 @@ export type Session = {
  * who aren't signed in to sign in, and each page checks the role with
  * requireUser() or requireAdmin(). Add a path here to put it behind sign-in.
  */
+// Keep the matcher in proxy.ts in step with these prefixes.
 export const protectedPaths: { prefix: string; role: Role }[] = [
   { prefix: "/admin", role: "admin" },
   { prefix: "/account", role: "member" },
