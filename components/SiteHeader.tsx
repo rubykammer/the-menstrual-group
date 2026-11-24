@@ -232,10 +232,9 @@ export function SiteHeader() {
               strokeLinejoin="round"
               aria-hidden="true"
             >
-              <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4" />
-              <circle cx="16" cy="6" r="2" />
-              <circle cx="8" cy="12" r="2" />
-              <circle cx="14" cy="18" r="2" />
+              {/* A shield, so it doesn't read as a filter control */}
+              <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
+              <path d="M9 12l2 2 4-4" />
             </svg>
           </Link>
           <Link
