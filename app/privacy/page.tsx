@@ -45,9 +45,9 @@ export default function PrivacyPage() {
         <section className="mt-12">
           <h2 className="text-2xl sm:text-3xl">Analytics</h2>
           <p className="mt-3 text-lg">
-            Only if you accept, we use Vercel Web Analytics and Speed Insights
-            to count page views, a few actions (such as finishing a quiz or
-            joining the newsletter) and how fast pages load. They don&apos;t set
+            Only if you accept, we use Umami to count page views and a few
+            actions (such as finishing a quiz or joining the newsletter), and
+            Vercel Speed Insights to measure how fast pages load. They don&apos;t set
             cookies or build a profile of you, and we strip anything after the
             &quot;?&quot; in page addresses before it&apos;s sent. If you
             decline, none of this loads.
