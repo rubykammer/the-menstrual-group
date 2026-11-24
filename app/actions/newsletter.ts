@@ -3,6 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
 import { isValidEmail } from "@/lib/email";
+import { trackServer } from "@/lib/track-server";
 
 export type SignupState = {
   status: "idle" | "success" | "error";
@@ -74,7 +75,11 @@ export async function subscribe(
       console.error("Newsletter signup failed to save:", error.message);
       return failed;
     }
-    if (!apiKey) return saved;
+    if (!apiKey) {
+      // Only new addresses count, not repeats of one already on the list.
+      if (!error) await trackServer("Newsletter Signup");
+      return saved;
+    }
   } else if (!apiKey) {
     // With neither Supabase nor Buttondown set up, pretend every signup worked,
     // everywhere, including the public site. Nothing is saved, so these
@@ -101,6 +106,8 @@ export async function subscribe(
       signal: AbortSignal.timeout(8000),
     });
 
+    // 400 means the address was already on the list, so it isn't counted.
+    if (response.ok) await trackServer("Newsletter Signup");
     if (response.ok || response.status === 400) return received;
     console.error(`Newsletter signup failed: status ${response.status}`);
   } catch (error) {

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { seedProfileFromGoogle } from "@/lib/profile";
 import { recordSignIn, roleFor } from "@/lib/roles";
+import { trackServer } from "@/lib/track-server";
 import { NextResponse, type NextRequest } from "next/server";
 import {
   OAUTH_COOKIE,
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
     return back(request, "not-allowed");
   }
 
-  await recordSignIn(email);
+  const firstSignIn = await recordSignIn(email);
   await seedProfileFromGoogle(email, {
     name: claims.name,
     picture: claims.picture,
@@ -104,6 +105,11 @@ export async function GET(request: NextRequest) {
   const token = googleSessionToken(email);
   if (!token) return back(request, "google", next);
   jar.set(SESSION_COOKIE, token, sessionCookieOptions);
+
+  // Admin sign-ins aren't member activity.
+  if (!next.startsWith("/admin")) {
+    await trackServer(firstSignIn ? "Sign Up" : "Sign In");
+  }
 
   return NextResponse.redirect(new URL(next, request.url));
 }

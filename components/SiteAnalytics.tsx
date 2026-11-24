@@ -1,0 +1,40 @@
+"use client";
+
+import { track } from "@vercel/analytics";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import {
+  cleanUrl,
+  type AnalyticsEvent,
+  type AnalyticsEvents,
+} from "@/lib/analytics";
+
+/**
+ * Vercel Web Analytics (page views and events) and Speed Insights (real-world
+ * page speed). Both are cookieless and anonymous. Admin pages are left out so
+ * our own visits don't count, and query strings are stripped (see cleanUrl).
+ */
+export function SiteAnalytics() {
+  return (
+    <>
+      <Analytics
+        beforeSend={(event) => {
+          if (new URL(event.url).pathname.startsWith("/admin")) return null;
+          return { ...event, url: cleanUrl(event.url) };
+        }}
+      />
+      <SpeedInsights
+        beforeSend={(event) => ({ ...event, url: cleanUrl(event.url) })}
+      />
+    </>
+  );
+}
+
+/** Records a custom event from the browser. */
+export function trackClient<E extends AnalyticsEvent>(
+  ...[event, properties]: AnalyticsEvents[E] extends undefined
+    ? [event: E]
+    : [event: E, properties: AnalyticsEvents[E]]
+) {
+  track(event, properties);
+}

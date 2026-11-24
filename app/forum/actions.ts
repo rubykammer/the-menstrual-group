@@ -6,6 +6,7 @@ import { getAdminSupabase } from "@/lib/admin";
 import { requireUser } from "@/lib/auth";
 import { BODY_MAX, TITLE_MAX, TITLE_MIN, getCategory } from "@/lib/forum";
 import { safeNext } from "@/lib/session";
+import { trackServer } from "@/lib/track-server";
 
 export type ForumFormState = {
   status: "idle" | "success" | "error";
@@ -106,6 +107,7 @@ export async function createThread(
     return failed("Couldn't post. Please try again.");
   }
 
+  await trackServer("Forum Thread Started", { category: category.slug });
   redirect(`/forum/${thread.id}`);
 }
 
@@ -150,6 +152,7 @@ export async function createReply(
     return failed("Couldn't post. Please try again.");
   }
 
+  await trackServer("Forum Reply");
   refresh();
   return { status: "success", savedAt: Date.now() };
 }

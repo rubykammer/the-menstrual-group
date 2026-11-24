@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { saveQuizResult, type SaveQuizResult } from "@/app/actions/quiz";
 import { quizResult, type Quiz as QuizData } from "@/lib/quizzes";
+import { trackClient } from "./SiteAnalytics";
 
 export function Quiz({ quiz }: { quiz: QuizData }) {
   const [index, setIndex] = useState(0);
@@ -52,6 +53,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
       setPicked(null);
     } else {
       setFinished(true);
+      trackClient("Quiz Completed", { quiz: quiz.slug });
       // Signed-in members get the attempt saved to their account.
       setSaveState("saving");
       saveQuizResult(quiz.slug, answers)
@@ -125,6 +127,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
           </button>
         </div>
         <ShareResult
+          quiz={quiz.slug}
           title={quiz.title}
           text={`I got "${result.heading}" (${score} out of ${total}) on "${quiz.title}". How about you?`}
         />
@@ -222,7 +225,15 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
 }
 
 /** Uses the phone's share sheet where there is one, else copies a link. */
-function ShareResult({ title, text }: { title: string; text: string }) {
+function ShareResult({
+  quiz,
+  title,
+  text,
+}: {
+  quiz: string;
+  title: string;
+  text: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   async function share() {
@@ -230,6 +241,7 @@ function ShareResult({ title, text }: { title: string; text: string }) {
     if (navigator.share) {
       try {
         await navigator.share({ title, text, url });
+        trackClient("Quiz Result Shared", { quiz });
       } catch {
         // Closing the share sheet isn't an error worth showing
       }
@@ -237,6 +249,7 @@ function ShareResult({ title, text }: { title: string; text: string }) {
     }
     try {
       await navigator.clipboard.writeText(`${text} ${url}`);
+      trackClient("Quiz Result Shared", { quiz });
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {

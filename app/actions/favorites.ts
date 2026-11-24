@@ -5,6 +5,7 @@ import { getAdminSupabase } from "@/lib/admin";
 import { getSession } from "@/lib/auth";
 import { favoriteExists, isFavoriteKind } from "@/lib/favorites";
 import { ensureUserRow } from "@/lib/roles";
+import { trackServer } from "@/lib/track-server";
 
 export type FavoriteResult =
   | { status: "ok"; saved: boolean }
@@ -44,6 +45,7 @@ export async function setFavorite(
       console.error("Saving a favourite failed:", error.message);
       return { status: "error" };
     }
+    await trackServer("Favorite Saved", { kind });
   } else {
     const { error } = await supabase
       .from("favorites")

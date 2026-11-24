@@ -41,9 +41,19 @@ export async function roleFor(email: string): Promise<Role> {
 }
 
 /** Adds the address on its first sign-in, keeping any role it already has. */
-export async function recordSignIn(email: string) {
+/**
+ * Notes the sign-in time. Returns true for someone's first sign-in (no users
+ * row yet), false otherwise, and null when that can't be told.
+ */
+export async function recordSignIn(email: string): Promise<boolean | null> {
   const supabase = getAdminSupabase();
-  if (!supabase) return;
+  if (!supabase) return null;
+  const { data: existing, error: lookupError } = await supabase
+    .from("users")
+    .select("email")
+    .eq("email", email.toLowerCase())
+    .maybeSingle();
+  const firstSignIn = lookupError ? null : existing === null;
   const { error } = await supabase.from("users").upsert(
     {
       email: email.toLowerCase(),
@@ -54,6 +64,7 @@ export async function recordSignIn(email: string) {
   if (error && !isMissingTable(error)) {
     console.error("Recording a sign-in failed:", error.message);
   }
+  return firstSignIn;
 }
 
 // PostgREST's and Postgres's codes for "that table doesn't exist".

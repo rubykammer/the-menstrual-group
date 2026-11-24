@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Nunito } from "next/font/google";
 import { InlineScript } from "@/components/InlineScript";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { absoluteUrl } from "@/lib/seo";
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <SiteAnalytics />
       </body>
     </html>
   );
