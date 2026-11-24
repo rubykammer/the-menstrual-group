@@ -3,8 +3,9 @@ import { getSession } from "@/lib/auth";
 import { getProfile } from "@/lib/profile";
 
 /**
- * Who's signed in, for the header's account button: just a name and photo,
- * never the email. Pages are the same for everyone, so the header asks here.
+ * Who's signed in, for the header's account button: just a name, photo and
+ * whether they're an admin (to show the Admin link), never the email. Pages
+ * are the same for everyone, so the header asks here.
  */
 export async function GET() {
   const headers = { "Cache-Control": "private, no-store" };
@@ -20,5 +21,8 @@ export async function GET() {
       avatarUrl = profile.profile.avatarUrl;
     }
   }
-  return NextResponse.json({ signedIn: true, name, avatarUrl }, { headers });
+  return NextResponse.json(
+    { signedIn: true, name, avatarUrl, isAdmin: session.role === "admin" },
+    { headers },
+  );
 }

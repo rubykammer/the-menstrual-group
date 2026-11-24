@@ -11,9 +11,14 @@ import { ThemeToggle } from "./ThemeToggle";
 /** Fired by the profile form after saving, so the header photo updates. */
 export const PROFILE_UPDATED = "tmg:profile-updated";
 
-type Me = { signedIn: boolean; name?: string; avatarUrl?: string | null };
+type Me = {
+  signedIn: boolean;
+  name?: string;
+  avatarUrl?: string | null;
+  isAdmin?: boolean;
+};
 
-// Everyone sees the Admin link; the page itself asks who you are. The pages
+// Only admins see the Admin link (others go to /admin/login by URL). The pages
 // for partners, dads and friends share one "For loved ones" menu, so the
 // full row fits from the lg breakpoint. Narrower screens use the menu.
 const adminLink = { href: "/admin", label: "Admin" };
@@ -215,28 +220,30 @@ export function SiteHeader() {
               <path d="M16.5 16.5L21 21" />
             </svg>
           </Link>
-          <Link
-            href={adminLink.href}
-            title="Admin"
-            aria-current={isCurrent(adminLink.href) ? "page" : undefined}
-            className={`${iconButton} hidden! xl:flex!`}
-          >
-            <span className="sr-only">Admin</span>
-            <svg
-              viewBox="0 0 24 24"
-              className="size-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+          {me?.isAdmin && (
+            <Link
+              href={adminLink.href}
+              title="Admin"
+              aria-current={isCurrent(adminLink.href) ? "page" : undefined}
+              className={`${iconButton} hidden! xl:flex!`}
             >
-              {/* A shield, so it doesn't read as a filter control */}
-              <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
-              <path d="M9 12l2 2 4-4" />
-            </svg>
-          </Link>
+              <span className="sr-only">Admin</span>
+              <svg
+                viewBox="0 0 24 24"
+                className="size-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                {/* A shield, so it doesn't read as a filter control */}
+                <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+            </Link>
+          )}
           <Link
             href="/account"
             title="Account"
@@ -327,7 +334,7 @@ export function SiteHeader() {
           </li>
           <li aria-hidden="true" className="mx-4 my-2 border-t border-line" />
           {mainAfter.map(mobileLink)}
-          {mobileLink(adminLink)}
+          {me?.isAdmin && mobileLink(adminLink)}
           <li className="flex items-center justify-between rounded-2xl px-4 py-1 sm:hidden">
             <span className="text-lg font-bold">Theme</span>
             <ThemeToggle />
