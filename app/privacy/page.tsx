@@ -76,12 +76,24 @@ export default function PrivacyPage() {
           </p>
         </section>
 
+        <section id="auntflo" className="mt-12">
+          <h2 className="text-2xl sm:text-3xl">Chatting with AuntFlo</h2>
+          <p className="mt-3 text-lg">
+            AuntFlo, our chat helper, is powered by Claude, an AI made by
+            Anthropic. What you type is sent to Anthropic so it can write a
+            reply. We don&apos;t save your chats or link them to your account,
+            and the conversation is gone when you close the tab. Please
+            don&apos;t share your name or other details that identify you.
+          </p>
+        </section>
+
         <section className="mt-12">
           <h2 className="text-2xl sm:text-3xl">Who else handles your data</h2>
           <p className="mt-3 text-lg">
             The site runs on Vercel, and account, forum and newsletter data is
-            stored with Supabase. Google handles sign-in. Each processes data
-            only to provide its service to us.
+            stored with Supabase. Google handles sign-in, and Anthropic writes
+            AuntFlo&apos;s replies. Each processes data only to provide its
+            service to us.
           </p>
         </section>
 

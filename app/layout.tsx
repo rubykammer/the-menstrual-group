@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Nunito } from "next/font/google";
+import { AuntFlo } from "@/components/AuntFlo";
 import { CookieConsent } from "@/components/CookieConsent";
 import { InlineScript } from "@/components/InlineScript";
 import { SiteAnalytics } from "@/components/SiteAnalytics";
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <AuntFlo />
         <CookieConsent />
         <SiteAnalytics />
       </body>
