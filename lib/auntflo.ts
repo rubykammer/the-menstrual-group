@@ -51,8 +51,7 @@ let cached: string | undefined;
 
 /**
  * AuntFlo's instructions, plus the site's articles so answers match what the
- * site says. Built once per server, so the text (and the prompt cache) stays
- * identical from request to request.
+ * site says. Built once per server, since the articles only change on deploy.
  */
 export function auntFloSystemPrompt() {
   cached ??= `${persona}

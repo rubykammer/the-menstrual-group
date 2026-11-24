@@ -252,7 +252,7 @@ export function AuntFlo() {
               </button>
             </div>
             <p className="mt-2 text-xs text-muted">
-              AuntFlo is an AI and can get things wrong. It isn&apos;t medical advice: see a doctor for anything worrying.{" "}
+              AuntFlo is an AI and can get things wrong. It isn&apos;t medical advice: see a doctor for anything worrying. Google may review chats, so don&apos;t share personal details.{" "}
               <Link href="/privacy#auntflo" className="underline underline-offset-2">Privacy</Link>
             </p>
           </form>

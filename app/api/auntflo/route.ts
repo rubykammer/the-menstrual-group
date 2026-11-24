@@ -1,8 +1,14 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 import { auntFloSystemPrompt, chatLimits } from "@/lib/auntflo";
 
 // Replies can take a little while to finish streaming.
 export const maxDuration = 60;
+
+/**
+ * The Gemini model that answers. "gemini-flash-latest" follows Google's
+ * newest Flash model, which is on the free tier; set GEMINI_MODEL to pin one.
+ */
+const model = process.env.GEMINI_MODEL || "gemini-flash-latest";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -13,7 +19,7 @@ const recentRequests = new Map<string, number[]>();
 /**
  * A rough per-visitor limit. It lives in this server's memory, so on Vercel
  * each instance counts separately: enough to stop a runaway script, not a
- * determined abuser.
+ * determined abuser. It also keeps one visitor from using up the free quota.
  */
 function rateLimited(ip: string) {
   const now = Date.now();
@@ -55,15 +61,18 @@ function plainText(text: string, status: number) {
   });
 }
 
+const cantHelp =
+  "Sorry, love, I can't help with that one. Is there something else about periods or cycles I can help with?";
+
 /**
  * AuntFlo, the site's chat helper. Takes the conversation so far and streams
- * back the reply as plain text. Nothing is stored: the conversation lives in
- * the visitor's browser and is sent to Anthropic only to write the reply.
+ * back the reply as plain text. Nothing is stored here: the conversation
+ * lives in the visitor's browser and is sent to Google's Gemini API only to
+ * write the reply.
  */
 export async function POST(request: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return plainText("AuntFlo isn't set up yet.", 503);
-  }
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return plainText("AuntFlo isn't set up yet.", 503);
 
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "local";
@@ -83,50 +92,47 @@ export async function POST(request: Request) {
   const messages = cleanMessages(body.messages);
   if (!messages) return plainText("There's no question to answer yet.", 400);
 
-  const client = new Anthropic();
-  const stream = client.beta.messages.stream(
-    {
-      model: "claude-opus-5-5",
-      max_tokens: 4000,
-      // A friendly chat, not hard reasoning: low effort keeps replies quick.
-      output_config: { effort: "low" },
-      system: [
-        {
-          type: "text",
-          text: auntFloSystemPrompt(),
-          cache_control: { type: "ephemeral" },
-        },
-      ],
-      messages,
-      // If a safety check declines the request, another model answers instead.
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-    },
-    { signal: request.signal },
-  );
+  const ai = new GoogleGenAI({ apiKey });
+  let chunks: Awaited<ReturnType<typeof ai.models.generateContentStream>>;
+  try {
+    chunks = await ai.models.generateContentStream({
+      model,
+      contents: messages.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content }],
+      })),
+      config: {
+        systemInstruction: auntFloSystemPrompt(),
+        // Thinking counts towards this on some models, so leave room.
+        maxOutputTokens: 4000,
+        abortSignal: request.signal,
+      },
+    });
+  } catch (error) {
+    console.error("AuntFlo request failed", error);
+    const status = (error as { status?: number }).status;
+    return plainText(
+      status === 429
+        ? "AuntFlo is very popular right now and has hit today's limit. Please try again later."
+        : "Sorry, I couldn't answer just now. Please try again in a moment.",
+      status === 429 ? 429 : 502,
+    );
+  }
 
   const encoder = new TextEncoder();
-  const body$ = new ReadableStream<Uint8Array>({
+  const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       let wroteText = false;
       try {
-        for await (const event of stream) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
+        for await (const chunk of chunks) {
+          const text = chunk.text;
+          if (text) {
             wroteText = true;
-            controller.enqueue(encoder.encode(event.delta.text));
+            controller.enqueue(encoder.encode(text));
           }
         }
-        const final = await stream.finalMessage();
-        if (!wroteText || final.stop_reason === "refusal") {
-          controller.enqueue(
-            encoder.encode(
-              "\n\nSorry, love, I can't help with that one. Is there something else about periods or cycles I can help with?",
-            ),
-          );
-        }
+        // Nothing back usually means Google's safety filters blocked it.
+        if (!wroteText) controller.enqueue(encoder.encode(cantHelp));
       } catch (error) {
         if (request.signal.aborted) return;
         console.error("AuntFlo reply failed", error);
@@ -140,12 +146,9 @@ export async function POST(request: Request) {
       }
       controller.close();
     },
-    cancel() {
-      stream.abort();
-    },
   });
 
-  return new Response(body$, {
+  return new Response(stream, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-store",
