@@ -223,25 +223,11 @@ export function SiteHeader() {
           {me?.isAdmin && (
             <Link
               href={adminLink.href}
-              title="Admin"
               aria-current={isCurrent(adminLink.href) ? "page" : undefined}
-              className={`${iconButton} hidden! xl:flex!`}
+              // A labelled button, since an icon alone was easy to misread
+              className="mx-1 hidden h-9 items-center rounded-full border-2 border-primary-strong px-3 text-sm font-extrabold text-primary-strong transition-colors duration-200 hover:bg-primary-strong hover:text-on-primary aria-[current=page]:bg-primary-strong aria-[current=page]:text-on-primary xl:flex"
             >
-              <span className="sr-only">Admin</span>
-              <svg
-                viewBox="0 0 24 24"
-                className="size-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                {/* A shield, so it doesn't read as a filter control */}
-                <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
+              {adminLink.label}
             </Link>
           )}
           <Link
