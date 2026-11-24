@@ -5,10 +5,11 @@ import { auntFloSystemPrompt, chatLimits } from "@/lib/auntflo";
 export const maxDuration = 60;
 
 /**
- * The Gemini model that answers. "gemini-flash-latest" follows Google's
- * newest Flash model, which is on the free tier; set GEMINI_MODEL to pin one.
+ * The Gemini models that answer, on Google's free tier: the first, then the
+ * lighter one if the first is busy or out of quota. Set GEMINI_MODEL to
+ * change the first; Google retires old models, so check this now and then.
  */
-const model = process.env.GEMINI_MODEL || "gemini-flash-latest";
+const models = [process.env.GEMINI_MODEL || "gemini-3.5-flash", "gemini-3.5-flash-lite"];
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -93,24 +94,33 @@ export async function POST(request: Request) {
   if (!messages) return plainText("There's no question to answer yet.", 400);
 
   const ai = new GoogleGenAI({ apiKey });
-  let chunks: Awaited<ReturnType<typeof ai.models.generateContentStream>>;
-  try {
-    chunks = await ai.models.generateContentStream({
-      model,
-      contents: messages.map((m) => ({
-        role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: m.content }],
-      })),
-      config: {
-        systemInstruction: auntFloSystemPrompt(),
-        // Thinking counts towards this on some models, so leave room.
-        maxOutputTokens: 4000,
-        abortSignal: request.signal,
-      },
-    });
-  } catch (error) {
-    console.error("AuntFlo request failed", error);
-    const status = (error as { status?: number }).status;
+  const contents = messages.map((m) => ({
+    role: m.role === "assistant" ? "model" : "user",
+    parts: [{ text: m.content }],
+  }));
+  let chunks: Awaited<ReturnType<typeof ai.models.generateContentStream>> | undefined;
+  let status: number | undefined;
+  for (const model of models) {
+    try {
+      chunks = await ai.models.generateContentStream({
+        model,
+        contents,
+        config: {
+          systemInstruction: auntFloSystemPrompt(),
+          // Thinking counts towards this on some models, so leave room.
+          maxOutputTokens: 4000,
+          abortSignal: request.signal,
+        },
+      });
+      break;
+    } catch (error) {
+      console.error(`AuntFlo request to ${model} failed`, error);
+      status = (error as { status?: number }).status;
+      // Only busy (503) or out of quota (429) is worth trying the next model.
+      if (status !== 503 && status !== 429) break;
+    }
+  }
+  if (!chunks) {
     return plainText(
       status === 429
         ? "AuntFlo is very popular right now and has hit today's limit. Please try again later."
