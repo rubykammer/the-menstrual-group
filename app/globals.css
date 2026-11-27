@@ -92,6 +92,28 @@
   }
 }
 
+/* Fades an element in and up as it scrolls into view. It's driven by the
+   scroll position itself, so there's no script and nothing stays hidden in
+   browsers without scroll-driven animations or for people who prefer less
+   motion. It moves with `transform`, leaving Tailwind's `translate` free for
+   hover lifts. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 10rem;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
 @layer base {
   html {
     color-scheme: light dark;

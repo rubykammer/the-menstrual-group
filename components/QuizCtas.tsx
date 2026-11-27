@@ -12,7 +12,7 @@ export const quizFigures: Record<Quiz["slug"], typeof PartnerFigure> = {
 export function QuizCtas() {
   return (
     <section aria-labelledby="quiz-heading" className="page-width">
-      <div className="max-w-2xl">
+      <div className="reveal max-w-2xl">
         <h2 id="quiz-heading" className="text-3xl sm:text-4xl">
           How ready are you to show up?
         </h2>
@@ -38,7 +38,7 @@ export function QuizCardGrid({
   return (
     <ul className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-5">
       {quizzes.map((quiz) => (
-        <li key={quiz.slug}>
+        <li key={quiz.slug} className="reveal">
           <QuizCard quiz={quiz} headingLevel={headingLevel} />
         </li>
       ))}

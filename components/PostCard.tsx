@@ -14,7 +14,7 @@ export function PostCard({
 }) {
   return (
     <article
-      className={`group relative flex flex-col overflow-hidden rounded-card bg-surface shadow-soft transition-all duration-300 focus-within:shadow-lg hover:shadow-lg motion-safe:hover:-translate-y-1 ${
+      className={`reveal group relative flex flex-col overflow-hidden rounded-card bg-surface shadow-soft transition-all duration-300 focus-within:shadow-lg hover:shadow-lg motion-safe:hover:-translate-y-1 ${
         featured ? "md:col-span-2 md:flex-row lg:col-span-3" : ""
       }`}
     >

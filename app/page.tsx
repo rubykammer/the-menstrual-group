@@ -107,14 +107,14 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="doors-heading" className="page-width">
-        <h2 id="doors-heading" className="text-3xl sm:text-4xl">
+        <h2 id="doors-heading" className="reveal text-3xl sm:text-4xl">
           Where would you like to start?
         </h2>
         <ul className="mt-8 grid gap-6 md:grid-cols-2">
           {doors.map((door) => (
             <li
               key={door.title}
-              className={`group relative overflow-hidden rounded-card p-6 transition-all sm:p-8 duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
+              className={`reveal group relative overflow-hidden rounded-card p-6 transition-all sm:p-8 duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
             >
               <div className="-mx-6 -mt-6 mb-6 flex justify-center overflow-hidden rounded-t-card bg-foreground/5 pt-4 sm:-mx-8 sm:-mt-8">
                 <svg
@@ -163,7 +163,7 @@ export default function Home() {
         className="mt-14 bg-peach py-14 sm:mt-20 sm:py-20"
       >
         <div className="page-width">
-          <div className="max-w-2xl">
+          <div className="reveal max-w-2xl">
             <h2 id="cycle-heading" className="text-3xl sm:text-4xl">
               One month, four phases
             </h2>
@@ -172,7 +172,9 @@ export default function Home() {
               happening, and how to work with it.
             </p>
           </div>
-          <CycleExplorer />
+          <div className="reveal">
+            <CycleExplorer />
+          </div>
         </div>
       </section>
 
@@ -181,7 +183,7 @@ export default function Home() {
         aria-labelledby="myths-heading"
         className="page-width mt-14 sm:mt-20"
       >
-        <div className="max-w-2xl">
+        <div className="reveal max-w-2xl">
           <h2 id="myths-heading" className="text-3xl sm:text-4xl">
             Myths worth retiring
           </h2>
@@ -194,7 +196,7 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="forum-heading" className="page-width mt-14 sm:mt-20">
-        <div className="flex flex-col gap-6 rounded-card bg-mist p-6 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+        <div className="reveal flex flex-col gap-6 rounded-card bg-mist p-6 sm:flex-row sm:items-center sm:justify-between sm:p-10">
           <div className="max-w-2xl">
             <h2 id="forum-heading" className="text-2xl sm:text-3xl">
               Talk to people who get it
@@ -211,7 +213,7 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="latest-heading" className="page-width mt-14 sm:mt-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <h2 id="latest-heading" className="text-3xl sm:text-4xl">
             Latest from the blog
           </h2>
@@ -232,7 +234,7 @@ export default function Home() {
       </section>
 
       <section className="page-width mt-14 sm:mt-20">
-        <div className="rounded-card bg-panel px-6 py-12 text-on-panel sm:px-12 sm:py-16">
+        <div className="reveal rounded-card bg-panel px-6 py-12 text-on-panel sm:px-12 sm:py-16">
           <p className="max-w-3xl font-display text-3xl leading-tight font-semibold sm:text-4xl">
             Ask what helps. Do it without being asked twice.
           </p>

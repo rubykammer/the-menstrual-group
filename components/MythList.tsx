@@ -26,7 +26,7 @@ export function MythList() {
             ref={index === SHOWN_AT_FIRST ? firstHidden : undefined}
             tabIndex={index === SHOWN_AT_FIRST ? -1 : undefined}
             hidden={!expanded && index >= SHOWN_AT_FIRST ? true : undefined}
-            className="flex flex-col rounded-card bg-surface p-6 shadow-soft outline-none transition-all duration-300 hover:shadow-lg motion-safe:hover:-translate-y-1"
+            className="reveal flex flex-col rounded-card bg-surface p-6 shadow-soft outline-none transition-all duration-300 hover:shadow-lg motion-safe:hover:-translate-y-1"
           >
             <p className="self-start rounded-full bg-mist px-3 py-0.5 text-sm font-extrabold tracking-wide text-accent-strong uppercase">
               Myth
