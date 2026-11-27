@@ -18,7 +18,7 @@ export const phases: Phase[] = [
     days: "Days 1–5",
     firstDay: 1,
     lastDay: 5,
-    color: "#ec4899",
+    color: "#dc2626",
     summary:
       "The lining of the uterus sheds and leaves the body as a period. Hormones are at their lowest, and cramps and tiredness are common.",
     forYou:
@@ -84,7 +84,7 @@ export const hormones = [
   {
     id: "estrogen",
     name: "Estrogen",
-    color: "#be185d",
+    color: "#4a7a9b",
     peakDay: 13,
     level: (day: number) =>
       12 + 78 * bell(day, 13, 3.5, 1.6) + 38 * bell(day, 21, 3.5, 3.5),

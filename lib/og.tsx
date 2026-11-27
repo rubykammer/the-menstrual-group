@@ -23,7 +23,7 @@ const colors = {
   ink: "#292524",
   muted: "#57534e",
   primary: "#b83c0a",
-  ring: { orange: "#fb923c", pink: "#ec4899", amber: "#d97706" },
+  ring: { orange: "#fb923c", red: "#dc2626", amber: "#d97706" },
 };
 
 let fonts: Promise<{ name: string; data: Buffer; weight: 600 | 700 | 800 }[]>;
@@ -94,7 +94,7 @@ export const ogArt = {
     const background = {
       partners: backdrops.peach,
       dads: backdrops.honey,
-      friends: backdrops.blush,
+      friends: backdrops.mist,
     }[who];
     return { background, svg: <Figure />, align: "bottom" as const };
   },
@@ -167,7 +167,7 @@ export async function ogImage({
             <path
               d="M16 5a11 11 0 0 1 11 11"
               fill="none"
-              stroke={colors.ring.pink}
+              stroke={colors.ring.red}
               strokeWidth="6"
             />
             <path

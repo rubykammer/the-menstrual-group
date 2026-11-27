@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { navLinks } from "@/lib/site";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { isNavGroup, mainNav, type NavGroup, type NavLink } from "@/lib/site";
 import { Avatar } from "./Avatar";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
@@ -18,24 +18,14 @@ type Me = {
   isAdmin?: boolean;
 };
 
-// Only admins see the Admin link (others go to /admin/login by URL). The pages
-// for partners, dads and friends share one "For loved ones" menu, so the
-// full row fits from the lg breakpoint. Narrower screens use the menu.
+// Only admins see the Admin link (others go to /admin/login by URL).
 const adminLink = { href: "/admin", label: "Admin" };
 // The Admin link is hidden for now; admins reach the dashboard at /admin by
 // URL. Set this to true to show it again.
 const showAdminLink = false;
-const lovedOnesHrefs = new Set(["/partners", "/dads", "/friends"]);
-const lovedOnesLinks = navLinks.filter((link) => lovedOnesHrefs.has(link.href));
-// The group sits where the first of its links was in the list
-const lovedOnesAt = navLinks.findIndex((link) => lovedOnesHrefs.has(link.href));
-const mainBefore = navLinks.slice(0, lovedOnesAt);
-const mainAfter = navLinks
-  .slice(lovedOnesAt)
-  .filter((link) => !lovedOnesHrefs.has(link.href));
 
 const pill =
-  "rounded-full px-2 py-2 font-bold xl:px-2.5 whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong";
+  "rounded-full px-3 py-2 font-bold xl:px-4 whitespace-nowrap transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong";
 // 40px on phones so the logo and three buttons fit a 360px screen
 const iconButton =
   "flex size-10 items-center justify-center rounded-full transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong sm:size-11";
@@ -43,10 +33,11 @@ const iconButton =
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lovedOpen, setLovedOpen] = useState(false);
+  // Which header dropdown is open, by group id
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
-  const lovedButton = useRef<HTMLButtonElement>(null);
-  const lovedMenu = useRef<HTMLLIElement>(null);
+  const groupButtons = useRef<Record<string, HTMLButtonElement | null>>({});
+  const groupItems = useRef<Record<string, HTMLLIElement | null>>({});
   const [me, setMe] = useState<Me | null>(null);
 
   // Pages are the same for everyone, so ask who's signed in to show their
@@ -72,7 +63,7 @@ export function SiteHeader() {
   if (pathname !== lastPath) {
     setLastPath(pathname);
     setMenuOpen(false);
-    setLovedOpen(false);
+    setOpenGroup(null);
   }
 
   useEffect(() => {
@@ -88,16 +79,17 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!lovedOpen) return;
+    if (!openGroup) return;
+    const group = openGroup;
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setLovedOpen(false);
-        lovedButton.current?.focus();
+        setOpenGroup(null);
+        groupButtons.current[group]?.focus();
       }
     }
     function closeOnOutside(event: Event) {
-      if (!lovedMenu.current?.contains(event.target as Node)) {
-        setLovedOpen(false);
+      if (!groupItems.current[group]?.contains(event.target as Node)) {
+        setOpenGroup(null);
       }
     }
     document.addEventListener("keydown", closeOnEscape);
@@ -108,14 +100,12 @@ export function SiteHeader() {
       document.removeEventListener("pointerdown", closeOnOutside);
       document.removeEventListener("focusin", closeOnOutside);
     };
-  }, [lovedOpen]);
+  }, [openGroup]);
 
   function isCurrent(href: string) {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
-  const inLovedOnes = lovedOnesLinks.some((link) => isCurrent(link.href));
-
-  const mainLink = (link: { href: string; label: string }) => (
+  const mainLink = (link: NavLink) => (
     <li key={link.href}>
       <Link
         href={link.href}
@@ -127,7 +117,7 @@ export function SiteHeader() {
     </li>
   );
 
-  const mobileLink = (link: { href: string; label: string }) => (
+  const mobileLink = (link: NavLink) => (
     <li key={link.href}>
       <Link
         href={link.href}
@@ -139,6 +129,65 @@ export function SiteHeader() {
       </Link>
     </li>
   );
+
+  const groupMenu = (group: NavGroup) => {
+    const open = openGroup === group.id;
+    const current = group.links.some((link) => isCurrent(link.href));
+    const menuId = `${group.id}-menu`;
+    return (
+      <li
+        key={group.id}
+        ref={(node) => {
+          groupItems.current[group.id] = node;
+        }}
+        className="relative"
+      >
+        <button
+          ref={(node) => {
+            groupButtons.current[group.id] = node;
+          }}
+          type="button"
+          aria-expanded={open}
+          aria-controls={menuId}
+          data-current={current || undefined}
+          onClick={() => setOpenGroup(open ? null : group.id)}
+          className={`${pill} flex cursor-pointer items-center gap-1 data-current:bg-peach data-current:text-primary-strong`}
+        >
+          {group.label}
+          <svg
+            viewBox="0 0 24 24"
+            className={`size-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <ul
+          id={menuId}
+          hidden={!open}
+          className="animate-toast-in absolute top-full left-0 mt-2 w-56 rounded-2xl border border-line bg-surface p-2 shadow-soft"
+        >
+          {group.links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+                onClick={() => setOpenGroup(null)}
+                className="block rounded-xl px-3 py-2 font-bold transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </li>
+    );
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-background/90 backdrop-blur-sm">
@@ -153,51 +202,9 @@ export function SiteHeader() {
 
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center xl:gap-1">
-            {mainBefore.map(mainLink)}
-            <li ref={lovedMenu} className="relative">
-              <button
-                ref={lovedButton}
-                type="button"
-                aria-expanded={lovedOpen}
-                aria-controls="loved-ones-menu"
-                data-current={inLovedOnes || undefined}
-                onClick={() => setLovedOpen((open) => !open)}
-                className={`${pill} flex cursor-pointer items-center gap-1 data-current:bg-peach data-current:text-primary-strong`}
-              >
-                For loved ones
-                <svg
-                  viewBox="0 0 24 24"
-                  className={`size-4 transition-transform duration-200 ${lovedOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-              <ul
-                id="loved-ones-menu"
-                hidden={!lovedOpen}
-                className="animate-toast-in absolute top-full left-0 mt-2 w-56 rounded-2xl border border-line bg-surface p-2 shadow-soft"
-              >
-                {lovedOnesLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      aria-current={isCurrent(link.href) ? "page" : undefined}
-                      onClick={() => setLovedOpen(false)}
-                      className="block rounded-xl px-3 py-2 font-bold transition-colors duration-200 hover:bg-peach hover:text-primary-strong aria-[current=page]:bg-peach aria-[current=page]:text-primary-strong"
-                    >
-                      For {link.label.toLowerCase()}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-            {mainAfter.map(mainLink)}
+            {mainNav.map((item) =>
+              isNavGroup(item) ? groupMenu(item) : mainLink(item),
+            )}
           </ul>
         </nav>
 
@@ -312,17 +319,28 @@ export function SiteHeader() {
         className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-line lg:hidden"
       >
         <ul className="page-width flex flex-col gap-1 py-3">
-          {mainBefore.map(mobileLink)}
-          <li>
-            <p className="px-4 pt-3 pb-1 text-sm font-extrabold tracking-wide text-muted uppercase">
-              For loved ones
-            </p>
-            <ul className="flex flex-col gap-1">
-              {lovedOnesLinks.map(mobileLink)}
-            </ul>
-          </li>
-          <li aria-hidden="true" className="mx-4 my-2 border-t border-line" />
-          {mainAfter.map(mobileLink)}
+          {mainNav.map((item, index) => {
+            if (isNavGroup(item)) {
+              return (
+                <li key={item.id}>
+                  <p className="px-4 pt-3 pb-1 text-sm font-extrabold tracking-wide text-muted uppercase">
+                    {item.label}
+                  </p>
+                  <ul className="flex flex-col gap-1">{item.links.map(mobileLink)}</ul>
+                </li>
+              );
+            }
+            // A line after a group, so the links below don't read as part of it
+            const previous = mainNav[index - 1];
+            return previous && isNavGroup(previous) ? (
+              <Fragment key={item.href}>
+                <li aria-hidden="true" className="mx-4 my-2 border-t border-line" />
+                {mobileLink(item)}
+              </Fragment>
+            ) : (
+              mobileLink(item)
+            );
+          })}
           {showAdminLink && me?.isAdmin && mobileLink(adminLink)}
           <li className="flex items-center justify-between rounded-2xl px-4 py-1 sm:hidden">
             <span className="text-lg font-bold">Theme</span>

@@ -34,7 +34,7 @@ export function PartnerScripts({
               </dt>
               <dd className="mt-1">{sayThis}</dd>
             </div>
-            <div className="rounded-2xl bg-blush p-4">
+            <div className="rounded-2xl bg-mist p-4">
               <dt className="flex items-center gap-2 font-extrabold">
                 <svg
                   viewBox="0 0 24 24"

@@ -93,7 +93,7 @@ export function FavoriteButton({
       }
       className={`${pill} ${
         saved
-          ? "border-accent-strong bg-blush text-accent-strong"
+          ? "border-accent-strong bg-mist text-accent-strong"
           : "border-line text-foreground hover:border-accent-strong hover:text-accent-strong"
       } disabled:opacity-60 ${className}`}
     >

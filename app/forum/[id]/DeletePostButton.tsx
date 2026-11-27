@@ -31,7 +31,7 @@ export function DeletePostButton({
         <button
           type="button"
           onClick={() => setConfirming(true)}
-          className={`${button} text-muted hover:bg-blush hover:text-accent-strong`}
+          className={`${button} text-muted hover:bg-mist hover:text-accent-strong`}
         >
           Remove {what}
         </button>

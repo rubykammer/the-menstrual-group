@@ -162,7 +162,7 @@ export const quizzes: Quiz[] = [
       "Five moments that come up between friends, roommates and coworkers. Pick what you'd actually do.",
     guideHref: "/friends",
     guideLabel: "Read the friend guide",
-    tint: "bg-blush",
+    tint: "bg-mist",
     questions: [
       {
         question: "A friend quietly asks if you have a pad. You…",

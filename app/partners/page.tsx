@@ -101,7 +101,7 @@ export default function PartnersPage() {
 
       <section
         aria-labelledby="month-heading"
-        className="mt-20 bg-blush py-16 sm:py-20"
+        className="mt-20 bg-mist py-16 sm:py-20"
       >
         <div className="page-width">
           <h2 id="month-heading" className="text-3xl sm:text-4xl">
@@ -111,7 +111,7 @@ export default function PartnersPage() {
             Every cycle is different, so use this as a starting point, not a
             schedule. And please don&apos;t use it to predict anyone&apos;s mood.
           </p>
-          <ul className="mt-8 divide-y divide-divider-pink">
+          <ul className="mt-8 divide-y divide-divider-mist">
             {phases.map((phase) => (
               <li
                 key={phase.id}

@@ -21,11 +21,11 @@
      for shapes and large display type only. Body-sized text uses the -strong shades. */
   --color-primary: light-dark(#ea580c, #fb923c);
   --color-secondary: light-dark(#d97706, #fbbf24);
-  --color-accent: light-dark(#ec4899, #f472b6);
+  --color-accent: light-dark(#dc2626, #f87171);
 
   --color-primary-strong: light-dark(#b83c0a, #fb923c);
   --color-secondary-strong: light-dark(#a16207, #fbbf24);
-  --color-accent-strong: light-dark(#be185d, #f472b6);
+  --color-accent-strong: light-dark(#b91c1c, #f87171);
 
   /* Filled primary buttons: hover shade and the text that sits on them */
   --color-primary-hover: light-dark(#9a3412, #fdba74);
@@ -37,7 +37,7 @@
   --color-surface: light-dark(#ffffff, #27201b);
   --color-line: light-dark(#f3e3c3, #3d322a);
   --color-divider: light-dark(#fed7aa, #4a3829);
-  --color-divider-pink: light-dark(#fbcfe8, #4a2738);
+  --color-divider-mist: light-dark(#cbd5dc, #34404a);
 
   /* Quiz answer feedback */
   --color-correct: light-dark(#15803d, #4ade80);
@@ -45,7 +45,7 @@
 
   --color-peach: light-dark(#ffedd5, #3b2619);
   --color-honey: light-dark(#fef3c7, #362b17);
-  --color-blush: light-dark(#fce7f3, #3a1f2c);
+  --color-mist: light-dark(#dde6ec, #222b32);
 
   /* The dark feature panel: inverted in light mode, a raised panel in dark */
   --color-panel: light-dark(#292524, #2e251f);
@@ -202,7 +202,7 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 1.25rem 1.5rem;
-  background: var(--color-blush);
+  background: var(--color-mist);
   border-radius: 1.25rem;
 }
 

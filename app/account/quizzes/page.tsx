@@ -130,7 +130,7 @@ function QuizCard({ entry }: { entry: QuizHistory }) {
             {best}/{latest.total}
           </dd>
         </div>
-        <div className="rounded-2xl bg-blush p-3">
+        <div className="rounded-2xl bg-mist p-3">
           <dt className="text-sm font-bold text-muted">Attempts</dt>
           <dd className="font-display text-3xl text-primary-strong">
             {attempts.length}

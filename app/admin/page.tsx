@@ -137,7 +137,7 @@ export default async function AdminPage({
         )}
 
         {result.status === "error" && (
-          <p className="mt-5 rounded-card bg-blush p-6">
+          <p className="mt-5 rounded-card bg-mist p-6">
             Couldn&apos;t load signups: {result.message}
           </p>
         )}
@@ -272,7 +272,7 @@ function UsersSection({
       )}
 
       {users.status === "error" && (
-        <p className="mt-5 rounded-card bg-blush p-6">
+        <p className="mt-5 rounded-card bg-mist p-6">
           Couldn&apos;t load users: {users.message}
         </p>
       )}

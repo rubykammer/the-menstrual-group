@@ -154,7 +154,7 @@ export function AuntFlo() {
           onKeyDown={(event) => event.key === "Escape" && close()}
           className="fixed inset-x-3 top-3 bottom-3 z-40 flex flex-col overflow-hidden rounded-card border border-line bg-surface shadow-soft sm:inset-x-auto sm:top-auto sm:right-6 sm:bottom-24 sm:h-[min(38rem,calc(100dvh-8rem))] sm:w-[26rem]"
         >
-          <header className="flex items-center gap-3 border-b border-line bg-blush px-5 py-3">
+          <header className="flex items-center gap-3 border-b border-line bg-mist px-5 py-3">
             <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-full bg-accent text-xl text-white">
               🌸
             </span>

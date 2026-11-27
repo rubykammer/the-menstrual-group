@@ -16,8 +16,8 @@ export const PAPER = "#ffffff";
 export const brand = {
   orange: "#ea580c",
   apricot: "#fb923c",
-  pink: "#ec4899",
-  rose: "#f9a8d4",
+  red: "#dc2626",
+  redLight: "#fca5a5",
   amber: "#f59e0b",
   sun: "#fbbf24",
 };
@@ -25,7 +25,7 @@ export const brand = {
 export const backdrops = {
   peach: "#ffedd5",
   honey: "#fef3c7",
-  blush: "#fce7f3",
+  mist: "#dde6ec",
 };
 
 export const line = {
@@ -526,7 +526,7 @@ export function Arm({
 
 /* Props, drawn in whatever coordinates they're placed in */
 
-export function Heart({ x, y, s = 1, fill = brand.pink }: { x: number; y: number; s?: number; fill?: string }) {
+export function Heart({ x, y, s = 1, fill = brand.red }: { x: number; y: number; s?: number; fill?: string }) {
   return (
     <path
       transform={`translate(${x} ${y}) scale(${s})`}

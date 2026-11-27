@@ -34,7 +34,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         </p>
 
         {message && (
-          <p role="alert" className="mt-6 rounded-card bg-blush p-4">
+          <p role="alert" className="mt-6 rounded-card bg-mist p-4">
             {message}
           </p>
         )}

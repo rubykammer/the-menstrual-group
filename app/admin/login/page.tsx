@@ -38,7 +38,7 @@ export default async function AdminLoginPage({
         <h1 className="text-4xl sm:text-5xl">Admin sign-in</h1>
 
         {message && (
-          <p role="alert" className="mt-6 rounded-card bg-blush p-4">
+          <p role="alert" className="mt-6 rounded-card bg-mist p-4">
             {message}
           </p>
         )}

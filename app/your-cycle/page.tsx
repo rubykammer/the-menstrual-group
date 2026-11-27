@@ -45,7 +45,7 @@ export default function YourCyclePage() {
 
       <section
         aria-labelledby="month-heading"
-        className="mt-14 bg-blush py-16 sm:py-20"
+        className="mt-14 bg-mist py-16 sm:py-20"
       >
         <div className="page-width">
           <h2 id="month-heading" className="text-3xl sm:text-4xl">
@@ -102,7 +102,7 @@ export default function YourCyclePage() {
         </div>
         <ul className="grid gap-3 sm:grid-cols-2">
           {seeADoctor.map((sign) => (
-            <li key={sign} className="rounded-card bg-blush p-5 text-lg">
+            <li key={sign} className="rounded-card bg-mist p-5 text-lg">
               {sign}
             </li>
           ))}

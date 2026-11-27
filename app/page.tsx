@@ -42,11 +42,11 @@ const doors: Door[] = [
     art: "self",
   },
   {
-    title: "I love someone who does",
-    body: "Learn what's going on, what to say, and the small things that make a real difference to a partner, daughter or friend.",
+    title: "I’m supporting someone",
+    body: "What's actually happening each month, what to say, and the practical things that help a partner, daughter or friend.",
     href: "/partners",
-    cta: "Read the partner guide",
-    tint: "bg-blush",
+    cta: "Start with the partner guide",
+    tint: "bg-mist",
     art: "supporter",
     more: [
       { href: "/dads", label: "For dads" },
@@ -78,14 +78,14 @@ export default function Home() {
             conversation.
           </h1>
           <p className="mt-6 max-w-xl text-lg sm:text-xl">
-            Warm, honest guidance on menstrual cycles, for the people who have
-            them and for the partners, dads and friends who want to show up
-            well.
+            Clear, practical guidance on menstrual cycles. For the people who
+            have them, and for the partners, dads and friends who want to
+            understand what&rsquo;s going on and how to help.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/blog">Read the blog</ButtonLink>
+            <ButtonLink href="/your-cycle">I have a cycle</ButtonLink>
             <ButtonLink href="/partners" variant="secondary">
-              How to be a good partner
+              I&rsquo;m supporting someone
             </ButtonLink>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="forum-heading" className="page-width mt-14 sm:mt-20">
-        <div className="flex flex-col gap-6 rounded-card bg-blush p-6 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+        <div className="flex flex-col gap-6 rounded-card bg-mist p-6 sm:flex-row sm:items-center sm:justify-between sm:p-10">
           <div className="max-w-2xl">
             <h2 id="forum-heading" className="text-2xl sm:text-3xl">
               Talk to people who get it

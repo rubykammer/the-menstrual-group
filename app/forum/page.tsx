@@ -74,7 +74,7 @@ export default async function ForumPage({ searchParams }: PageProps<"/forum">) {
         <section aria-label="Conversations">
           {result.status === "not-set-up" && <ForumNotSetUp />}
           {result.status === "error" && (
-            <p className="rounded-card bg-blush p-6">
+            <p className="rounded-card bg-mist p-6">
               Couldn&apos;t load the forum: {result.message}
             </p>
           )}

@@ -15,18 +15,55 @@ export const site = {
   name: "The Menstrual Group",
   tagline: "Understanding cycles, together.",
   description:
-    "Friendly, honest guidance on menstrual cycles: how they work, how to navigate them, and how to be a great partner to someone who has one.",
+    "Clear, practical guidance on menstrual cycles: how they work, how to handle them, and how to support someone who has one.",
   url: siteUrl(),
 };
 
+/** Every main page, in the order the footer lists them. */
 export const navLinks = [
-  { href: "/blog", label: "Blog" },
-  { href: "/products", label: "Products" },
   { href: "/your-cycle", label: "Your Cycle" },
   { href: "/partners", label: "Partners" },
   { href: "/dads", label: "Dads" },
   { href: "/friends", label: "Friends" },
   { href: "/quiz", label: "Quizzes" },
+  { href: "/blog", label: "Blog" },
+  { href: "/products", label: "Products" },
+  { href: "/forum", label: "Forum" },
+  { href: "/about", label: "About" },
+];
+
+export type NavLink = { href: string; label: string };
+export type NavGroup = { id: string; label: string; links: NavLink[] };
+export type NavItem = NavLink | NavGroup;
+
+export function isNavGroup(item: NavItem): item is NavGroup {
+  return "links" in item;
+}
+
+/**
+ * The header menu: five choices, built around who you are first (someone
+ * with a cycle, or someone supporting them), then reading and community.
+ */
+export const mainNav: NavItem[] = [
+  { href: "/your-cycle", label: "Your cycle" },
+  {
+    id: "supporting",
+    label: "Supporting someone",
+    links: [
+      { href: "/partners", label: "For partners" },
+      { href: "/dads", label: "For dads" },
+      { href: "/friends", label: "For friends" },
+      { href: "/quiz", label: "Quizzes" },
+    ],
+  },
+  {
+    id: "learn",
+    label: "Learn",
+    links: [
+      { href: "/blog", label: "Articles" },
+      { href: "/products", label: "Products" },
+    ],
+  },
   { href: "/forum", label: "Forum" },
   { href: "/about", label: "About" },
 ];
@@ -65,5 +102,5 @@ export function getTopic(slug: string) {
 export const supporterPages = [
   { href: "/partners", label: "For partners", tint: "bg-peach" },
   { href: "/dads", label: "For dads", tint: "bg-honey" },
-  { href: "/friends", label: "For friends", tint: "bg-blush" },
+  { href: "/friends", label: "For friends", tint: "bg-mist" },
 ];

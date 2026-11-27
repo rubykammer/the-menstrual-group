@@ -33,7 +33,7 @@ export default async function ThreadPage({ params }: PageProps<"/forum/[id]">) {
   if (result.status === "error") {
     return (
       <div className="page-width pt-12 pb-16">
-        <p className="rounded-card bg-blush p-6">
+        <p className="rounded-card bg-mist p-6">
           Couldn&apos;t load this conversation: {result.message}
         </p>
       </div>

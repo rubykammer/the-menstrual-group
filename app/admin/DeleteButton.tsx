@@ -19,7 +19,7 @@ export function DeleteButton({ email }: { email: string }) {
         type="button"
         onClick={() => setConfirming(true)}
         aria-label={`Remove ${email}`}
-        className={`${button} text-accent-strong hover:bg-blush`}
+        className={`${button} text-accent-strong hover:bg-mist`}
       >
         Remove
       </button>

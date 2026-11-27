@@ -53,7 +53,7 @@ function Calendar() {
               cx={244 + col * 22}
               cy={90 + row * 26}
               r="6.5"
-              fill={period.has(key) ? brand.pink : key === "3,2" ? brand.sun : PAPER}
+              fill={period.has(key) ? brand.red : key === "3,2" ? brand.sun : PAPER}
               {...line}
               strokeWidth={2.5}
             />
@@ -94,12 +94,12 @@ const posts: Record<string, Scene> = {
         <g transform="translate(318 62) rotate(28)">
           <rect x="-9" y="-28" width="18" height="48" rx="9" fill={PAPER} {...line} />
           <path d="M-9 -8 L9 -8 M-9 2 L9 2" {...line} strokeWidth={2} />
-          <path d="M0 20 Q-6 32 2 40 Q8 48 0 56" fill="none" stroke={brand.pink} strokeWidth={3} strokeLinecap="round" />
+          <path d="M0 20 Q-6 32 2 40 Q8 48 0 56" fill="none" stroke={brand.red} strokeWidth={3} strokeLinecap="round" />
         </g>
         {/* Cup */}
         <g transform="translate(330 170) rotate(-12)">
-          <path d="M-24 -26 Q-24 18 0 24 Q24 18 24 -26 Z" fill={brand.pink} {...line} />
-          <ellipse cx="0" cy="-26" rx="24" ry="6" fill={brand.rose} {...line} />
+          <path d="M-24 -26 Q-24 18 0 24 Q24 18 24 -26 Z" fill={brand.red} {...line} />
+          <ellipse cx="0" cy="-26" rx="24" ry="6" fill={brand.redLight} {...line} />
           <path d="M0 24 L0 42" {...line} strokeWidth={5} />
         </g>
         <Bust x={200} y={132} s={1.1} hair="bob" top="tee-ink" eyes="wide" mouth="open" brows="raised" />
@@ -110,7 +110,7 @@ const posts: Record<string, Scene> = {
   },
 
   "cramps-what-actually-helps": {
-    bg: backdrops.blush,
+    bg: backdrops.mist,
     art: (
       <>
         <Bust x={200} y={94} s={1.1} hair="long" top="hoodie" eyes="closed" mouth="smile">
@@ -152,20 +152,20 @@ const posts: Record<string, Scene> = {
         </g>
         <circle cx="222" cy="112" r="5" fill={PAPER} {...line} />
         <circle cx="240" cy="98" r="7" fill={PAPER} {...line} />
-        <Bust x={146} y={136} s={1.05} hair="afro" top="sweater" color={brand.pink} brows="worried" mouth="worried" />
+        <Bust x={146} y={136} s={1.05} hair="afro" top="sweater" color={brand.red} brows="worried" mouth="worried" />
       </>
     ),
   },
 
   "luteal-rage-is-real": {
-    bg: backdrops.blush,
+    bg: backdrops.mist,
     art: (
       <>
         {/* Hormones rising, then dropping before a period: where the anger flares */}
         <g transform="translate(222 96)">
           <path d="M0 64 L130 64" {...line} strokeWidth={2.5} />
           <path d="M0 52 Q30 50 50 20 Q72 -10 96 18 Q112 40 128 58" fill="none" {...line} strokeWidth={4} />
-          <path d="M96 18 Q112 40 128 58" fill="none" stroke={brand.pink} strokeWidth={6} strokeLinecap="round" />
+          <path d="M96 18 Q112 40 128 58" fill="none" stroke={brand.red} strokeWidth={6} strokeLinecap="round" />
           {/* Lightning bolt at the drop */}
           <path d="M120 -6 L106 18 L118 18 L108 40 L132 10 L120 10 L128 -6 Z" fill={brand.sun} {...line} strokeWidth={2.5} />
         </g>
@@ -188,7 +188,7 @@ const posts: Record<string, Scene> = {
         <Bust x={132} y={128} s={1.05} hair="hijab" top="tee-paper" eyes="closed" mouth="flat" brows="worried">
           <Arm d="M56 160 Q46 104 8 82" hand={[6, 80]} />
         </Bust>
-        <path d="M70 196 l8 -9 l7 9 l8 -9 l7 9" fill="none" stroke={brand.pink} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M70 196 l8 -9 l7 9 l8 -9 l7 9" fill="none" stroke={brand.red} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
         <Bust x={282} y={134} s={1} hair="short" beard glasses top="collar" eyes="dot">
           <Arm d="M-54 150 Q-80 70 -100 50" hand={[-100, 48]} />
         </Bust>
@@ -199,7 +199,7 @@ const posts: Record<string, Scene> = {
   },
 
   "whats-normal-when-to-see-a-doctor": {
-    bg: backdrops.blush,
+    bg: backdrops.mist,
     art: (
       <>
         <Bubble x={168} y={26} w={60} h={50} tail="left">
@@ -243,7 +243,7 @@ const posts: Record<string, Scene> = {
             <circle key={cx} cx={cx} cy={48} r="5" fill={INK} />
           ))}
         </Bubble>
-        <Bubble x={236} y={92} w={110} h={40} tail="right" fill={brand.pink}>
+        <Bubble x={236} y={92} w={110} h={40} tail="right" fill={brand.red}>
           <Heart x={291} y={115} s={0.8} fill={PAPER} />
         </Bubble>
         <Bubble x={212} y={156} w={124} h={40} tail="left">
@@ -260,7 +260,7 @@ const posts: Record<string, Scene> = {
   },
 
   "talking-to-kids-about-periods": {
-    bg: backdrops.blush,
+    bg: backdrops.mist,
     art: (
       <>
         <Bust x={138} y={126} s={1.1} hair="hat" color={brand.orange} mustache top="collar" eyes="dot">
@@ -272,7 +272,7 @@ const posts: Record<string, Scene> = {
           </g>
           <Arm d="M56 160 Q58 110 40 82" hand={[40, 80]} />
         </Bust>
-        <Bust x={294} y={164} s={0.78} hair="bun" headband={brand.pink} top="tee-ink" eyes="wide" mouth="open" />
+        <Bust x={294} y={164} s={0.78} hair="bun" headband={brand.red} top="tee-ink" eyes="wide" mouth="open" />
         <Bubble x={318} y={58} w={54} h={46} tail="left">
           <Question x={345} y={81} />
         </Bubble>
@@ -287,8 +287,8 @@ const hairs: Hair[] = ["short", "fringe", "long", "bun", "puffs", "curly", "bald
 const tops: Top[] = ["tee-ink", "tee-paper", "stripes", "vneck", "collar", "hoodie", "sweater", "tank"];
 const eyeSet: Eyes[] = ["dot", "happy", "wink", "side"];
 const mouths: Mouth[] = ["smile", "grin", "talk"];
-const accents = [brand.orange, brand.pink, brand.amber];
-const bgs = [backdrops.peach, backdrops.honey, backdrops.blush];
+const accents = [brand.orange, brand.red, brand.amber];
+const bgs = [backdrops.peach, backdrops.honey, backdrops.mist];
 
 function hash(text: string) {
   let h = 2166136261;

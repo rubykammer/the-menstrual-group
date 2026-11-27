@@ -170,7 +170,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
           const isPicked = i === picked;
           let state = "border-line bg-background hover:border-primary";
           if (answered && isAnswer) state = "border-correct bg-correct-bg";
-          else if (answered && isPicked) state = "border-accent-strong bg-blush";
+          else if (answered && isPicked) state = "border-accent-strong bg-mist";
           else if (answered) state = "border-line bg-background opacity-60";
 
           return (

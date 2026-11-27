@@ -13,7 +13,7 @@ function Drop({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
     <path
       transform={`translate(${x} ${y}) scale(${s})`}
       d="M0 -14 Q10 0 10 6 A10 10 0 0 1 -10 6 Q-10 0 0 -14 Z"
-      fill={brand.pink}
+      fill={brand.red}
       {...line}
     />
   );
@@ -119,7 +119,7 @@ const tampon: ReactNode = (
       <path
         d="M0 50 Q-12 76 4 94 Q18 112 2 132"
         fill="none"
-        stroke={brand.pink}
+        stroke={brand.red}
         strokeWidth={4}
         strokeLinecap="round"
       />
@@ -132,7 +132,7 @@ const tampon: ReactNode = (
         width="32"
         height="76"
         rx="12"
-        fill={brand.rose}
+        fill={brand.redLight}
         {...line}
       />
       <rect
@@ -141,7 +141,7 @@ const tampon: ReactNode = (
         width="20"
         height="44"
         rx="6"
-        fill={brand.pink}
+        fill={brand.red}
         {...line}
       />
     </g>
@@ -155,10 +155,10 @@ const cup: ReactNode = (
     <g transform="translate(200 108) rotate(-8)">
       <path
         d="M-56 -50 Q-56 42 0 56 Q56 42 56 -50 Z"
-        fill={brand.pink}
+        fill={brand.red}
         {...line}
       />
-      <ellipse cx="0" cy="-50" rx="56" ry="13" fill={brand.rose} {...line} />
+      <ellipse cx="0" cy="-50" rx="56" ry="13" fill={brand.redLight} {...line} />
       {/* Grip rings and stem */}
       <path d="M-14 66 L14 66 M-12 74 L12 74" {...line} strokeWidth={2} />
       <path d="M0 56 L0 98" {...line} strokeWidth={7} />
@@ -180,15 +180,15 @@ const disc: ReactNode = (
   <>
     <g transform="translate(200 118) rotate(-14)">
       {/* Pouch */}
-      <path d="M-74 0 Q-60 70 0 74 Q60 70 74 0 Z" fill={brand.rose} {...line} />
+      <path d="M-74 0 Q-60 70 0 74 Q60 70 74 0 Z" fill={brand.redLight} {...line} />
       {/* Rim, seen at an angle */}
-      <ellipse cx="0" cy="0" rx="78" ry="24" fill={brand.pink} {...line} />
+      <ellipse cx="0" cy="0" rx="78" ry="24" fill={brand.red} {...line} />
       <ellipse
         cx="0"
         cy="0"
         rx="62"
         ry="15"
-        fill={brand.rose}
+        fill={brand.redLight}
         {...line}
         strokeWidth={2}
       />
@@ -265,7 +265,7 @@ const liner: ReactNode = (
         width="140"
         height="36"
         rx="10"
-        fill={brand.rose}
+        fill={brand.redLight}
         {...line}
       />
       <path d="M-46 -18 L-46 18 M46 -18 L46 18" {...line} strokeWidth={2} />
@@ -278,10 +278,10 @@ const liner: ReactNode = (
 const scenes: Record<string, Scene> = {
   pads: { bg: backdrops.peach, art: pad },
   "reusable-pads": { bg: backdrops.honey, art: reusablePad },
-  tampons: { bg: backdrops.blush, art: tampon },
+  tampons: { bg: backdrops.mist, art: tampon },
   "menstrual-cup": { bg: backdrops.honey, art: cup },
   "menstrual-disc": { bg: backdrops.peach, art: disc },
-  "period-underwear": { bg: backdrops.blush, art: underwear },
+  "period-underwear": { bg: backdrops.mist, art: underwear },
   "panty-liners": { bg: backdrops.honey, art: liner },
 };
 
