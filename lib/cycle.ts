@@ -18,7 +18,7 @@ export const phases: Phase[] = [
     days: "Days 1–5",
     firstDay: 1,
     lastDay: 5,
-    color: "#dc2626",
+    color: "#d32f2f",
     summary:
       "The lining of the uterus sheds and leaves the body as a period. Hormones are at their lowest, and cramps and tiredness are common.",
     forYou:
@@ -32,7 +32,7 @@ export const phases: Phase[] = [
     days: "Days 6–13",
     firstDay: 6,
     lastDay: 13,
-    color: "#d97706",
+    color: "#2f9e78",
     summary:
       "Estrogen climbs, the lining rebuilds, and an egg matures in the ovary. Many people notice their energy and mood lifting.",
     forYou:
@@ -46,7 +46,7 @@ export const phases: Phase[] = [
     days: "Around day 14",
     firstDay: 14,
     lastDay: 15,
-    color: "#ea580c",
+    color: "#f2a20c",
     summary:
       "An ovary releases an egg, usually 12 to 16 days before the next period. Some people feel a one-sided twinge or notice more discharge.",
     forYou:
@@ -60,7 +60,7 @@ export const phases: Phase[] = [
     days: "Days 16–28",
     firstDay: 16,
     lastDay: 28,
-    color: "#fb923c",
+    color: "#8e4fa3",
     summary:
       "Progesterone rises to prepare for a possible pregnancy. If there isn't one, hormones drop, and PMS can show up in the last week or two.",
     forYou:
