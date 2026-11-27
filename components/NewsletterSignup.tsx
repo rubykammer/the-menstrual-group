@@ -71,10 +71,11 @@ export function NewsletterSignup() {
                   type="email"
                   required
                   autoComplete="email"
+                  placeholder="you@example.com"
                   defaultValue={state.email}
                   aria-invalid={hasError || undefined}
                   aria-describedby="newsletter-status"
-                  className="mt-1 block min-h-12 w-full rounded-full border-2 border-muted bg-surface px-5 transition-colors duration-200 hover:border-primary-strong aria-invalid:border-accent-strong"
+                  className="mt-1 block min-h-12 w-full rounded-full border-2 border-muted bg-surface px-5 transition-colors placeholder:text-muted duration-200 hover:border-primary-strong aria-invalid:border-accent-strong"
                 />
               </div>
               <div className="hidden" aria-hidden="true">
