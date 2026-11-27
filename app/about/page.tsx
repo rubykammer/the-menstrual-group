@@ -1,25 +1,73 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import rubyPhoto from "@/assets/images/ruby.jpg";
 import { ButtonLink } from "@/components/ButtonLink";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
-    "Why The Menstrual Group exists, who it's for, and how its articles on periods and menstrual health are written and sourced.",
+    "How a group chat between three friends became The Menstrual Group, who it's for, and how its articles on periods and menstrual health are written and sourced.",
   path: "/about",
 });
 
 export default function AboutPage() {
   return (
     <div className="page-width pt-12 sm:pt-16">
-      <div className="max-w-2xl">
-        <h1 className="text-4xl sm:text-5xl">
-          A friendlier way to talk about periods
-        </h1>
-        <p className="mt-5 text-lg sm:text-xl">
-          About half the world menstruates for decades of their life, and the
-          other half often learns next to nothing about it. The Menstrual Group
-          exists to close that gap.
+      <section className="grid items-center gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-12">
+        <Image
+          src={rubyPhoto}
+          alt="Ruby, smiling, with long wavy hair"
+          placeholder="blur"
+          priority
+          sizes="(min-width: 768px) 40vw, 100vw"
+          className="aspect-square w-full max-w-md rounded-card object-cover shadow-soft"
+        />
+        <div>
+          <h1 className="text-4xl sm:text-5xl">
+            Hi, I&rsquo;m Ruby. This site started in a group chat.
+          </h1>
+          <p className="mt-5 text-lg sm:text-xl">
+            The Menstrual Group began as a WhatsApp chat with two of my closest
+            friends. We called it the menstrual group, and we agreed to be
+            completely open with each other about every phase of our cycles.
+          </p>
+        </div>
+      </section>
+
+      <div className="mt-14 max-w-2xl">
+        <section>
+          <h2 className="text-2xl sm:text-3xl">Why I started it</h2>
+          <p className="mt-3 text-lg">
+            In that chat we shared everything: the cramps, the moods, the
+            good weeks and the hard ones. Comparing our own experiences helped
+            all three of us understand our cycles far better than we ever had
+            on our own.
+          </p>
+          <p className="mt-4 text-lg">
+            Then I started asking male friends what they knew. The honest
+            answer was very little. Most thought a period was a four-day ordeal
+            once a month, and that was the whole story. They were surprised,
+            and genuinely interested, to learn that it&rsquo;s a cycle that
+            never stops: there&rsquo;s always a phase going on, and each one
+            shapes how we feel.
+          </p>
+        </section>
+
+        <figure className="mt-10 rounded-card bg-panel px-6 py-8 text-on-panel sm:px-10">
+          <blockquote className="font-display text-2xl leading-snug font-semibold sm:text-3xl">
+            &ldquo;It&rsquo;s not just a few days a month. We never
+            don&rsquo;t have a cycle.&rdquo;
+          </blockquote>
+          <figcaption className="mt-3 font-bold text-panel-link">
+            What I wanted my friends to know
+          </figcaption>
+        </figure>
+
+        <p className="mt-10 text-lg">
+          That curiosity is why this site exists. It&rsquo;s a place to share
+          what my friends and I have learned, written for people who have a
+          cycle and for everyone who wants to understand one.
         </p>
 
         <section className="mt-12">

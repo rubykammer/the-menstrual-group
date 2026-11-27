@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import rubyPhoto from "@/assets/images/ruby.jpg";
 import { ButtonLink } from "@/components/ButtonLink";
 import { CycleExplorer } from "@/components/CycleExplorer";
 import { CycleRing } from "@/components/CycleRing";
@@ -156,6 +158,36 @@ export default function Home() {
       <div className="mt-14 sm:mt-20">
         <QuizCtas />
       </div>
+
+      <section aria-labelledby="ruby-heading" className="page-width mt-14 sm:mt-20">
+        <div className="reveal flex flex-col gap-6 rounded-card bg-surface p-6 shadow-soft sm:flex-row sm:items-center sm:gap-10 sm:p-10">
+          <Image
+            src={rubyPhoto}
+            alt="Ruby, smiling"
+            placeholder="blur"
+            sizes="10rem"
+            className="size-28 shrink-0 rounded-full object-cover sm:size-40"
+          />
+          <div>
+            <h2 id="ruby-heading" className="text-2xl sm:text-3xl">
+              Hi, I&rsquo;m Ruby
+            </h2>
+            <p className="mt-3 text-lg">
+              This site grew out of a WhatsApp group with two friends, where we
+              shared every phase of our cycles. When I asked male friends what
+              they knew, most thought a period was a four-day thing. They
+              wanted to know more, so I built a place to learn.
+            </p>
+            <Link
+              href="/about"
+              className="mt-3 inline-block py-2 font-extrabold text-primary-strong underline-offset-4 transition-colors duration-200 hover:text-accent-strong hover:underline"
+            >
+              Why I started The Menstrual Group
+              <span aria-hidden="true"> →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section
         id="the-cycle"
