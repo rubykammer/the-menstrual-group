@@ -65,11 +65,44 @@ function cleanMessages(input: unknown): ChatMessage[] | null {
   return messages;
 }
 
-function plainText(text: string, status: number) {
+function plainText(text: string, status: number, reason?: string) {
   return new Response(text, {
     status,
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      // Why Google refused, for the site owner to check with curl or the
+      // browser's network tab. Never contains the key.
+      ...(reason ? { "X-AuntFlo-Error": reason } : {}),
+    },
   });
+}
+
+/**
+ * Google's short reason for an error, such as "400 API_KEY_INVALID: API key
+ * not valid", with the key removed in case Google ever echoes it back.
+ */
+function errorReason(error: unknown, apiKey: string) {
+  const status = (error as { status?: number }).status ?? "?";
+  const text = String((error as Error).message ?? error);
+  // Streaming errors wrap Google's JSON in another, escaped layer, so allow
+  // backslashes before the quotes and skip a "message" that's just "{".
+  const reason = text.match(/\\*"reason\\*":\s*\\*"([A-Z_]+)/)?.[1] ?? "";
+  const message =
+    [...text.matchAll(/\\*"message\\*":\s*\\*"([^"\\]{1,120})/g)]
+      .map((match) => match[1])
+      .find((value) => value !== "{") ?? "";
+  return `${status} ${reason}: ${message}`
+    .split(apiKey)
+    .join("[key]")
+    .replace(/[^\x20-\x7e]/g, "");
+}
+
+/**
+ * The key from the environment. Trimmed, and stripped of surrounding quote
+ * marks, since pasted keys often pick up a stray space, newline or quotes.
+ */
+function geminiKey() {
+  return process.env.GEMINI_API_KEY?.trim().replace(/^["']|["']$/g, "").trim();
 }
 
 const cantHelp =
@@ -82,8 +115,7 @@ const cantHelp =
  * write the reply.
  */
 export async function POST(request: Request) {
-  // Trimmed, since a pasted key often picks up a stray space or newline.
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const apiKey = geminiKey();
   if (!apiKey) return plainText("AuntFlo isn't set up yet.", 503);
 
   const ip =
@@ -111,6 +143,7 @@ export async function POST(request: Request) {
   }));
   let chunks: Awaited<ReturnType<typeof ai.models.generateContentStream>> | undefined;
   let status: number | undefined;
+  let reason: string | undefined;
   for (const model of models) {
     try {
       chunks = await ai.models.generateContentStream({
@@ -127,6 +160,7 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error(`AuntFlo request to ${model} failed`, error);
       status = (error as { status?: number }).status;
+      reason = `${model}: ${errorReason(error, apiKey)}`;
       if (request.signal.aborted || !retryable.has(status ?? 0)) break;
     }
   }
@@ -141,6 +175,7 @@ export async function POST(request: Request) {
           ? "AuntFlo is very popular right now and has hit today's limit. Please try again later."
           : "Sorry, I couldn't answer just now. Please try again in a moment.",
       setupProblem ? 503 : status === 429 ? 429 : 502,
+      reason,
     );
   }
 
