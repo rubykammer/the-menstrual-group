@@ -38,15 +38,6 @@ const markdown: Components = {
   ol: ({ children }) => <ol className="mt-2 list-decimal space-y-1 pl-5">{children}</ol>,
 };
 
-function ChatBubbleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="size-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z" />
-      <path d="M12 8.5c-1.2-1.4-3.5-.6-3.5 1.3 0 1.8 3.5 4.2 3.5 4.2s3.5-2.4 3.5-4.2c0-1.9-2.3-2.7-3.5-1.3Z" />
-    </svg>
-  );
-}
-
 /**
  * AuntFlo, the site's chat helper: a button in the corner that opens a chat
  * panel. It sits in the root layout, so the conversation carries on as people
@@ -141,10 +132,24 @@ export function AuntFlo() {
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
         aria-controls="auntflo-panel"
-        className={`fixed right-4 bottom-4 z-30 inline-flex cursor-pointer items-center gap-2 rounded-full bg-primary-strong px-5 py-3 font-extrabold text-on-primary shadow-soft transition-all duration-200 hover:bg-primary-hover motion-safe:hover:-translate-y-0.5 sm:right-6 sm:bottom-6 ${open ? "max-sm:hidden" : ""}`}
+        aria-label={open ? "Close chat" : undefined}
+        // A quiet speech bubble rather than a big button, so it doesn't
+        // compete with the page's own calls to action.
+        className={`fixed right-4 bottom-4 z-30 inline-flex cursor-pointer items-center border border-line bg-surface text-left text-foreground shadow-soft transition-all duration-200 hover:border-divider motion-safe:animate-toast-in motion-safe:hover:-translate-y-0.5 sm:right-6 sm:bottom-6 ${open ? "size-12 justify-center rounded-full text-2xl leading-none max-sm:hidden" : "gap-2.5 rounded-2xl rounded-br-sm py-2 pr-4 pl-2"}`}
       >
-        <ChatBubbleIcon />
-        {open ? "Close chat" : "Ask AuntFlo"}
+        {open ? (
+          "×"
+        ) : (
+          <>
+            <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-full bg-peach text-lg">
+              🌸
+            </span>
+            <span className="leading-tight">
+              <span className="block text-xs text-muted">Got a question?</span>
+              <span className="block text-sm font-bold">Ask AuntFlo</span>
+            </span>
+          </>
+        )}
       </button>
 
       {open && (
