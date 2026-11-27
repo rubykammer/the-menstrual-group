@@ -89,7 +89,7 @@ export default function Home() {
             </ButtonLink>
           </div>
         </div>
-        {/* Decorative, so phones skip it and reach the quizzes sooner */}
+        {/* Decorative, so phones skip it and reach the starting points sooner */}
         <div className="hidden sm:block">
           <CycleRing className="mx-auto w-full max-w-sm lg:max-w-none" />
           <p className="mt-2 text-center text-sm font-bold text-muted" aria-hidden="true">
@@ -98,13 +98,11 @@ export default function Home() {
         </div>
       </section>
 
-      <QuizCtas />
-
-      <section aria-labelledby="doors-heading" className="page-width mt-14 sm:mt-20">
-        <h2 id="doors-heading" className="sr-only">
+      <section aria-labelledby="doors-heading" className="page-width">
+        <h2 id="doors-heading" className="text-3xl sm:text-4xl">
           Where would you like to start?
         </h2>
-        <ul className="grid gap-6 md:grid-cols-2">
+        <ul className="mt-8 grid gap-6 md:grid-cols-2">
           {doors.map((door) => (
             <li
               key={door.title}
@@ -146,6 +144,10 @@ export default function Home() {
           ))}
         </ul>
       </section>
+
+      <div className="mt-14 sm:mt-20">
+        <QuizCtas />
+      </div>
 
       <section
         id="the-cycle"
