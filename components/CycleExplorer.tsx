@@ -79,14 +79,21 @@ export function CycleExplorer() {
           role="tabpanel"
           aria-labelledby={`tab-${active.id}`}
           tabIndex={0}
-          className="mt-5 rounded-card bg-surface p-6 shadow-soft sm:p-8"
+          className="mt-5 rounded-card border-t-8 bg-surface p-6 shadow-soft transition-colors duration-300 sm:p-8"
+          style={{ borderTopColor: active.color }}
         >
-          <p className="text-sm font-extrabold tracking-wide text-primary-strong uppercase">
+          <p
+            className="text-sm font-extrabold tracking-wide uppercase"
+            style={{ color: active.strong }}
+          >
             {active.days}
           </p>
           <p className="mt-2 text-lg">{active.summary}</p>
           <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl bg-honey p-4">
+            <div
+              className="rounded-2xl p-4 transition-colors duration-300"
+              style={{ backgroundColor: active.tint }}
+            >
               <dt className="font-extrabold">If it&apos;s your cycle</dt>
               <dd className="mt-1">{active.forYou}</dd>
             </div>

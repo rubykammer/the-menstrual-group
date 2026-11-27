@@ -77,6 +77,50 @@
   }
 }
 
+/* Static, so every variable is output even when it's only referenced from
+   inline styles (lib/cycle.ts). */
+@theme static {
+  /* Cycle phases, as in the homepage ring (lib/cycle.ts points here).
+     Supporting accents only: calls to action stay orange. The base colours are for shapes (beads, dots, bars,
+     borders); the light ovulation yellow is too pale for anything a reader
+     needs to see, so pair it with a label. Body-sized text uses the -strong
+     shades (4.5:1 or more on the background, surface, mist, peach and the
+     phase's own tint, in both themes). Text on a filled base colour uses
+     on-phase-*. Pale -tint shades are for backgrounds. */
+  --color-phase-menstrual: light-dark(#d32f2f, #ef6b6b);
+  --color-phase-follicular: light-dark(#2f9e78, #4cc49a);
+  --color-phase-ovulation: light-dark(#f2a20c, #f5b83d);
+  --color-phase-luteal: light-dark(#8e4fa3, #c08ad4);
+
+  --color-phase-menstrual-strong: light-dark(#b3261e, #f59a9a);
+  --color-phase-follicular-strong: light-dark(#1f6f53, #6fd4ae);
+  --color-phase-ovulation-strong: light-dark(#8a5800, #f7c766);
+  --color-phase-luteal-strong: light-dark(#763d8a, #d0a6e0);
+
+  --color-phase-menstrual-tint: light-dark(#fdecea, #3a1f1f);
+  --color-phase-follicular-tint: light-dark(#e3f4ec, #16302a);
+  --color-phase-ovulation-tint: light-dark(#fdf1d6, #3a2e14);
+  --color-phase-luteal-tint: light-dark(#f3e8f7, #30233a);
+
+  --color-on-phase-menstrual: light-dark(#ffffff, #1c1714);
+  --color-on-phase-follicular: #1c1714;
+  --color-on-phase-ovulation: #1c1714;
+  --color-on-phase-luteal: light-dark(#ffffff, #1c1714);
+}
+
+/* A thin bar of the four phase colours, in cycle order: a section divider */
+@utility phase-stripe {
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--color-phase-menstrual) 0 25%,
+    var(--color-phase-follicular) 25% 50%,
+    var(--color-phase-ovulation) 50% 75%,
+    var(--color-phase-luteal) 75%
+  );
+}
+
 @utility page-width {
   width: 100%;
   max-width: 72rem;
@@ -224,8 +268,23 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 1.25rem 1.5rem;
-  background: var(--color-mist);
+  background: var(--color-phase-luteal-tint);
+  border-left: 0.375rem solid var(--color-phase-luteal);
   border-radius: 1.25rem;
+}
+
+.article-body hr {
+  height: 0.375rem;
+  margin-block: 2.5rem;
+  border: 0;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--color-phase-menstrual) 0 25%,
+    var(--color-phase-follicular) 25% 50%,
+    var(--color-phase-ovulation) 50% 75%,
+    var(--color-phase-luteal) 75%
+  );
 }
 
 .article-body blockquote > * + * {

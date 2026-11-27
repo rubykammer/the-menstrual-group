@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { searchableText, type Post } from "@/lib/posts";
-import { topics, type Topic } from "@/lib/site";
+import { topicAccents, topics, type Topic } from "@/lib/site";
 import { ArticleSearch } from "./ArticleSearch";
 import { PostCard } from "./PostCard";
 
 const pillClass =
-  "inline-block rounded-full border-2 border-line bg-surface px-4 py-2 font-bold transition-colors duration-200 hover:border-primary aria-[current=page]:border-foreground aria-[current=page]:bg-foreground aria-[current=page]:text-background";
+  "inline-flex items-center gap-2 rounded-full border-2 border-line bg-surface px-4 py-2 font-bold transition-colors duration-200 hover:border-primary aria-[current=page]:border-foreground aria-[current=page]:bg-foreground aria-[current=page]:text-background";
 
 export function BlogListing({
   posts,
@@ -47,6 +47,10 @@ export function BlogListing({
                 }
                 className={pillClass}
               >
+                <span
+                  className={`size-2.5 shrink-0 rounded-full ${topicAccents[topic.slug].dot}`}
+                  aria-hidden="true"
+                />
                 {topic.label}
               </Link>
             </li>

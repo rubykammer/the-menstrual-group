@@ -86,7 +86,7 @@ export function HormoneWave({ activePhaseId, onPhaseSelect }: HormoneWaveProps) 
                   y={TOP - 30}
                   width={right - left}
                   height={BOTTOM - TOP + 30}
-                  fill={phase.color}
+                  style={{ fill: phase.color }}
                   opacity={selected ? 0.14 : 0}
                   className="transition-opacity duration-300"
                 />
@@ -96,7 +96,7 @@ export function HormoneWave({ activePhaseId, onPhaseSelect }: HormoneWaveProps) 
                   width={right - left - 2}
                   height={8}
                   rx={4}
-                  fill={phase.color}
+                  style={{ fill: phase.color }}
                   opacity={selected ? 1 : 0.4}
                   className="transition-opacity duration-300"
                 />

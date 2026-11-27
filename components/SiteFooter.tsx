@@ -5,7 +5,9 @@ import { NewsletterSignup } from "./NewsletterSignup";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-line bg-honey/60">
+    <footer className="mt-20 bg-honey/60">
+      {/* The four cycle phases, edge to edge */}
+      <div className="phase-stripe rounded-none" aria-hidden="true" />
       <NewsletterSignup />
 
       <div className="page-width grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-[2fr_1fr_1fr]">

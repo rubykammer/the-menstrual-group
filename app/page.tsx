@@ -40,7 +40,7 @@ const doors: Door[] = [
     body: "Understand what your body is doing, feel better on the harder days, and know when it's time to ask for help.",
     href: "/your-cycle",
     cta: "Start with the basics",
-    tint: "bg-honey",
+    tint: "bg-phase-luteal-tint border-phase-luteal",
     art: "self",
   },
   {
@@ -48,7 +48,7 @@ const doors: Door[] = [
     body: "What's actually happening each month, what to say, and the practical things that help a partner, daughter or friend.",
     href: "/partners",
     cta: "Start with the partner guide",
-    tint: "bg-mist",
+    tint: "bg-phase-follicular-tint border-phase-follicular",
     art: "supporter",
     more: [
       { href: "/dads", label: "For dads" },
@@ -116,7 +116,7 @@ export default function Home() {
           {doors.map((door) => (
             <li
               key={door.title}
-              className={`reveal group relative overflow-hidden rounded-card p-6 transition-all sm:p-8 duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
+              className={`reveal group relative overflow-hidden rounded-card border-t-8 p-6 transition-all sm:p-8 duration-300 hover:shadow-soft motion-safe:hover:-translate-y-1 ${door.tint}`}
             >
               <div className="-mx-6 -mt-6 mb-6 flex justify-center overflow-hidden rounded-t-card bg-foreground/5 pt-4 sm:-mx-8 sm:-mt-8">
                 <svg

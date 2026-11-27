@@ -75,6 +75,7 @@ export function Quiz({ quiz }: { quiz: QuizData }) {
     const result = quizResult(score, total);
     return (
       <div className="rounded-card bg-surface p-6 shadow-soft sm:p-10">
+        <div className="phase-stripe mb-6 w-24" aria-hidden="true" />
         <p className="font-extrabold text-primary-strong">
           You scored {score} out of {total}
         </p>

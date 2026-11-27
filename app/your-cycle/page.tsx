@@ -41,6 +41,7 @@ export default function YourCyclePage() {
           Understand what your body is doing, feel better on the harder days,
           and know when something deserves a closer look.
         </p>
+        <div className="phase-stripe mt-8 max-w-xs" aria-hidden="true" />
       </header>
 
       <section
@@ -61,14 +62,17 @@ export default function YourCyclePage() {
                 key={phase.id}
                 className="grid gap-1 py-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8"
               >
-                <h3 className="flex items-center gap-3 text-xl">
+                <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl">
                   <span
                     className="size-4 shrink-0 rounded-full"
                     style={{ backgroundColor: phase.color }}
                     aria-hidden="true"
                   />
                   {phase.name}
-                  <span className="font-sans text-sm font-semibold text-muted">
+                  <span
+                    className="rounded-full px-2.5 py-0.5 font-sans text-sm font-extrabold"
+                    style={{ backgroundColor: phase.tint, color: phase.strong }}
+                  >
                     {phase.days}
                   </span>
                 </h3>

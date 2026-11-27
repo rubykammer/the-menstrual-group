@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatDate, type Post } from "@/lib/posts";
-import { getTopic } from "@/lib/site";
+import { getTopic, topicAccents } from "@/lib/site";
 import { PostArt } from "./PostArt";
 
 export function PostCard({
@@ -32,7 +32,9 @@ export function PostCard({
       <div
         className={`flex flex-1 flex-col p-6 ${featured ? "md:justify-center md:p-10" : ""}`}
       >
-        <p className="text-sm font-extrabold tracking-wide text-primary-strong uppercase">
+        <p
+          className={`text-sm font-extrabold tracking-wide uppercase ${topicAccents[post.topic].text}`}
+        >
           {getTopic(post.topic)?.label}
         </p>
         <Heading

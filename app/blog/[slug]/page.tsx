@@ -7,7 +7,7 @@ import { PostArt } from "@/components/PostArt";
 import { PostCard } from "@/components/PostCard";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { formatDate, getAllPosts, getPost, getRelatedPosts } from "@/lib/posts";
-import { getTopic } from "@/lib/site";
+import { getTopic, topicAccents } from "@/lib/site";
 import { absoluteUrl, breadcrumbs, organization, pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <li>
               <Link
                 href={`/blog/topic/${post.topic}`}
-                className="transition-colors duration-200 hover:text-primary-strong"
+                className={`-my-0.5 inline-block rounded-full px-2.5 py-0.5 underline-offset-2 hover:underline ${topicAccents[post.topic].badge}`}
               >
                 {topic?.label}
               </Link>
@@ -134,7 +134,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <ReadingProgress target="article-text" />
             <ArticleBody content={post.content} />
 
-            <footer className="mt-12 border-t border-line pt-6">
+            <footer className="mt-12">
+              <div className="phase-stripe mb-6 w-24" aria-hidden="true" />
               <h2 className="font-sans text-base font-extrabold">Sources</h2>
               <ul className="mt-2 space-y-1">
                 {post.sources.map((source) => (

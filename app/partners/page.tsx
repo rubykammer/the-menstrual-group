@@ -123,7 +123,7 @@ export default function PartnersPage() {
                     style={{ backgroundColor: phase.color }}
                     aria-hidden="true"
                   />
-                  {phase.name}
+                  <span style={{ color: phase.strong }}>{phase.name}</span>
                 </h3>
                 <p>{phase.forPartners}</p>
               </li>

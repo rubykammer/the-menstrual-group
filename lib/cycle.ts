@@ -4,11 +4,28 @@ export type Phase = {
   days: string;
   firstDay: number;
   lastDay: number;
+  /** Base colour, for shapes: beads, dots, bars and borders */
   color: string;
+  /** For phase-coloured text */
+  strong: string;
+  /** Pale background */
+  tint: string;
+  /** Text on a filled base-colour background */
+  onColor: string;
   summary: string;
   forYou: string;
   forPartners: string;
 };
+
+/** The phase colours live in app/globals.css as theme tokens, with a light and a dark value each. */
+function phaseColors(name: string) {
+  return {
+    color: `var(--color-phase-${name})`,
+    strong: `var(--color-phase-${name}-strong)`,
+    tint: `var(--color-phase-${name}-tint)`,
+    onColor: `var(--color-on-phase-${name})`,
+  };
+}
 
 /** A textbook 28-day cycle. Real cycles vary, and the UI says so. */
 export const phases: Phase[] = [
@@ -18,7 +35,7 @@ export const phases: Phase[] = [
     days: "Days 1–5",
     firstDay: 1,
     lastDay: 5,
-    color: "#d32f2f",
+    ...phaseColors("menstrual"),
     summary:
       "The lining of the uterus sheds and leaves the body as a period. Hormones are at their lowest, and cramps and tiredness are common.",
     forYou:
@@ -32,7 +49,7 @@ export const phases: Phase[] = [
     days: "Days 6–13",
     firstDay: 6,
     lastDay: 13,
-    color: "#2f9e78",
+    ...phaseColors("follicular"),
     summary:
       "Estrogen climbs, the lining rebuilds, and an egg matures in the ovary. Many people notice their energy and mood lifting.",
     forYou:
@@ -46,7 +63,7 @@ export const phases: Phase[] = [
     days: "Around day 14",
     firstDay: 14,
     lastDay: 15,
-    color: "#f2a20c",
+    ...phaseColors("ovulation"),
     summary:
       "An ovary releases an egg, usually 12 to 16 days before the next period. Some people feel a one-sided twinge or notice more discharge.",
     forYou:
@@ -60,7 +77,7 @@ export const phases: Phase[] = [
     days: "Days 16–28",
     firstDay: 16,
     lastDay: 28,
-    color: "#8e4fa3",
+    ...phaseColors("luteal"),
     summary:
       "Progesterone rises to prepare for a possible pregnancy. If there isn't one, hormones drop, and PMS can show up in the last week or two.",
     forYou:

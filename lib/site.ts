@@ -94,6 +94,33 @@ export const topics = [
 export type Topic = (typeof topics)[number];
 export type TopicSlug = Topic["slug"];
 
+/** Each topic borrows a cycle-phase colour, for its labels and badges. */
+export const topicAccents: Record<
+  TopicSlug,
+  { dot: string; text: string; badge: string }
+> = {
+  "cycle-basics": {
+    dot: "bg-phase-menstrual",
+    text: "text-phase-menstrual-strong",
+    badge: "bg-phase-menstrual-tint text-phase-menstrual-strong",
+  },
+  health: {
+    dot: "bg-phase-follicular",
+    text: "text-phase-follicular-strong",
+    badge: "bg-phase-follicular-tint text-phase-follicular-strong",
+  },
+  "everyday-life": {
+    dot: "bg-phase-ovulation",
+    text: "text-phase-ovulation-strong",
+    badge: "bg-phase-ovulation-tint text-phase-ovulation-strong",
+  },
+  "for-partners": {
+    dot: "bg-phase-luteal",
+    text: "text-phase-luteal-strong",
+    badge: "bg-phase-luteal-tint text-phase-luteal-strong",
+  },
+};
+
 export function getTopic(slug: string) {
   return topics.find((topic) => topic.slug === slug);
 }

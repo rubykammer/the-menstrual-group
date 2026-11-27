@@ -43,11 +43,10 @@ export function CycleRing({ className }: CycleRingProps) {
               <circle
                 cx={cx}
                 cy={cy}
-                fill={phase.color}
                 opacity={dimmed ? 0.22 : 1}
                 className="origin-center transition-all duration-300 [transform-box:fill-box] motion-safe:animate-bead-in"
                 // The beads appear one after another, round the month
-                style={{ r: beadRadius, animationDelay: `${index * 28}ms` }}
+                style={{ r: beadRadius, fill: phase.color, animationDelay: `${index * 28}ms` }}
               />
               {/* Wider than the bead so the gaps don't flicker on the way past */}
               <circle
