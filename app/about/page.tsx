@@ -14,14 +14,16 @@ export const metadata: Metadata = pageMetadata({
 export default function AboutPage() {
   return (
     <div className="page-width pt-12 sm:pt-16">
-      <section className="grid items-center gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-12">
+      {/* The photo is only about 550px wide, so it stays at most 17rem
+          (272px) across: still sharp on high-density screens. */}
+      <section className="grid items-center gap-8 md:grid-cols-[auto_minmax(0,1fr)] md:gap-12">
         <Image
           src={rubyPhoto}
           alt="Ruby, smiling, with long wavy hair"
           placeholder="blur"
           priority
-          sizes="(min-width: 768px) 40vw, 100vw"
-          className="aspect-square w-full max-w-md rounded-card object-cover shadow-soft"
+          sizes="(min-width: 640px) 17rem, 14rem"
+          className="aspect-square w-56 rounded-card object-cover shadow-soft sm:w-68"
         />
         <div>
           <h1 className="text-4xl sm:text-5xl">
