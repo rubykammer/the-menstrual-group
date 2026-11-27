@@ -333,7 +333,12 @@ export const doorScenes = {
   self: (
     <>
       <circle cx="292" cy="72" r="34" fill={brand.sun} {...line} />
-      <Bust x={196} y={110} s={0.95} hair="fringe" top="sweater" color={brand.orange} eyes="happy" mouth="smile" wheelchair />
+      {/* Someone with a cycle, taking a warm drink on an easy day */}
+      <Bust x={196} y={98} s={1.08} hair="puffs" top="sweater" color={brand.apricot} eyes="happy" mouth="smile">
+        <Mug x={-14} y={84} fill={PAPER} />
+        <Arm d="M-56 170 Q-60 128 -22 110" hand={[-20, 108]} color={brand.apricot} />
+        <Arm d="M56 170 Q60 128 22 110" hand={[20, 108]} color={brand.apricot} />
+      </Bust>
       <Sparkle x={110} y={56} />
       <Sparkle x={330} y={140} s={0.7} />
     </>
