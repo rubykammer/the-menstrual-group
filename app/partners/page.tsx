@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { PartnerScripts } from "@/components/PartnerScripts";
+import { SayItHelper } from "@/components/SayItHelper";
 import { PostCard } from "@/components/PostCard";
 import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
@@ -97,6 +98,7 @@ export default function PartnersPage() {
           .
         </p>
         <PartnerScripts />
+        <SayItHelper audience="partner" />
       </section>
 
       <section

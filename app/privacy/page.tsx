@@ -79,10 +79,11 @@ export default function PrivacyPage() {
         <section id="auntflo" className="mt-12">
           <h2 className="text-2xl sm:text-3xl">Chatting with AuntFlo</h2>
           <p className="mt-3 text-lg">
-            AuntFlo, our chat helper, is powered by Gemini, an AI made by
-            Google. What you type is sent to Google so it can write a reply. We
-            don&apos;t save your chats or link them to your account, and the
-            conversation is gone when you close the tab.
+            AuntFlo, our chat helper, and the &ldquo;Help me say it&rdquo;
+            suggestions on our pages for partners, dads and friends are powered
+            by Gemini, an AI made by Google. What you type is sent to Google so
+            it can write a reply. We don&apos;t save what you type or link it to
+            your account, and it&apos;s gone when you close the tab.
           </p>
           <p className="mt-3 text-lg">
             We use Google&apos;s free service, so Google may keep what you type

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ButtonLink";
 import { PartnerScripts } from "@/components/PartnerScripts";
+import { SayItHelper } from "@/components/SayItHelper";
 import { PostCard } from "@/components/PostCard";
 import { QuizBanner } from "@/components/QuizCtas";
 import { SupporterLinks } from "@/components/SupporterLinks";
@@ -131,6 +132,7 @@ export default function DadsPage() {
           exactly right.
         </p>
         <PartnerScripts scripts={dadScripts} />
+        <SayItHelper audience="dad" />
       </section>
 
       <section aria-labelledby="reading-heading" className="page-width mt-20">

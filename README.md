@@ -33,6 +33,13 @@ Your article. Use `##` headings to fill the "In this article" list, and a `>` bl
 
 `/products` lists period products, and each has its own page at `/products/<slug>` with how it works, pros and cons, who it might suit, tips, a toxic shock syndrome note for anything worn inside, and sources. The content lives in `lib/products.ts`; add an entry there to add a product, and a drawing for it in `components/illustrations/products.tsx`.
 
+## AI helpers
+
+Both use Google's Gemini API (free tier). Set `GEMINI_API_KEY` in your host's environment variables or `.env.local`; until then each says it isn't set up. Shared settings, such as the models tried in order, live in `lib/gemini.ts`.
+
+- **AuntFlo** is the chat in the corner of every page (`components/AuntFlo.tsx`, `app/api/auntflo/route.ts`). Its instructions and the article library it draws on are in `lib/auntflo.ts`.
+- **Help me say it** sits under "Say this, not that" on `/partners`, `/dads` and `/friends` (`components/SayItHelper.tsx`, `app/api/say-it/route.ts`). Visitors describe a moment and get three things they could say, one to avoid and a next step. The example prompts for each page are in `lib/say-it.ts`.
+
 ## Forum
 
 `/forum` is a members-only forum. Anyone signed in with Google can start a conversation in one of the categories in `lib/forum.ts`, and reply to others. Posts are plain text and show the author's name and photo from their profile, never their email. People can remove their own posts, and admins can remove anyone's; removing a conversation's opening post removes the whole conversation. Each person can post at most 5 times a minute and start 5 conversations an hour.
