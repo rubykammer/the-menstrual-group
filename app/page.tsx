@@ -82,11 +82,19 @@ export default function Home() {
             have them, and for the partners, dads and friends who want to
             understand what&rsquo;s going on and how to help.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/your-cycle">I have a cycle</ButtonLink>
-            <ButtonLink href="/partners" variant="secondary">
-              I&rsquo;m supporting someone
+          {/* One main action: the quizzes are quick and lead on to the guides.
+              They're for supporters, so people with a cycle get their own link. */}
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <ButtonLink href="/quiz" className="px-8 py-4 text-lg">
+              Take the 1-minute quiz
             </ButtonLink>
+            <Link
+              href="/your-cycle"
+              className="self-center py-2 font-extrabold text-primary-strong underline-offset-4 transition-colors duration-200 hover:text-accent-strong hover:underline sm:self-auto"
+            >
+              Have a cycle? Start with the basics
+              <span aria-hidden="true"> →</span>
+            </Link>
           </div>
         </div>
         {/* Decorative, so phones skip it and reach the starting points sooner */}
