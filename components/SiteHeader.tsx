@@ -22,6 +22,9 @@ type Me = {
 // for partners, dads and friends share one "For loved ones" menu, so the
 // full row fits from the lg breakpoint. Narrower screens use the menu.
 const adminLink = { href: "/admin", label: "Admin" };
+// The Admin link is hidden for now; admins reach the dashboard at /admin by
+// URL. Set this to true to show it again.
+const showAdminLink = false;
 const lovedOnesHrefs = new Set(["/partners", "/dads", "/friends"]);
 const lovedOnesLinks = navLinks.filter((link) => lovedOnesHrefs.has(link.href));
 // The group sits where the first of its links was in the list
@@ -220,7 +223,7 @@ export function SiteHeader() {
               <path d="M16.5 16.5L21 21" />
             </svg>
           </Link>
-          {me?.isAdmin && (
+          {showAdminLink && me?.isAdmin && (
             <Link
               href={adminLink.href}
               aria-current={isCurrent(adminLink.href) ? "page" : undefined}
@@ -320,7 +323,7 @@ export function SiteHeader() {
           </li>
           <li aria-hidden="true" className="mx-4 my-2 border-t border-line" />
           {mainAfter.map(mobileLink)}
-          {me?.isAdmin && mobileLink(adminLink)}
+          {showAdminLink && me?.isAdmin && mobileLink(adminLink)}
           <li className="flex items-center justify-between rounded-2xl px-4 py-1 sm:hidden">
             <span className="text-lg font-bold">Theme</span>
             <ThemeToggle />
