@@ -39,10 +39,10 @@ export default function ProductsPage() {
       </section>
 
       <section aria-labelledby="compare-heading" className="page-width mt-16">
-        <h2 id="compare-heading" className="text-3xl sm:text-4xl">
+        <h2 id="compare-heading" className="reveal text-3xl sm:text-4xl">
           At a glance
         </h2>
-        <div className="mt-6 overflow-x-auto rounded-card bg-surface shadow-soft">
+        <div className="reveal mt-6 overflow-x-auto rounded-card bg-surface shadow-soft">
           <table className="w-full min-w-[40rem] text-left">
             <thead className="border-b border-line text-sm text-muted">
               <tr>
@@ -87,7 +87,7 @@ export default function ProductsPage() {
       </section>
 
       <section className="page-width mt-16 mb-16">
-        <div className="rounded-card bg-peach p-8 sm:p-10">
+        <div className="reveal rounded-card bg-peach p-8 sm:p-10">
           <h2 className="text-2xl sm:text-3xl">What do other people use?</h2>
           <p className="mt-3 max-w-2xl text-lg">
             Ask questions and swap experiences with other members in the forum.

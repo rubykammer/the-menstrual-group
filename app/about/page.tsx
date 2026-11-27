@@ -39,7 +39,7 @@ export default function AboutPage() {
       </section>
 
       <div className="mt-14 max-w-2xl">
-        <section>
+        <section className="reveal">
           <h2 className="text-2xl sm:text-3xl">Why I started it</h2>
           <p className="mt-3 text-lg">
             In that chat we shared everything: the cramps, the moods, the
@@ -57,7 +57,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <figure className="mt-10 rounded-card bg-panel px-6 py-8 text-on-panel sm:px-10">
+        <figure className="reveal mt-10 rounded-card bg-panel px-6 py-8 text-on-panel sm:px-10">
           <blockquote className="font-display text-2xl leading-snug font-semibold sm:text-3xl">
             &ldquo;It&rsquo;s not just a few days a month. We never
             don&rsquo;t have a cycle.&rdquo;
@@ -67,13 +67,13 @@ export default function AboutPage() {
           </figcaption>
         </figure>
 
-        <p className="mt-10 text-lg">
+        <p className="reveal mt-10 text-lg">
           That curiosity is why this site exists. It&rsquo;s a place to share
           what my friends and I have learned, written for people who have a
           cycle and for everyone who wants to understand one.
         </p>
 
-        <section className="mt-12">
+        <section className="reveal mt-12">
           <h2 className="text-2xl sm:text-3xl">Who this is for</h2>
           <p className="mt-3 text-lg">
             Everyone. Women who want to understand their own bodies better, and
@@ -83,7 +83,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="mt-12">
+        <section className="reveal mt-12">
           <h2 className="text-2xl sm:text-3xl">How we write</h2>
           <p className="mt-3 text-lg">
             We keep things plain, warm and shame-free. Health information is
@@ -94,7 +94,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="mt-12">
+        <section className="reveal mt-12">
           <h2 className="text-2xl sm:text-3xl">What we aren&apos;t</h2>
           <p className="mt-3 text-lg">
             We aren&apos;t a clinic, and nothing here is medical advice. Bodies

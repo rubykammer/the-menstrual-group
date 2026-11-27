@@ -49,10 +49,10 @@ export default function YourCyclePage() {
         className="mt-14 bg-mist py-16 sm:py-20"
       >
         <div className="page-width">
-          <h2 id="month-heading" className="text-3xl sm:text-4xl">
+          <h2 id="month-heading" className="reveal text-3xl sm:text-4xl">
             Working with each phase
           </h2>
-          <p className="mt-3 max-w-2xl text-lg">
+          <p className="reveal mt-3 max-w-2xl text-lg">
             These are based on a textbook 28-day cycle. Yours might be shorter
             or longer, and that&apos;s usually fine.
           </p>
@@ -60,7 +60,7 @@ export default function YourCyclePage() {
             {phases.map((phase) => (
               <li
                 key={phase.id}
-                className="grid gap-1 py-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8"
+                className="reveal grid gap-1 py-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8"
               >
                 <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl">
                   <span
@@ -88,10 +88,10 @@ export default function YourCyclePage() {
         className="page-width mt-20 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
       >
         <div>
-          <h2 id="doctor-heading" className="text-3xl sm:text-4xl">
+          <h2 id="doctor-heading" className="reveal text-3xl sm:text-4xl">
             When to see a doctor
           </h2>
-          <p className="mt-3 text-lg">
+          <p className="reveal mt-3 text-lg">
             Painful or heavy periods are common, but that doesn&apos;t mean you
             have to put up with them. Book an appointment if any of these sound
             familiar.
@@ -106,7 +106,7 @@ export default function YourCyclePage() {
         </div>
         <ul className="grid gap-3 sm:grid-cols-2">
           {seeADoctor.map((sign) => (
-            <li key={sign} className="rounded-card bg-mist p-5 text-lg">
+            <li key={sign} className="reveal rounded-card bg-mist p-5 text-lg">
               {sign}
             </li>
           ))}
@@ -114,7 +114,7 @@ export default function YourCyclePage() {
       </section>
 
       <section aria-labelledby="reading-heading" className="page-width mt-20">
-        <h2 id="reading-heading" className="text-3xl sm:text-4xl">
+        <h2 id="reading-heading" className="reveal text-3xl sm:text-4xl">
           Good places to start
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2">

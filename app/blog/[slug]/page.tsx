@@ -161,7 +161,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </article>
 
       <section aria-labelledby="related-heading" className="page-width mt-20">
-        <h2 id="related-heading" className="text-3xl">
+        <h2 id="related-heading" className="reveal text-3xl">
           Keep reading
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

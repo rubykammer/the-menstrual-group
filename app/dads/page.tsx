@@ -69,12 +69,12 @@ export default function DadsPage() {
       <QuizBanner slug="dads" />
 
       <section aria-labelledby="principles-heading" className="page-width mt-14">
-        <h2 id="principles-heading" className="text-3xl sm:text-4xl">
+        <h2 id="principles-heading" className="reveal text-3xl sm:text-4xl">
           Four things to remember
         </h2>
         <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {principles.map((principle, index) => (
-            <li key={principle.title} className="rounded-card bg-surface p-6 shadow-soft">
+            <li key={principle.title} className="reveal rounded-card bg-surface p-6 shadow-soft">
               <span
                 className="font-display text-4xl font-semibold text-primary"
                 aria-hidden="true"
@@ -91,10 +91,10 @@ export default function DadsPage() {
       <section aria-labelledby="kit-heading" className="mt-20 bg-honey py-16 sm:py-20">
         <div className="page-width grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
-            <h2 id="kit-heading" className="text-3xl sm:text-4xl">
+            <h2 id="kit-heading" className="reveal text-3xl sm:text-4xl">
               A first-period kit
             </h2>
-            <p className="mt-3 text-lg">
+            <p className="reveal mt-3 text-lg">
               Put it together before it&apos;s needed, then show them where it
               is. It says &ldquo;this is normal, and you&apos;re ready&rdquo;
               without a big speech.
@@ -102,7 +102,7 @@ export default function DadsPage() {
           </div>
           <ul className="divide-y divide-divider">
             {kit.map((item) => (
-              <li key={item} className="flex items-start gap-3 py-4 text-lg">
+              <li key={item} className="reveal flex items-start gap-3 py-4 text-lg">
                 <svg
                   viewBox="0 0 24 24"
                   className="mt-1 size-5 shrink-0 text-primary-strong"
@@ -123,10 +123,10 @@ export default function DadsPage() {
       </section>
 
       <section aria-labelledby="scripts-heading" className="page-width mt-20">
-        <h2 id="scripts-heading" className="text-3xl sm:text-4xl">
+        <h2 id="scripts-heading" className="reveal text-3xl sm:text-4xl">
           Say this, not that
         </h2>
-        <p className="mt-3 max-w-2xl text-lg">
+        <p className="reveal mt-3 max-w-2xl text-lg">
           Your tone matters more than your words. Calm and matter-of-fact is
           exactly right.
         </p>
@@ -134,7 +134,7 @@ export default function DadsPage() {
       </section>
 
       <section aria-labelledby="reading-heading" className="page-width mt-20">
-        <h2 id="reading-heading" className="text-3xl sm:text-4xl">
+        <h2 id="reading-heading" className="reveal text-3xl sm:text-4xl">
           Good places to start
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2">

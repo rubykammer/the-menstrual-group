@@ -10,7 +10,7 @@ export function PartnerScripts({
       {scripts.map(({ situation, sayThis, notThat, thenDo }) => (
         <li
           key={situation}
-          className="flex flex-col rounded-card bg-surface p-6 shadow-soft transition-all duration-300 hover:shadow-lg motion-safe:hover:-translate-y-1"
+          className="reveal flex flex-col rounded-card bg-surface p-6 shadow-soft transition-all duration-300 hover:shadow-lg motion-safe:hover:-translate-y-1"
         >
           <h3 className="text-xl sm:text-2xl">{situation}</h3>
           {/* A <dl> only allows one wrapper <div> around each term, so the list

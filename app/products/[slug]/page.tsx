@@ -130,7 +130,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </dl>
 
         <div className="mt-12 max-w-3xl">
-          <section aria-labelledby="how-heading">
+          <section aria-labelledby="how-heading" className="reveal">
             <h2 id="how-heading" className="text-2xl sm:text-3xl">
               How it works
             </h2>
@@ -145,7 +145,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           <section
             aria-labelledby="pros-heading"
-            className="rounded-card bg-surface p-6 shadow-soft sm:p-8"
+            className="reveal rounded-card bg-surface p-6 shadow-soft sm:p-8"
           >
             <h2 id="pros-heading" className="text-2xl">
               The good
@@ -161,7 +161,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </section>
           <section
             aria-labelledby="cons-heading"
-            className="rounded-card bg-surface p-6 shadow-soft sm:p-8"
+            className="reveal rounded-card bg-surface p-6 shadow-soft sm:p-8"
           >
             <h2 id="cons-heading" className="text-2xl">
               The not so good
@@ -180,7 +180,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="mt-12 max-w-3xl">
           <section
             aria-labelledby="suits-heading"
-            className="rounded-card bg-peach p-6 sm:p-8"
+            className="reveal rounded-card bg-peach p-6 sm:p-8"
           >
             <h2 id="suits-heading" className="text-2xl sm:text-3xl">
               Could be good for you if…
@@ -192,7 +192,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </ul>
           </section>
 
-          <section aria-labelledby="tips-heading" className="mt-12">
+          <section aria-labelledby="tips-heading" className="reveal mt-12">
             <h2 id="tips-heading" className="text-2xl sm:text-3xl">
               Tips
             </h2>
@@ -206,7 +206,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {product.tssNote && (
             <aside
               aria-labelledby="tss-heading"
-              className="mt-12 rounded-card border-2 border-accent-strong p-6 sm:p-8"
+              className="reveal mt-12 rounded-card border-2 border-accent-strong p-6 sm:p-8"
             >
               <h2 id="tss-heading" className="text-xl sm:text-2xl">
                 Know the signs of toxic shock syndrome
@@ -224,7 +224,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </aside>
           )}
 
-          <section aria-labelledby="sources-heading" className="mt-12">
+          <section aria-labelledby="sources-heading" className="reveal mt-12">
             <h2 id="sources-heading" className="text-xl">
               Sources
             </h2>
@@ -248,7 +248,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </p>
           </section>
 
-          <div className="mt-12 rounded-card bg-surface p-6 shadow-soft sm:p-8">
+          <div className="reveal mt-12 rounded-card bg-surface p-6 shadow-soft sm:p-8">
             <h2 className="text-xl sm:text-2xl">
               Tried {product.name.toLowerCase()}?
             </h2>
@@ -269,7 +269,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         aria-labelledby="others-heading"
         className="page-width mt-16 mb-16"
       >
-        <h2 id="others-heading" className="text-3xl sm:text-4xl">
+        <h2 id="others-heading" className="reveal text-3xl sm:text-4xl">
           Other options
         </h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

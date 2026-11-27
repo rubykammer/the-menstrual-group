@@ -60,12 +60,12 @@ export default function FriendsPage() {
       <QuizBanner slug="friends" />
 
       <section aria-labelledby="principles-heading" className="page-width mt-14">
-        <h2 id="principles-heading" className="text-3xl sm:text-4xl">
+        <h2 id="principles-heading" className="reveal text-3xl sm:text-4xl">
           Four things to remember
         </h2>
         <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {principles.map((principle, index) => (
-            <li key={principle.title} className="rounded-card bg-surface p-6 shadow-soft">
+            <li key={principle.title} className="reveal rounded-card bg-surface p-6 shadow-soft">
               <span
                 className="font-display text-4xl font-semibold text-primary"
                 aria-hidden="true"
@@ -80,7 +80,7 @@ export default function FriendsPage() {
       </section>
 
       <section className="page-width mt-20">
-        <div className="rounded-card bg-honey px-6 py-16 text-center sm:py-20">
+        <div className="reveal rounded-card bg-honey px-6 py-16 text-center sm:py-20">
           <p className="mx-auto max-w-3xl font-display text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl">
             &ldquo;Do you need anything?&rdquo; is almost always the right
             question.
@@ -89,10 +89,10 @@ export default function FriendsPage() {
       </section>
 
       <section aria-labelledby="scripts-heading" className="page-width mt-20">
-        <h2 id="scripts-heading" className="text-3xl sm:text-4xl">
+        <h2 id="scripts-heading" className="reveal text-3xl sm:text-4xl">
           Say this, not that
         </h2>
-        <p className="mt-3 max-w-2xl text-lg">
+        <p className="reveal mt-3 max-w-2xl text-lg">
           A few moments that come up between friends, and how to handle them
           well.
         </p>
@@ -100,7 +100,7 @@ export default function FriendsPage() {
       </section>
 
       <section aria-labelledby="reading-heading" className="page-width mt-20">
-        <h2 id="reading-heading" className="text-3xl sm:text-4xl">
+        <h2 id="reading-heading" className="reveal text-3xl sm:text-4xl">
           Good places to start
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2">

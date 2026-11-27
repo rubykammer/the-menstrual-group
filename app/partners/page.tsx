@@ -62,12 +62,12 @@ export default function PartnersPage() {
       <QuizBanner slug="partners" />
 
       <section aria-labelledby="principles-heading" className="page-width mt-14">
-        <h2 id="principles-heading" className="text-3xl sm:text-4xl">
+        <h2 id="principles-heading" className="reveal text-3xl sm:text-4xl">
           Four things to remember
         </h2>
         <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {principles.map((principle, index) => (
-            <li key={principle.title} className="rounded-card bg-surface p-6 shadow-soft">
+            <li key={principle.title} className="reveal rounded-card bg-surface p-6 shadow-soft">
               <span
                 className="font-display text-4xl font-semibold text-primary"
                 aria-hidden="true"
@@ -82,10 +82,10 @@ export default function PartnersPage() {
       </section>
 
       <section aria-labelledby="scripts-heading" className="page-width mt-20">
-        <h2 id="scripts-heading" className="text-3xl sm:text-4xl">
+        <h2 id="scripts-heading" className="reveal text-3xl sm:text-4xl">
           Say this, not that
         </h2>
-        <p className="mt-3 max-w-2xl text-lg">
+        <p className="reveal mt-3 max-w-2xl text-lg">
           You don&apos;t need a script, but these moments come up a lot. Put
           them in your own words, and{" "}
           <Link
@@ -104,10 +104,10 @@ export default function PartnersPage() {
         className="mt-20 bg-mist py-16 sm:py-20"
       >
         <div className="page-width">
-          <h2 id="month-heading" className="text-3xl sm:text-4xl">
+          <h2 id="month-heading" className="reveal text-3xl sm:text-4xl">
             How to help through the month
           </h2>
-          <p className="mt-3 max-w-2xl text-lg">
+          <p className="reveal mt-3 max-w-2xl text-lg">
             Every cycle is different, so use this as a starting point, not a
             schedule. And please don&apos;t use it to predict anyone&apos;s mood.
           </p>
@@ -115,7 +115,7 @@ export default function PartnersPage() {
             {phases.map((phase) => (
               <li
                 key={phase.id}
-                className="grid gap-1 py-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8"
+                className="reveal grid gap-1 py-5 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8"
               >
                 <h3 className="flex items-center gap-3 text-xl">
                   <span
@@ -133,7 +133,7 @@ export default function PartnersPage() {
       </section>
 
       <section aria-labelledby="reading-heading" className="page-width mt-20">
-        <h2 id="reading-heading" className="text-3xl sm:text-4xl">
+        <h2 id="reading-heading" className="reveal text-3xl sm:text-4xl">
           Good places to start
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2">

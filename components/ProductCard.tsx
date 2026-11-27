@@ -10,7 +10,7 @@ export function ProductCard({
   headingLevel?: "h2" | "h3";
 }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-card bg-surface shadow-soft transition-all duration-300 focus-within:shadow-lg hover:shadow-lg motion-safe:hover:-translate-y-1">
+    <article className="reveal group relative flex flex-col overflow-hidden rounded-card bg-surface shadow-soft transition-all duration-300 focus-within:shadow-lg hover:shadow-lg motion-safe:hover:-translate-y-1">
       <div className="aspect-[5/3] shrink-0 overflow-hidden">
         <ProductArt
           slug={product.slug}
