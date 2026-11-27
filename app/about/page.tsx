@@ -23,9 +23,10 @@ export default function AboutPage() {
           placeholder="blur"
           priority
           sizes="(min-width: 640px) 17rem, 14rem"
-          className="aspect-square w-56 rounded-card object-cover shadow-soft sm:w-68"
+          className="mx-auto aspect-square w-56 rounded-card object-cover shadow-soft sm:w-68 md:mx-0"
         />
-        <div>
+        {/* Centred under the photo on phones, beside it from md up */}
+        <div className="text-center md:text-left">
           <h1 className="text-4xl sm:text-5xl">
             Hi, I&rsquo;m Ruby. This site started in a group chat.
           </h1>
